@@ -39,6 +39,7 @@ class SelectionTool extends Tool {
             selected_entities.forEach(entity => {
                 game.scene.remove(entity);
             });
+            selected_entities.length = 0;
         }
 
     }

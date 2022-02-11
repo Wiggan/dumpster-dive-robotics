@@ -88,7 +88,7 @@ class TrackingCamera extends Camera {
             var world_transform = mat4.create();
             mat4.fromTranslation(world_transform, this.pointing_at);
     
-            renderer.add_drawable(models.sphere, materials.light, world_transform);
+            renderer.add_drawable(models.box, materials.light, world_transform);
         }
     }
 }

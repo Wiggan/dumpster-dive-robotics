@@ -3,10 +3,10 @@
 class BlockTool extends Tool {
     constructor() {
         super();
-        this.blocks = [new Wall(this, [0,0,0]),
-                       new Floor(null, [0,0,0]),
-                       new Lantern(null, [0,0,0]),
+        this.blocks = [new Block(this, [0,0,0]),
+                       new Background(null, [0,0,0]),
                        new Portal(null, [0,0,0]),
+                       new Lantern(null, [0,0,0]),
                        new FloorButton(null, [0,0,0]),
                        new SinkableWall(null, [0,0,0]),
                     ];
@@ -44,9 +44,9 @@ class BlockTool extends Tool {
             if (e.altKey) {
                 //clicked_entity // Fix "color picking"
                 if (blockInPosition) {
-                    var block_index = this.blocks.findIndex(block => block.toJSON().class == blockInPosition.class);
+                    var block_index = this.blocks.findIndex(block => block.toJSON().class == blockInPosition.toJSON().class);
                     if (block_index != -1) {
-                        console.log("Picked " + block_index + " " + blockInPosition.class);
+                        console.log("Picked " + block_index + " " + blockInPosition.toJSON().class);
                         this.setBlock(block_index);
                     }
                 }
