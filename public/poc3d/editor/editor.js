@@ -52,6 +52,7 @@ async function init() {
     
     editor_camera = new EditorCamera([6, 16, 8]);
     editor_camera.activate();
+    game.scene.lights.push(editor_camera.light);
     picking = true;
     render();
     initControls();
@@ -101,6 +102,7 @@ function initControls() {
     var current_scene = {scene: game.scene.name};
     var changeScene = (scene_name) => {
         game.scene = game.scenes[scene_name];
+        game.scene.lights.push(editor_camera.light);
     } 
     var scene_list = scenes_folder.add(current_scene, 'scene', Object.keys(game.scenes)).onChange(changeScene);
     var new_scene = {name: ''};

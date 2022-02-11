@@ -9,6 +9,11 @@ class EditorCamera extends Camera {
         this.y = 10;
         this.velocity = [0, 0, 0];
         this.wheel = 0;
+        this.light = new PointLight(this, [0, 0, 2]);
+        this.light.active = true;
+        this.light.ambient = [1, 1, 1];
+        this.light.linear = 0.035;
+        this.light.quadratic = 0.09;
 
         this.tools = [
             new SelectionTool(),

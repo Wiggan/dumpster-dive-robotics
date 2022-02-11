@@ -12,6 +12,7 @@ class BlockTool extends Tool {
                     ];
         this.blocks.forEach(block => block.material = materials.blue);
         this.block_index = 0;
+        this.previousDrawingPosition = [0, 0, 0];
     }
 
     onKeyDown(e) {
@@ -91,7 +92,10 @@ class BlockTool extends Tool {
             this.setPicking(false);
         }
         if (this.drawing) {
-            this.placeBlockInScene(this.blocks[this.block_index].toJSON().class, this.getWorldPosition());
+            if (vec3.dist(this.previousDrawingPosition, this.getWorldPosition()) > 0.01) {
+                this.placeBlockInScene(this.blocks[this.block_index].toJSON().class, this.getWorldPosition());
+                this.previousDrawingPosition = this.getWorldPosition();
+            }
         } else if (this.rubbering) {
             var blockInPosition = this.getBlockInPosition(this.getWorldPosition());
             if (blockInPosition) {
