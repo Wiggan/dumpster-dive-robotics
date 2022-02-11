@@ -1,0 +1,151 @@
+extends layout
+
+block head
+  script(type='text/javascript', src='/poc3d/ui/menu.js')
+  script(type='text/javascript', src='/poc3d/index.js')
+  script(type='text/javascript', src='/poc3d/libs/msc/msc-script.js')
+  link(rel='stylesheet', href='/poc3d/libs/msc/msc-style.css')
+  link(rel='stylesheet', href='/poc3d/libs/msc/style.css')
+  style.
+    #stack {
+    position:relative;
+    vertical-align: middle;
+    }
+    #stack > canvas {
+    position:absolute;
+    left:0;
+    top:0;
+    }
+    #outer-container {
+      display: none;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+    #inner-container {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      justify-content: center;
+    }
+
+    #menu-content {
+      display: flex;
+      width: 200px;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+
+    #settings-content {
+      width: 200px;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    #start-content {
+      width: 200px;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    #init-content {
+      height: 100vh;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      background-color: #3498db;
+    }
+    #init {
+      background-color: transparent;
+      color: white;
+      height: 100%;
+      width: 100%;
+      text-decoration: none;
+      text-align: center;
+      text-transform: uppercase;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 2rem;
+    }
+
+
+    .btn {
+      display: block;
+      width: 200px;
+      flex-shrink: 1;
+      padding: 1em 2em;
+      box-sizing: border-box;
+      appearance: none;
+      background-color: transparent;
+      border: 2px solid #e74c3c;
+      border-radius: 0.6em;
+      color: #e74c3c;
+      cursor: pointer;
+      align-self: center;
+      font-size: 1rem;
+      line-height: 1;
+      margin: 20px;
+      padding: 1.2em 2.8em;
+      text-decoration: none;
+      text-align: center;
+      text-transform: uppercase;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+    }
+    .btn:hover, .btn:focus {
+      color: #fff;
+      outline: 0;
+    }
+
+    .third {
+      border-color: #3498db;
+      color: #fff;
+      box-shadow: 0 0 40px 40px #3498db inset, 0 0 0 0 #3498db;
+      transition: all 150ms ease-in-out;
+    }
+    .third:hover {
+      box-shadow: 0 0 10px 0 #3498db inset, 0 0 10px 4px #3498db;
+    }
+    .slider-container {
+    }
+    .slider {
+      float: right;
+    }
+    .third:disabled {
+      opacity: 0.4;
+    }
+
+
+
+
+block content
+  #stack
+    canvas#game_canvas
+    canvas#text_canvas
+  #outer-container
+    #inner-container
+      #menu-content
+        button.btn.third#resume Resume
+        button.btn.third#save Save
+        button.btn.third#load Load
+        button.btn.third#settings Settings
+        button.btn.third#exit Exit
+      #start-content
+        h1 Hexatropolis
+        button.btn.third#continue Continue
+        button.btn.third#new_game New Game
+      #settings-content 
+        .slider-container
+          | SFX
+          input#sfx_slider.slider(type='range' min='0' max='1.0' value='1.0' step='0.01')
+        .slider-container
+          | Music
+          input#music_slider.slider(type='range' min='0' max='1.0' value='0.3' step='0.01')
+        button.btn.third#back Save
+  #init-content 
+    button#init Click to start Hexatropolis
+
+

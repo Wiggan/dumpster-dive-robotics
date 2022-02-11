@@ -1,0 +1,26 @@
+extends layout
+
+block head
+  script(type='text/javascript', src='/common/lib/dat.gui.js')
+  script(type='text/javascript', src='/poc3d/editor/editor_camera.js')
+  script(type='text/javascript', src='/poc3d/editor/editor.js')
+  script(type='text/javascript', src='/poc3d/editor/tool.js')
+  script(type='text/javascript', src='/poc3d/editor/selection_tool.js')
+  script(type='text/javascript', src='/poc3d/editor/block_tool.js')
+  script(type='text/javascript', src='/poc3d/editor/object_tool.js')
+  style.
+    #stack {
+    position:relative;
+    vertical-align: middle;
+    }
+    #stack > canvas {
+    position:absolute;
+    left:0;
+    top:0;
+    }
+
+block content
+  #stack
+    canvas#game_canvas
+    canvas#text_canvas
+
