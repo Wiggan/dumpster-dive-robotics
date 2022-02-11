@@ -20,19 +20,19 @@ class SelectionTool extends Tool {
             var translation = [this.getWorldPosition()[0] - this.moving_start_point[0], 0, this.getWorldPosition()[2] - this.moving_start_point[2]];
             if (e.shiftKey) {
                 selected_entities.forEach(entity => {
-                    var copy_position = snapToHexPosition([entity.getWorldPosition()[0] + translation[0], 0, entity.getWorldPosition()[2] + translation[2]]);
+                    var copy_position = snapToGrid([entity.getWorldPosition()[0] + translation[0], 0, entity.getWorldPosition()[2] + translation[2]]);
                     this.placeBlockInScene(entity.toJSON().class, copy_position);
                 });
             } else {
                 selected_entities.forEach(entity => {
                     var new_position = vec3.create();
                     vec3.add(new_position, entity.getWorldPosition(), translation);
-                    new_position = snapToHexPosition(new_position);
+                    new_position = snapToGrid(new_position);
                     var blockInPosition = this.getBlockInPosition(new_position);
                     if (blockInPosition && !selected_entities.includes(blockInPosition)) {
                         game.scene.remove(blockInPosition);
                     }
-                    entity.local_transform.translate(snapToHexPosition(translation));
+                    entity.local_transform.translate(snapToGrid(translation));
                 });
             }
         } else if (e.key == 'Delete') {

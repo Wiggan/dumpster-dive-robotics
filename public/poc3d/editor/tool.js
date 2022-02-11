@@ -2,23 +2,8 @@
 
 var selected_entities = [], selected_gui;
 
-function snapToHexPosition(pos) {
-    return indexToHexPosition(hexPositionToIndex(pos));
-}
-
-function indexToHexPosition(pos) {
-    const size = 1;
-    return [size * Math.sqrt(3) * (pos[0] + 0.5 * (pos[2]&1)),
-        pos[1],
-        size * 3/2 * pos[2]];
-}
-
-function hexPositionToIndex(pos) {
-    const size = 1;
-    var iz = Math.round(pos[2] / size * 2 / 3);
-    var iy = 0;
-    var ix = Math.round(pos[0] / size / Math.sqrt(3) -  0.5 * (iz&1));
-    return [ix, iy, iz];
+function snapToGrid(pos) {
+    return [Math.round(pos[0]), Math.round(pos[1]), Math.round(pos[2])];
 }
 
 class Tool extends Entity {
@@ -143,7 +128,7 @@ class Tool extends Entity {
     }
 
     setPosition(position) {
-        this.local_transform.setPosition(snapToHexPosition(position));
+        this.local_transform.setPosition(snapToGrid(position));
         this.update(0, true);
     }
 
