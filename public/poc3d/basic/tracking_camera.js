@@ -3,7 +3,7 @@
 class TrackingCamera extends Camera {
     constructor(parent, local_position) {
         super(parent, local_position);
-        this.local_transform.pitch(-60);
+        this.local_transform.pitch(-90);
         this.x = 10;
         this.y = 10;
         this.pointing_at = vec3.create();

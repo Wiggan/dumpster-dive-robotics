@@ -86,10 +86,22 @@ class Tool extends Entity {
                     selected_gui.add(persistent, key).onChange((v) => selected_entities[0][key] = v);
                 } else if (key == 'patrol_position') {
                     //selected_gui.add(persistent, key).onChange((v) => selected_entities[0][key] = v);
+                } else if (key == 'local_position') {
+                    var local_position = Object.assign({}, persistent.local_position);
+                    var posFolder = selected_gui.addFolder(key);
+                    Object.keys(local_position).forEach((k) => {
+                        posFolder.add(local_position, k).onChange((v) => {
+                            var newPos = vec3.clone(selected_entities[0].getWorldPosition());
+                            newPos[Number(k)] = v;
+                            selected_entities[0].local_transform.setPosition(newPos);
+                        });
+                    });
+                    posFolder.open();
                 }
             }
         }
         selected_gui.open();
+
     }
 
     selectEntity(entity) {
@@ -140,7 +152,7 @@ class Tool extends Entity {
         if (entity) {
             if (entity.model) {
                 var transform = mat4.clone(entity.getWorldTransform());
-                mat4.scale(transform, transform, [1.1, 1.0, 1.1]);
+                mat4.scale(transform, transform, [1.01, 1.01, 1.01]);
                 renderer.add_drawable(entity.model, materials.light, transform);
             }
             entity.children.forEach(child => this.drawSelected(renderer, child));

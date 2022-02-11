@@ -16,7 +16,7 @@ class Player extends Entity {
             body: new Body(this),
             head: new Head(this)
         };
-        this.camera = new TrackingCamera(this, [0, 8, 4]);
+        this.camera = new TrackingCamera(this, [0, 8, 0]);
         this.stats = {
             movement_speed: 0.003,
             pickup_range: 1,
