@@ -34,8 +34,7 @@ class Player extends Entity {
             position: [local_position[0], local_position[1], local_position[2] - 1]
         };
         
-        this.collider.type = CollisionTypes.Player;
-        this.collider.radius = 0.5;
+        this.colliders.push(new Collider(this, [0, 0, 0], CollisionTypes.Player, 2, 2));
 
         this.sockets = {
             left_arm: new Entity(this.models.body, [-0.4,0.8,0]),

@@ -6,8 +6,7 @@ class Lantern extends Drawable {
         super(null, local_position, models.box);
         this.local_position = local_position;
         this.light = new FloatingLightBulb(this, [0,1,0], parent);
-        this.collider.type = CollisionTypes.Level;
-        this.collider.radius = 0.2;
+        this.colliders.push(new Collider(this, [0, 0, 0], CollisionTypes.Level, 0.2, 0.2));
         this.material = materials.dirt;
     }
     

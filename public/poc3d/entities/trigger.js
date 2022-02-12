@@ -3,8 +3,7 @@
 class Trigger extends Entity {
     constructor(parent, local_position, oneoff) {
         super(parent, local_position)
-        this.collider.type = CollisionTypes.Trigger;
-        this.collider.radius = 0.1;
+        this.colliders.push(new Collider(this, [0, 0, 0], CollisionTypes.Trigger, 0.1, 0.1));
         this.triggered = false;
         this.oneoff = oneoff;
         this.triggee = '';

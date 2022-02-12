@@ -1,19 +1,10 @@
 'use strict';
 
-const CollisionTypes = {
-    NoCollision: 'NoCollision',
-    Level: 'Level',
-    Actor: 'Actor',
-    Projectile: 'Projectile',
-    Trigger: 'Trigger',
-    Player: 'Player'
-};
-
-
 class Entity {
     constructor(parent, local_position) {
         this.parent = parent;
         this.children = [];
+        this.colliders = [];
         this.local_transform = new Transform(local_position);
         this.world_transform = mat4.clone(this.local_transform.get());
         if (this.parent) {
@@ -23,11 +14,7 @@ class Entity {
         }
         this.look_at = undefined;
         this.rotation_speed = 0.5;
-        this.velocity = undefined;
-        this.collider = {
-            radius: 1,
-            type: CollisionTypes.NoCollision
-        };
+        this.velocity = [0,0,0];
         this.independent = false;
         this.uuid = uuid();
     }
@@ -82,21 +69,21 @@ class Entity {
                 dirty = true;
             }
         }
-        if (this.velocity) {
+        if (vec3.sqrLen(this.velocity) > 0) {
             var movement = vec3.create();
             vec3.scale(movement, this.velocity, elapsed);
             this.local_transform.translate(movement);
-            if (this.collider.type != CollisionTypes.NoCollision) {
-                this.last_movement = movement;
+            this.last_movement = movement;
+            this.colliders.forEach(collider => {
+                vec3.transformMat4(collider.world_position, collider.local_position, this.getWorldTransform());
                 game.scene.entities.forEach((other) => {
-                    if (this != other && other.collider.type != CollisionTypes.NoCollision && other.collider.type != CollisionTypes.Projectile) {
-                        if (getHorizontalDistance(this.local_transform.getPosition(), other.getWorldPosition()) < this.collider.radius + other.collider.radius) {
-                            //console.log(this.collider.type + " collided with " + other.collider.type);
+                    other.colliders.forEach(other_collider => {
+                        if (collider.isColliding(other_collider)) {
                             this.onCollision(other);
                         }
-                    }
+                    });
                 });
-            }
+            });
         }
         if (dirty) {
             if (this.parent && !this.independent) {
@@ -116,20 +103,20 @@ class Entity {
     }
 
     onCollision(other) {
-        if (other.collider.type == CollisionTypes.Trigger) {
-            other.onCollision(this);
-        } else {
-            // Revert movement that caused collision
-            vec3.scale(this.last_movement, this.last_movement, -1);
-            this.local_transform.translate(this.last_movement);
-    
-            var collision_normal = vec3.create();
-            vec3.sub(collision_normal, this.getWorldPosition(), other.getWorldPosition());
-            vec3.normalize(collision_normal, collision_normal);
-            vec3.scale(collision_normal, collision_normal, 0.05);
-            collision_normal[1] = 0;
-            this.local_transform.translate(collision_normal);
-        }
+        // Revert movement that caused collision
+        this.velocity = [0, 0, 0];
+        vec3.scale(this.last_movement, this.last_movement, -1);
+        this.local_transform.translate(this.last_movement);
+        this.colliders.forEach(collider => {
+            vec3.transformMat4(collider.world_position, collider.local_position, this.getWorldTransform());
+        });
+
+        var collision_normal = vec3.create();
+        vec3.sub(collision_normal, this.getWorldPosition(), other.getWorldPosition());
+        vec3.normalize(collision_normal, collision_normal);
+        vec3.scale(collision_normal, collision_normal, 0.05);
+        collision_normal[1] = 0;
+        this.local_transform.translate(collision_normal);
     }
 
     getLocalTransform() {

@@ -15,8 +15,7 @@ class Drone extends Pickable {
         this.body.id = this.id;
         this.local_transform.yaw(Math.random()*360);
         this.fire = new Fire(this, [0, 0.5, 0]);
-        this.collider.type = CollisionTypes.Actor;
-        this.collider.radius = 0.4;
+        this.colliders.push(new Collider(this, [0, 0, 0], CollisionTypes.Enemy, 0.4, 0.4));
         this.name = "Drone";
         this.max_health = 50;
         this.health = 50;

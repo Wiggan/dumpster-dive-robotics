@@ -14,7 +14,7 @@ function render() {
         now = Date.now();
         var elapsed = now - then;
         frame_intervals.push(elapsed);
-        var throttled_elapsed = Math.max(30, elapsed);
+        var throttled_elapsed = Math.min(30, elapsed);
         game.update(throttled_elapsed);
         then = now;
         game.scene.draw(renderer);
@@ -37,7 +37,7 @@ async function init() {
     //initMenu();
     game = new Game();
     await fetch('/models/levels.json').then(response => response.json()).then(levels => game.loadLevels(levels));
-    game.placePlayer((1,0,1));
+    game.placePlayer([4,0,4]);
     active_camera.activate();
 
     render();
