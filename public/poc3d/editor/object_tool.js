@@ -5,6 +5,7 @@ class ObjectTool extends Tool {
         super();
         this.objects = [
             new Drone(null, [0, 0, 0]),
+            new CameraAnchor(null, [0, 10, 0]),
         ];
         this.objects.forEach(object => object.material = materials.blue);
         this.object_index = 0;
@@ -42,7 +43,7 @@ class ObjectTool extends Tool {
                     }
                 }
             } else {
-                this.placeObjectInScene(this.objects[this.object_index].toJSON().class, this.getWorldPosition());
+                this.placeObjectInScene(this.objects[this.object_index].toJSON().class, this.objects[this.object_index].getWorldPosition());
             }
         }
     }

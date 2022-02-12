@@ -16,6 +16,9 @@ function render() {
         var elapsed = now - then;
         frame_intervals.push(elapsed);
         game.update(0);
+        if (player) {
+            player.update(elapsed, true);
+        }
         editor_camera.update(elapsed);
         then = now;
         game.scene.draw(renderer);
@@ -85,15 +88,19 @@ function initControls() {
     }
     canvas.oncontextmenu = function(e) { e.preventDefault(); e.stopPropagation(); return false;}
     window.addEventListener('keyup', (e) => {
-        active_camera.onKeyUp(e);
+        if (e.target.localName != "input") {
+            active_camera.onKeyUp(e);
+        }
     });
     window.addEventListener('keydown', (e) => {
-        if (e.key == 's' && e.ctrlKey) {
-            download('materials.json', JSON.stringify(materials, null, 4));
-            download('levels.json', JSON.stringify(game.serialize(), null, 4));
-            e.preventDefault();
+        if (e.target.localName != "input") {
+            if (e.key == 's' && e.ctrlKey) {
+                download('materials.json', JSON.stringify(materials, null, 4));
+                download('levels.json', JSON.stringify(game.serialize(), null, 4));
+                e.preventDefault();
+            }
+            active_camera.onKeyDown(e);
         }
-        active_camera.onKeyDown(e);
     });
 
 

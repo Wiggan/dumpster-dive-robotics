@@ -11,6 +11,7 @@ class TrackingCamera extends Camera {
         var fwd = forward(this.getWorldTransform());
         var upp = up(this.getWorldTransform());
         Howler.orientation(fwd[0], fwd[1], fwd[2], upp[0], upp[1], upp[2]);
+        this.independent = true;
     }
 
     activate() {
@@ -71,6 +72,14 @@ class TrackingCamera extends Camera {
     }
 
     update(elapsed, dirty) {
+        var new_pos = this.parent.getWorldPosition();
+        new_pos[1] += 16;
+        game.scene.camera_anchors.forEach((anchor) => {
+            var t = 1.0/(1.0 + (anchor.getSquaredHorizontalDistanceToPlayer() / anchor.force));
+            //console.log("t: " + t)
+            vec3.lerp(new_pos, new_pos, anchor.getWorldPosition(), t);
+        });
+        this.local_transform.setPosition(new_pos);
         var p1 = getScreenSpaceToWorldLocation([this.x, this.y, 0]);
         var p2 = getScreenSpaceToWorldLocation([this.x, this.y, 100]);
         var intersection = getHorizontalIntersection(p1, p2, 0);

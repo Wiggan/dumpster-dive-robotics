@@ -45,6 +45,7 @@ class EditorCamera extends Camera {
         super.activate();
         document.addEventListener("mousemove", active_camera.updatePosition, false);
         document.addEventListener("wheel", active_camera.updateScroll, false);
+        player = undefined;
     }
     
     deactivate() {
@@ -88,6 +89,13 @@ class EditorCamera extends Camera {
             this.active_tool = this.tools[2];
         } else if (e.key == 'z' && e.ctrlKey) {
             this.undo();
+        } else if (e.key == 'p') {
+            if (player) {
+                game.scenes.forEach(scene => scene.remove(player));
+                cameras.splice(cameras.lastIndexOf(player.camera), 1);
+            }
+            game.placePlayer(this.active_tool.getWorldPosition());
+            player.camera.activate();
         }
         var original_json = JSON.stringify(game.scene);
         this.active_tool.onKeyDown(e);

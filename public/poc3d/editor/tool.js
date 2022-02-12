@@ -78,6 +78,8 @@ class Tool extends Entity {
                     selected_gui.add(persistent, key/*, Object.keys(game.scenes)*/).onChange((v) => selected_entities[0][key] = v);
                 } else if (key == 'uuid') {
                     selected_gui.add(persistent, key).onChange((v) => selected_entities[0][key] = v);
+                } else if (key == 'force') {
+                    selected_gui.add(persistent, key).onChange((v) => selected_entities[0][key] = v);
                 } else if (key == 'triggee') {
                     selected_gui.add(persistent, key/*, game.scene.entities.filter(entity => entity.trigger)*/).listen().onChange((v) => {
                         selected_entities[0][key] = v;

@@ -21,8 +21,8 @@ class Game {
         this.scene = this.scenes.Downfall;
     }
     
-    placePlayer() {        
-        player = new Player(getHexPosition(1, 0, 1));
+    placePlayer(position) {        
+        player = new Player(position);
         player.equip(new DoubleLauncher(null, [0, 0, 0]), player.sockets.right_arm);
         player.equip(new Launcher(null, [0, 0, 0]), player.sockets.left_arm);
         this.scene.entities.push(player);
