@@ -5,6 +5,7 @@ class BlockTool extends Tool {
         super();
         this.blocks = [new Block(this, [0,0,0]),
                        new Background(null, [0,0,0]),
+                       new WaterSurface(null, [0,0,0]),
                        new Portal(null, [0,0,0]),
                        new Lantern(null, [0,0,0]),
                        new FloorButton(null, [0,0,0]),

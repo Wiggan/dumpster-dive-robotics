@@ -21,7 +21,7 @@ class Prism extends Drawable {
     constructor(parent, local_position) {
         super(parent, local_position, models.box);
         this.material = materials.light;
-        this.local_transform.scale(0.3);
+        this.local_transform.scaleUniform(0.3);
     }
 }
 

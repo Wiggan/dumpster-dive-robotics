@@ -78,11 +78,21 @@ void main() {
         for(int i = 0; i < uNumLights; i++)
             result += CalcPointLight(uLight[i], norm, vFragPos, viewDir);
         
-        fragColor = vec4(result, 1.0);
+        //fragColor = vec4(result, 1.0);
         brightColor = vec4(0.0, 0.0, 0.0, 1.0);
-        //float depth = vFragPos.y*-0.1 + 0.2;
-        //float alpha = min(max(depth, 0.0), 1.0);
-        //fragColor = vec4(mix(result, vec3(0.1, 0.2, 0.5), alpha), 1.0);
+        // Depth fog
+        float depth = vFragPos.y*-0.05 + 0.1;
+        float alpha = min(max(depth, 0.0), 0.7);
+        result = mix(result, vec3(0.2, 0.2, 0.1), alpha);
+
+        // Fog-style water
+        if (vFragPos.y < 0.9) {
+            depth = (vFragPos.z + 0.45) * 0.03;
+            alpha = min(max(depth, 0.0), 0.5);
+            result = mix(result, vec3(0.0, 0.1, 0.2), alpha);
+        }
+        fragColor = vec4(result, 1.0);
+        
     }
     if (uSelected) {
         fragColor += vec4(0.2, 0.2, 0.4, 1.0);

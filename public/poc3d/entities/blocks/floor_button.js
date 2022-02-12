@@ -7,7 +7,7 @@ class FloorButton extends Trigger {
         this.floor_model.local_transform.yaw(Math.floor(Math.random()*4)*90);
         this.button_position = [0, 0.2, 0];
         this.button_model = new Drawable(this, this.button_position, models.box);
-        this.button_model.local_transform.scale(0.8);
+        this.button_model.local_transform.scaleUniform(0.8);
         this.local_position = local_position;
         this.material = materials.dirt;
     }

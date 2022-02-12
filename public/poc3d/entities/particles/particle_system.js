@@ -76,7 +76,7 @@ class Particle extends Drawable {
         this.elapsed += elapsed;
         var t = this.elapsed/this.life_time;
         vec3.lerp(this.material.diffuse, this.parent.start.color, this.parent.stop.color, t);
-        this.local_transform.scale(this.parent.start.scale + t * (this.parent.stop.scale - this.parent.start.scale));
+        this.local_transform.scaleUniform(this.parent.start.scale + t * (this.parent.stop.scale - this.parent.start.scale));
         var translation = vec3.clone(this.velocity);
         vec3.scale(translation, translation, elapsed);
         this.local_transform.translate(translation);

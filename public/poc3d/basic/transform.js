@@ -82,9 +82,14 @@ class Transform {
         this.#roll += delta;
     }
 
-    scale(scale) {
+    scaleUniform(scale) {
         this.#dirty = true;
         this.#scale = vec3.fromValues(scale, scale, scale);
+    }
+    
+    scale(scale) {
+        this.#dirty = true;
+        this.#scale = vec3.clone(scale);
     }
 
     isDirty() {
