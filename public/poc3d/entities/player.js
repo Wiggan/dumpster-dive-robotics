@@ -19,6 +19,7 @@ class Player extends Entity {
         this.camera = new TrackingCamera(this, [0, 8, 0]);
         this.stats = {
             movement_speed: 0.003,
+            acceleration: 0.00005,
             pickup_range: 1,
             attack_range: 1
         };
@@ -40,6 +41,8 @@ class Player extends Entity {
             left_arm: new Entity(this.models.body, [-0.4,0.8,0]),
             right_arm: new Entity(this.models.body, [0.4,0.8,0])
         }
+        this.velocity = vec3.create();
+        this.force = vec3.create();
     }
 
     toJSON(key) {
@@ -106,40 +109,26 @@ class Player extends Entity {
     }
 
     update(elapsed, dirty) {
-        switch (this.state) {
-            case PlayerState.GotoInteractible:
-                if(vec3.dist(this.state_context.position, this.getWorldPosition()) < this.state_context.tolerance) {
-                    this.velocity = undefined;
-                    if (this.state_context.target.type == PickableType.Enemy) {
-                        this.state = PlayerState.Attack;
-                    } else {
-                        this.state = PlayerState.Idle;
-                        this.state_context.target.interact();
-                    }
-                } else {
-                    vec3.scale(this.velocity, forward(this.models.base.getWorldTransform()), this.stats.movement_speed);
-                }
-                dirty = true;
-                break;
-            case PlayerState.Goto:
-                vec3.scale(this.velocity, forward(this.models.base.getWorldTransform()), this.stats.movement_speed);
-                if(vec3.dist(this.state_context.position, this.getWorldPosition()) < this.state_context.tolerance) {
-                    this.state = PlayerState.Idle;
-                    this.velocity = undefined;
-                }
-                dirty = true;
-                break;
-            case PlayerState.Attack:
-            case PlayerState.Firing:
-                this.velocity = undefined;
-                dirty = true;
-                break;
-        }
+        var at = vec3.create();
+        vec3.scale(at, this.force, elapsed);
+        vec3.add(this.velocity, this.velocity, at);
         super.update(elapsed, dirty);
     }
 
     onCollision(other) {
         super.onCollision(other);
+    }
+
+    jump() {
+
+    }
+
+    startMovement(right) {
+        this.force[0] = right ? this.stats.acceleration : -this.stats.acceleration;
+    }
+
+    endMovement() {
+        this.force[0] = 0;
     }
 }
 

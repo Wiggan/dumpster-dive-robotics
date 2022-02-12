@@ -29,29 +29,28 @@ class TrackingCamera extends Camera {
 
     onKeyDown(e) {
         super.onKeyDown(e);
-        if (e.key == 'i' || e.key == 'I') {
-            show_inventory = !show_inventory;
-        } else if (e.key == 'l') {
-            new Loot(player.getWorldPosition(), drop_consumable({max_drop: 5, level:10}));
+        if (e.key == 'Control') {
             e.preventDefault();
-        } else if (e.key == 'Alt') {
-            alt_pressed = true;
-            e.preventDefault();
-        } else if (e.key == 'Control') {
-            ctrl_pressed = true;
-            e.preventDefault();
+        } else if (e.key == 'w' || e.key == 'W') {
+        } else if (e.key == 's' || e.key == 'S') {
+        } else if (e.key == 'a' || e.key == 'A') {
+            player.startMovement(false);
+        } else if (e.key == 'd' || e.key == 'D') {
+            player.startMovement(true);
+        } else if (e.key == ' ') {
+            player.jump();
         } else if (e.key == 'Escape') {
             toggleMenuVisible();
         }
     }
 
     onKeyUp(e) {
-        if (e.key == 'Alt') {
-            alt_pressed = false;
-            e.preventDefault();
-        } else if (e.key == 'Control') {
-            ctrl_pressed = false;
-            e.preventDefault();
+        if (e.key == 'w' || e.key == 'W') {
+        } else if (e.key == 's' || e.key == 'S') {
+        } else if (e.key == 'a' || e.key == 'A') {
+            player.endMovement();
+        } else if (e.key == 'd' || e.key == 'D') {
+            player.endMovement();
         }
     }
 
