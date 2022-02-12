@@ -56,6 +56,25 @@
         "shininess": 33,
         "isLight": false
     },
+    "black": {
+        "diffuse": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "ambient": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "specular": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "shininess": 33,
+        "isLight": true
+    },
     "water": {
         "diffuse": [
             0.03277585544021529,
