@@ -157,7 +157,9 @@ class Tool extends Entity {
                 mat4.scale(transform, transform, [1.01, 1.01, 1.01]);
                 renderer.add_drawable(entity.model, materials.light, transform);
             }
-            entity.children.forEach(child => this.drawSelected(renderer, child));
+            if (entity.children) {
+                entity.children.forEach(child => this.drawSelected(renderer, child));
+            }
         }
     }
 

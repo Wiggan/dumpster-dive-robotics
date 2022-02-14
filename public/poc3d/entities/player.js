@@ -1,12 +1,28 @@
 'use strict'
 
-const PlayerState = {
-    GotoInteractible: 'GotoInteractible',
-    Goto: 'Goto',
-    Idle: 'Idle',
-    Attack: 'Attack',
-    Firing: 'Firing'
+const items = {
+    lamp: {
+        name: 'Lamp', 
+        description: 'Lamp attached to head'
+    },
+    battery: {
+        name: 'Battery', 
+        description: 'Extra battery cell providing a higher voltage for all systems', 
+        modifiers: {
+            movement_speed: 0.002,
+            acceleration: 0.0005,
+            jump_speed: 0.01,
+        }
+    },
 }
+
+const original_stats = {
+    movement_speed: 0.003,
+    acceleration: 0.00005,
+    jump_speed: 0.013683,
+    pickup_range: 1,
+    attack_range: 1
+};
 
 class Player extends Actor {
     constructor(local_position) {
@@ -16,12 +32,7 @@ class Player extends Actor {
         this.head = new Head(this);
         this.camera = new TrackingCamera(this, [0, 8, 0]);
         this.inventory = [];
-        this.equipment = {
-            right_arm: undefined,
-            left_arm: undefined,
-        };
 
-        this.state = PlayerState.Idle;
         this.state_context = {
             position: [local_position[0], local_position[1], local_position[2] - 1]
         };
@@ -33,6 +44,7 @@ class Player extends Actor {
             right_arm: new Entity(this.body, [0.4,0.8,0])
         }
         this.groundCollider.type = CollisionLayer.Player;
+        this.stats = JSON.parse(JSON.stringify(original_stats));
     }
 
     toJSON(key) {
@@ -41,10 +53,23 @@ class Player extends Actor {
         };
     }
     
-    equip(item, socket) {
-        socket.removeAllChildren();
-        socket.addChild(item);
-        socket.eq = item;
+    updateStats() {
+        this.stats = JSON.parse(JSON.stringify(original_stats));
+        if (this.inventory.includes(items.lamp)) {
+            if (!this.head) {
+                this.head.lamp = new HeadLamp(this.head, [0, 0, -0.4], game.scene);
+            }
+        }
+        if (this.inventory.includes(items.battery)) {
+            for (const [key, value] of Object.entries(items.battery.modifiers)) {
+                this.stats[key] += value;
+            }
+        }
+    }
+
+    pickUp(item) {
+        this.inventory.push(item);
+        this.updateStats();
     }
 
     left_click(point, object) {
@@ -53,12 +78,10 @@ class Player extends Actor {
             if (this.sockets.left_arm.eq) { 
                 this.body.lookAtInstantly(point);
                 this.velocity = undefined;
-                this.state = PlayerState.Idle;
                 this.sockets.left_arm.eq.fire(point);
             }
         } else if (object == undefined) {
             this.velocity = vec3.create();
-            this.state = PlayerState.Goto;
             this.state_context = {
                 position: point,
                 tolerance: 0.1
@@ -72,12 +95,10 @@ class Player extends Actor {
                 
                 this.body.lookAtInstantly(pos);
                 this.velocity = undefined;
-                this.state = PlayerState.Idle;
                 this.sockets.left_arm.eq.fire(pos);
             }
         } else {
             this.velocity = vec3.create();
-            this.state = PlayerState.GotoInteractible;
             this.state_context = {
                 target: object,
                 position: object.getWorldPosition(),
@@ -95,14 +116,15 @@ class Player extends Actor {
             
             this.body.lookAtInstantly(pos);
             this.velocity = undefined;
-            this.state = PlayerState.Idle;
             this.sockets.right_arm.eq.fire(pos);
         }
     }
 
     jump() {
-        if (this.onGround) {
+        // Forgiveness when jumping of edges
+        if (this.onGround || Date.now() - this.last_grounded < 200) {
             this.velocity[2] = -this.stats.jump_speed;
+            this.last_grounded = 0;
         }
     }
 
@@ -110,9 +132,9 @@ class Player extends Actor {
         this.force[0] = right ? this.stats.acceleration : -this.stats.acceleration;
     }
 
-    endMovement() {
-        this.force[0] = 0;
-        this.velocity[0] = 0;
+    endMovement(right) {
+        this.force[0] = right ? Math.min(0, this.force[0]) : Math.max(0, this.force[0]);
+        this.velocity[0] = right ? Math.min(0, this.velocity[0]) : Math.max(0, this.velocity[0]);
     }
 }
 
@@ -124,11 +146,18 @@ class BodyLamp extends Drawable {
     }
 }
 
-class HeadLamp extends Drawable {
-    constructor(parent) {
-        super(parent, [0,0,0], models.box);
-        this.material = materials.green_led;
-        this.local_transform.scale([0.1, 0.1, 0.1]);
+class HeadLamp extends PointLight {
+    constructor(parent, local_position, scene) {
+        super(parent, local_position, scene);
+        this.constant = LanternLight.Constant;
+        this.linear = LanternLight.Linear;
+        this.quadratic = LanternLight.Quadratic;
+        this.prism = new Drawable(this, [0, 0, 0], models.box);
+        this.prism.material = materials.light;
+        this.prism.local_transform.scaleUniform(0.3);
+        this.position = [0, 1.5, 0];
+        this.state = States.Inactive;
+        this.elapsed = 0;
     }
 }
 
@@ -139,14 +168,14 @@ class Base extends Drawable {
         this.local_transform.scale([0.8, 0.2, 0.2]);
     }
 
-    update(elapsed, dirty) {
+/*     update(elapsed, dirty) {
         if (this.parent.state == PlayerState.Goto || this.parent.state == PlayerState.GotoInteractible) {
             this.look_at = this.parent.state_context.position;
         } else {
             this.look_at = undefined;
         }
         super.update(elapsed, dirty);
-    }
+    } */
 }
 
 class Body extends Drawable {
@@ -163,7 +192,7 @@ class Head extends Drawable {
     constructor(parent) {
         super(parent, [0,0,-0.6], models.box);
         this.material = materials.player;
-        this.lamp = new HeadLamp(this);
+        this.lamp = undefined; //new HeadLamp(this);
         this.local_transform.scale([0.3, 0.3, 0.3]);
     }
 

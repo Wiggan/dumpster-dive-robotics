@@ -52,6 +52,7 @@ class EditorCamera extends Camera {
             }
             cameras.splice(cameras.lastIndexOf(player.camera), 1);
             player = undefined;
+            gui.remove('Player');
         }
     }
     
@@ -99,6 +100,13 @@ class EditorCamera extends Camera {
         } else if (e.key == 'p') {
             game.placePlayer(this.active_tool.getWorldPosition());
             player.camera.activate();
+            
+            var player_folder = gui.addFolder('Player');
+            player_folder.add(player.stats, 'movement_speed', 0.0001, 0.1, 0.000001);
+            player_folder.add(player.stats, 'acceleration', 0.0001, 0.1, 0.000001);
+            player_folder.add(player.stats, 'jump_speed', 0.00001, 0.1, 0.000001);
+            player_folder.add(constants, 'gravity', 0, 0.0001, 0.000001);
+            player_folder.open();
         }
         var original_json = JSON.stringify(game.scene);
         this.active_tool.onKeyDown(e);

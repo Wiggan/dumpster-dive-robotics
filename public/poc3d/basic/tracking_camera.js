@@ -41,6 +41,10 @@ class TrackingCamera extends Camera {
             player.jump();
         } else if (e.key == 'Escape') {
             toggleMenuVisible();
+        } else if (e.key == 'l') {
+            player.pickUp(items.lamp);
+        } else if (e.key == 'b') {
+            player.pickUp(items.battery);
         }
     }
 
@@ -48,9 +52,9 @@ class TrackingCamera extends Camera {
         if (e.key == 'w' || e.key == 'W') {
         } else if (e.key == 's' || e.key == 'S') {
         } else if (e.key == 'a' || e.key == 'A') {
-            player.endMovement();
+            player.endMovement(false);
         } else if (e.key == 'd' || e.key == 'D') {
-            player.endMovement();
+            player.endMovement(true);
         }
     }
 

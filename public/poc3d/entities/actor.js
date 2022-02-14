@@ -15,16 +15,24 @@ class Actor extends Entity {
         };
         this.onGround = false;
         this.groundCollider = new Collider(this, [0, 0, 0.55 ], CollisionLayer.Trigger, 0.8, 0.1);
-        this.force[2] = 0.0000931;
+        this.force[2] = constants.gravity;
+        this.last_grounded = Date.now();
     }
 
     checkIfGrounded() {
-        return this.groundCollider.detectCollisions().filter(other => {
+        var grounded = this.groundCollider.detectCollisions().filter(other => {
             return other.type == CollisionLayer.Level
         }).length != 0;
+
+        // Save last time when actor was grounded
+        if (this.onGround && !grounded) {
+            this.last_grounded = Date.now();
+        }
+        return grounded;
     }
 
     update(elapsed, dirty) {
+        this.force[2] = constants.gravity;
         this.onGround = this.checkIfGrounded();
 
         // Accelerate

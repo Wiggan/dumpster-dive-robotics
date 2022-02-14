@@ -10,8 +10,9 @@ var fps = 0;
 var then = Date.now();
 var now = Date.now();
 function render() {
+    var animationRequest;
     try {
-        requestAnimationFrame(render);
+        animationRequest = requestAnimationFrame(render);
         now = Date.now();
         var elapsed = now - then;
         frame_intervals.push(elapsed);
@@ -30,6 +31,7 @@ function render() {
         renderer.render();
     } catch (error) {
         console.error(error);
+        cancelAnimationFrame(animationRequest);
     }
 }
 
@@ -135,128 +137,6 @@ function initControls() {
         material.add(value, 'isLight');
     }
 
-    
-    /* 
-    var controls = {};
-    controls.materials = {};
-    for (const [key, value] of Object.entries(materials)) {
-        controls.materials[key] = {
-            'Diffuse': {
-                value: denormalizeColor(value.diffuse),
-                onChange: v => value.diffuse = normalizeColor(v)
-            },
-            'Ambient': {
-                value: denormalizeColor(value.ambient),
-                onChange: v => value.ambient = normalizeColor(v)
-            },
-            'Specular': {
-                value: denormalizeColor(value.specular),
-                onChange: v => value.specular = normalizeColor(v)
-            },
-            'Shininess': {
-                value: value.shininess,
-                min: 1, max: 50, step: 0.1,
-                onChange: v => value.shininess = v
-            },
-            'Light': {
-                value: value.isLight,
-                onChange: v => value.isLight = v
-            },
-        }
-    }
-    controls.lights = {
-        'Diffuse': {
-            value: denormalizeColor(LanternLight.Diffuse),
-            onChange: v => game.scene.lights.forEach(light => light.diffuse = normalizeColor(v))
-        },
-        'Ambient': {
-            value: denormalizeColor(LanternLight.Ambient),
-            onChange: v => game.scene.lights.forEach(light => light.ambient = normalizeColor(v))
-        },
-        'Specular': {
-            value: denormalizeColor(LanternLight.Specular),
-            onChange: v => game.scene.lights.forEach(light => light.specular = normalizeColor(v))
-        },
-        'Constant': {
-            value: 1,
-            min: 0, max: 2, step: 0.1,
-            onChange: v => game.scene.lights.forEach(light => light.constant = v)
-        },
-        'Linear': {
-            value: 0.35,
-            min: 0, max: 10, step: 0.05,
-            onChange: v => game.scene.lights.forEach(light => light.linear = v)
-        },
-        'Quadratic': {
-            value: 0.9,
-            min: 0, max: 10, step: 0.05,
-            onChange: v => game.scene.lights.forEach(light => light.quadratic = v)
-        },
-    } */
-
-    /* controls.particles = {
-        'Count': {
-            value: 10,
-            min: 1, max: 50, step: 1,
-            onChange: v => game.scene.particles.setParticleCount(v)
-        },
-        'Spread': {
-            value: game.scene.particles.spread,
-            min: 0, max: 1, step: 0.01,
-            onChange: v => game.scene.particles.spread = v
-        },
-        'Particle life time': {
-            value: game.scene.particles.particle_life_time,
-            min: 0, max: 5000, step: 10,
-            onChange: v => game.scene.particles.particle_life_time = v
-        },
-        'Minimal particle speed': {
-            value: game.scene.particles.min_speed,
-            min: 0, max: 0.01, step: 0.0001,
-            onChange: v => game.scene.particles.min_speed = Math.min(game.scene.particles.max_speed, v)
-        },
-        'Maximal particle speed': {
-            value: game.scene.particles.max_speed,
-            min: 0, max: 0.01, step: 0.0001,
-            onChange: v => game.scene.particles.max_speed = Math.max(game.scene.particles.min_speed, v)
-        },
-        'Continuous': {
-            value: game.scene.particles.continuous,
-            onChange: v => {
-                game.scene.particles.continuous = v;
-            }
-        },
-        'Start randomly': {
-            value: game.scene.particles.start_randomly,
-            onChange: v => game.scene.particles.start_randomly = v
-        },
-        'Direction': {
-            value: game.scene.particles.direction,
-            onChange: v => game.scene.particles.direction = v
-        },
-        'Start Color': {
-            value: denormalizeColor(game.scene.particles.start.color),
-            onChange: v => game.scene.particles.start.color = normalizeColor(v)
-        },
-        'Start Scale': {
-            value: game.scene.particles.start.scale,
-            min: 0, max: 1, step: 0.01,
-            onChange: v => game.scene.particles.start.scale = v
-        },
-        'Stop Color': {
-            value: denormalizeColor(game.scene.particles.stop.color),
-            onChange: v => game.scene.particles.stop.color = normalizeColor(v)
-        },
-        'Stop Scale': {
-            value: game.scene.particles.stop.scale,
-            min: 0, max: 1, step: 0.01,
-            onChange: v => game.scene.particles.stop.scale = v
-        },
-    } */
-    
-    
-
-    //utils.configureControls(controls);
 }
 
 // De-normalize colors from 0-1 to 0-255

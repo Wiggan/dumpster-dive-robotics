@@ -5,6 +5,10 @@ var game;
 var classes = {};
 var settings = {};
 
+const constants = {
+    gravity: 0.000048,
+};
+
 class Game {
     constructor() {
         this.scenes = {};
