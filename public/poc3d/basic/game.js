@@ -8,10 +8,10 @@ var settings = {};
 const constants = {
     gravity: 0.000048,
     dash_timing: 50,
-    dash_duration: 500,
-    dash_cooldown: 1000,
+    dash_duration: 800,
+    dash_cooldown: 1600,
     jump_forgiveness: 200,
-    jump_cooldown: 400
+    jump_cooldown: 300
 };
 
 class Game {
