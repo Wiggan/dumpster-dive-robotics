@@ -7,7 +7,7 @@ var settings = {};
 
 const constants = {
     gravity: 0.000048,
-    dash_timing: 50,
+    dash_timing: 150,
     dash_duration: 800,
     dash_cooldown: 1600,
     jump_forgiveness: 200,

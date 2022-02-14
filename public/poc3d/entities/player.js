@@ -11,7 +11,7 @@ const items = {
         modifiers: {
             movement_speed: 0.002,
             acceleration: 0.0005,
-            jump_speed: 0.01,
+            jump_speed: 0.005,
         }
     },
 }
