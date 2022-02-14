@@ -106,6 +106,9 @@ class EditorCamera extends Camera {
             player_folder.add(player.stats, 'acceleration', 0.0001, 0.1, 0.000001);
             player_folder.add(player.stats, 'jump_speed', 0.00001, 0.1, 0.000001);
             player_folder.add(constants, 'gravity', 0, 0.0001, 0.000001);
+            player_folder.add(constants, 'dash_timing', 50, 500, 10);
+            player_folder.add(constants, 'dash_duration', 100, 2000, 100);
+            player_folder.add(constants, 'dash_cooldown', 100, 2000, 100);
             player_folder.open();
         }
         var original_json = JSON.stringify(game.scene);

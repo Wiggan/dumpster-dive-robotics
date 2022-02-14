@@ -45,6 +45,10 @@ class Player extends Actor {
         }
         this.groundCollider.type = CollisionLayer.Player;
         this.stats = JSON.parse(JSON.stringify(original_stats));
+        this.last_right = 0;
+        this.last_left = 0;
+        this.dash_on_cooldown = false;
+        this.jump_on_cooldown = false;
     }
 
     toJSON(key) {
@@ -122,14 +126,49 @@ class Player extends Actor {
 
     jump() {
         // Forgiveness when jumping of edges
-        if (this.onGround || Date.now() - this.last_grounded < 200) {
+        if (!this.jump_on_cooldown && (this.onGround || Date.now() - this.last_grounded < constants.jump_forgiveness)) {
             this.velocity[2] = -this.stats.jump_speed;
-            this.last_grounded = 0;
+            this.jump_on_cooldown = true;
+            window.setTimeout(() => {
+                console.log("Jump cooldown ended!");
+                this.jump_on_cooldown = false;
+            }, constants.jump_cooldown);
+        }
+    }
+
+    dash() {
+        if (!this.dash_on_cooldown) {
+            console.log("Dashing!");
+            // TODO play sound
+            this.dash_on_cooldown = true;
+            this.stats.movement_speed *= 2;
+            this.stats.acceleration *= 2;
+            window.setTimeout(() => {
+                console.log("Stopped dashing!");
+                this.updateStats();
+            }, constants.dash_duration);
+            window.setTimeout(() => {
+                console.log("Dash cooldown ended!");
+                this.dash_on_cooldown = false;
+            }, constants.dash_cooldown);
         }
     }
 
     startMovement(right) {
-        this.force[0] = right ? this.stats.acceleration : -this.stats.acceleration;
+        if (right) {
+            if (Date.now() - this.last_right < constants.dash_timing) {
+                this.dash();
+            }
+            // TODO play sound
+            this.force[0] = this.stats.acceleration;
+            this.last_right = Date.now();
+        } else {
+            if (Date.now() - this.last_left < constants.dash_timing) {
+                this.dash();
+            }
+            this.force[0] = -this.stats.acceleration;
+            this.last_left = Date.now();
+        }
     }
 
     endMovement(right) {
@@ -154,7 +193,7 @@ class HeadLamp extends PointLight {
         this.quadratic = LanternLight.Quadratic;
         this.prism = new Drawable(this, [0, 0, 0], models.box);
         this.prism.material = materials.light;
-        this.prism.local_transform.scaleUniform(0.3);
+        //this.prism.local_transform.scaleUniform(0.3);
         this.active = true;
     }
 }
@@ -166,6 +205,8 @@ class Base extends Drawable {
         this.local_transform.scale([0.8, 0.2, 0.2]);
     }
 
+
+    // TODO lampor som indikerar cooldown på hopp och dash
 /*     update(elapsed, dirty) {
         if (this.parent.state == PlayerState.Goto || this.parent.state == PlayerState.GotoInteractible) {
             this.look_at = this.parent.state_context.position;

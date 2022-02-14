@@ -7,6 +7,11 @@ var settings = {};
 
 const constants = {
     gravity: 0.000048,
+    dash_timing: 50,
+    dash_duration: 500,
+    dash_cooldown: 1000,
+    jump_forgiveness: 200,
+    jump_cooldown: 400
 };
 
 class Game {
@@ -22,7 +27,7 @@ class Game {
         for (const [key, value] of Object.entries(JSON.parse(levels))) {
             this.scenes[key] = new Scene(value.name, value.entities);
         }
-        this.scene = this.scenes.Downfall;
+        this.scene = this.scenes.PhysicsTryout;
     }
     
     placePlayer(position) {        

@@ -33,11 +33,11 @@ class TrackingCamera extends Camera {
             e.preventDefault();
         } else if (e.key == 'w' || e.key == 'W') {
         } else if (e.key == 's' || e.key == 'S') {
-        } else if (e.key == 'a' || e.key == 'A') {
+        } else if ((e.key == 'a' || e.key == 'A') && !e.repeat) {
             player.startMovement(false);
-        } else if (e.key == 'd' || e.key == 'D') {
+        } else if ((e.key == 'd' || e.key == 'D') && !e.repeat) {
             player.startMovement(true);
-        } else if (e.key == ' ') {
+        } else if (e.key == ' ' && !e.repeat) {
             player.jump();
         } else if (e.key == 'Escape') {
             toggleMenuVisible();
