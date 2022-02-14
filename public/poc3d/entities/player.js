@@ -56,7 +56,7 @@ class Player extends Actor {
     updateStats() {
         this.stats = JSON.parse(JSON.stringify(original_stats));
         if (this.inventory.includes(items.lamp)) {
-            if (!this.head) {
+            if (!this.head.lamp) {
                 this.head.lamp = new HeadLamp(this.head, [0, 0, -0.4], game.scene);
             }
         }
@@ -155,9 +155,7 @@ class HeadLamp extends PointLight {
         this.prism = new Drawable(this, [0, 0, 0], models.box);
         this.prism.material = materials.light;
         this.prism.local_transform.scaleUniform(0.3);
-        this.position = [0, 1.5, 0];
-        this.state = States.Inactive;
-        this.elapsed = 0;
+        this.active = true;
     }
 }
 
