@@ -4,7 +4,7 @@ class Entity {
     constructor(parent, local_position) {
         this.parent = parent;
         this.children = [];
-        this.colliders = [];
+        this.collider = undefined;
         this.local_transform = new Transform(local_position);
         this.world_transform = mat4.clone(this.local_transform.get());
         if (this.parent) {
@@ -57,34 +57,6 @@ class Entity {
 
     update(elapsed, dirty) {
         dirty |= this.local_transform.isDirty();
-        if (this.look_at) {
-            var target_vector = vec3.create();
-            vec3.sub(target_vector, this.look_at, position(this.getWorldTransform()));
-            var forward_vector = forward(this.getWorldTransform());
-            var angle = rad2deg(getHorizontalAngle(target_vector, forward_vector));
-
-            if (Math.abs(angle) > 0.005) {
-                var angle_increment = Math.sign(angle) * Math.min(Math.abs(angle), this.rotation_speed * elapsed);
-                this.local_transform.yaw(angle_increment);
-                dirty = true;
-            }
-        }
-        if (vec3.sqrLen(this.velocity) > 0) {
-            var movement = vec3.create();
-            vec3.scale(movement, this.velocity, elapsed);
-            this.local_transform.translate(movement);
-            this.last_movement = movement;
-            this.colliders.forEach(collider => {
-                vec3.transformMat4(collider.world_position, collider.local_position, this.getWorldTransform());
-                game.scene.entities.forEach((other) => {
-                    other.colliders.forEach(other_collider => {
-                        if (collider.isColliding(other_collider)) {
-                            this.onCollision(other);
-                        }
-                    });
-                });
-            });
-        }
         if (dirty) {
             if (this.parent && !this.independent) {
                 mat4.mul(this.world_transform, this.parent.world_transform, this.local_transform.get());
@@ -100,23 +72,6 @@ class Entity {
         this.type = PickableType.Default;
         pickable_map.set(this.id, this);
         this.children.forEach(child => child.id = this.id);
-    }
-
-    onCollision(other) {
-        // Revert movement that caused collision
-        this.velocity = [0, 0, 0];
-        vec3.scale(this.last_movement, this.last_movement, -1);
-        this.local_transform.translate(this.last_movement);
-        this.colliders.forEach(collider => {
-            vec3.transformMat4(collider.world_position, collider.local_position, this.getWorldTransform());
-        });
-
-        var collision_normal = vec3.create();
-        vec3.sub(collision_normal, this.getWorldPosition(), other.getWorldPosition());
-        vec3.normalize(collision_normal, collision_normal);
-        vec3.scale(collision_normal, collision_normal, 0.05);
-        collision_normal[1] = 0;
-        this.local_transform.translate(collision_normal);
     }
 
     getLocalTransform() {

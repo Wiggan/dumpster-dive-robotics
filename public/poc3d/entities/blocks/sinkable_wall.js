@@ -5,7 +5,7 @@ class SinkableWall extends Drawable {
         super(parent, [local_position[0], 3, local_position[2]], models.box);
         this.local_position = local_position;
         this.material = materials.dirt;
-        this.colliders.push(new Collider(this, [0, 0, 0], CollisionTypes.Level, 2, 2));
+        this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Level, 1, 1);
         this.local_transform.yaw(Math.floor(Math.random()*6)*60);
         this.position = [local_position[0], 3, local_position[2]];
     }
@@ -14,7 +14,7 @@ class SinkableWall extends Drawable {
         this.transition = new Transition(this, [{
             time: 50000, to: {
                 position: [this.local_position[0], 0, this.local_position[2]],
-                collider: {type: CollisionTypes.NoCollision}}
+                collider: {type: CollisionLayer.NoCollision}}
         }]);
     }
     

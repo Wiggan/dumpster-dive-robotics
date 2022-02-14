@@ -22,9 +22,9 @@ class Game {
     }
     
     placePlayer(position) {        
-        player = new Player(position);
+        player = new Player(position);/* 
         player.equip(new DoubleLauncher(null, [0, 0, 0]), player.sockets.right_arm);
-        player.equip(new Launcher(null, [0, 0, 0]), player.sockets.left_arm);
+        player.equip(new Launcher(null, [0, 0, 0]), player.sockets.left_arm); */
         this.scene.entities.push(player);
     }
 

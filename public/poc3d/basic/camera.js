@@ -7,7 +7,7 @@ var ctrl_pressed = false;
 
 
 
-class Camera extends Entity {
+class Camera extends DynamicEntity {
     constructor(parent, local_position) {
         super(parent, local_position);
         cameras.push(this);

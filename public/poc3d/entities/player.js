@@ -8,21 +8,13 @@ const PlayerState = {
     Firing: 'Firing'
 }
 
-class Player extends Entity {
+class Player extends Actor {
     constructor(local_position) {
         super(null, local_position);
-        this.models = {
-            base: new Base(this),
-            body: new Body(this),
-            head: new Head(this)
-        };
+        this.base = new Base(this);
+        this.body = new Body(this);
+        this.head = new Head(this);
         this.camera = new TrackingCamera(this, [0, 8, 0]);
-        this.stats = {
-            movement_speed: 0.003,
-            acceleration: 0.00005,
-            pickup_range: 1,
-            attack_range: 1
-        };
         this.inventory = [];
         this.equipment = {
             right_arm: undefined,
@@ -34,18 +26,19 @@ class Player extends Entity {
             position: [local_position[0], local_position[1], local_position[2] - 1]
         };
         
-        this.colliders.push(new Collider(this, [0, 0, 0], CollisionTypes.Player, 2, 2));
+        this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Player, 0.9, 0.9);
 
         this.sockets = {
-            left_arm: new Entity(this.models.body, [-0.4,0.8,0]),
-            right_arm: new Entity(this.models.body, [0.4,0.8,0])
+            left_arm: new Entity(this.body, [-0.4,0.8,0]),
+            right_arm: new Entity(this.body, [0.4,0.8,0])
         }
-        this.velocity = vec3.create();
-        this.force = vec3.create();
+        this.groundCollider.type = CollisionLayer.Player;
     }
 
     toJSON(key) {
-        return {};
+        return {
+            class: 'Player'
+        };
     }
     
     equip(item, socket) {
@@ -55,10 +48,10 @@ class Player extends Entity {
     }
 
     left_click(point, object) {
-        this.models.body.look_at = point;
+        this.body.look_at = point;
         if (ctrl_pressed) {
             if (this.sockets.left_arm.eq) { 
-                this.models.body.lookAtInstantly(point);
+                this.body.lookAtInstantly(point);
                 this.velocity = undefined;
                 this.state = PlayerState.Idle;
                 this.sockets.left_arm.eq.fire(point);
@@ -77,7 +70,7 @@ class Player extends Entity {
                     pos = object.getWorldPosition();
                 }
                 
-                this.models.body.lookAtInstantly(pos);
+                this.body.lookAtInstantly(pos);
                 this.velocity = undefined;
                 this.state = PlayerState.Idle;
                 this.sockets.left_arm.eq.fire(pos);
@@ -100,26 +93,17 @@ class Player extends Entity {
                 pos = object.getWorldPosition();
             }
             
-            this.models.body.lookAtInstantly(pos);
+            this.body.lookAtInstantly(pos);
             this.velocity = undefined;
             this.state = PlayerState.Idle;
             this.sockets.right_arm.eq.fire(pos);
         }
     }
 
-    update(elapsed, dirty) {
-        var at = vec3.create();
-        vec3.scale(at, this.force, elapsed);
-        vec3.add(this.velocity, this.velocity, at);
-        super.update(elapsed, dirty);
-    }
-
-    onCollision(other) {
-        super.onCollision(other);
-    }
-
     jump() {
-
+        if (this.onGround) {
+            this.velocity[2] = -this.stats.jump_speed;
+        }
     }
 
     startMovement(right) {
@@ -128,6 +112,7 @@ class Player extends Entity {
 
     endMovement() {
         this.force[0] = 0;
+        this.velocity[0] = 0;
     }
 }
 
@@ -135,6 +120,7 @@ class BodyLamp extends Drawable {
     constructor(parent) {
         super(parent, [0,0,0], models.box);
         this.material = materials.green_led;
+        this.local_transform.scale([0.1, 0.1, 0.1]);
     }
 }
 
@@ -142,6 +128,7 @@ class HeadLamp extends Drawable {
     constructor(parent) {
         super(parent, [0,0,0], models.box);
         this.material = materials.green_led;
+        this.local_transform.scale([0.1, 0.1, 0.1]);
     }
 }
 
@@ -149,6 +136,7 @@ class Base extends Drawable {
     constructor(parent) {
         super(parent, [0,0,0], models.box);
         this.material = materials.player;
+        this.local_transform.scale([0.8, 0.2, 0.2]);
     }
 
     update(elapsed, dirty) {
@@ -167,18 +155,16 @@ class Body extends Drawable {
         this.material = materials.player;
         this.lamp = new BodyLamp(this);
         this.rotation_speed = 1;
-    }
-
-    update(elapsed, dirty) {
-        super.update(elapsed, true);
+        this.local_transform.scale([0.6, 0.6, 0.9]);
     }
 }
 
 class Head extends Drawable {
     constructor(parent) {
-        super(parent, [0,0,0], models.box);
+        super(parent, [0,0,-0.6], models.box);
         this.material = materials.player;
         this.lamp = new HeadLamp(this);
+        this.local_transform.scale([0.3, 0.3, 0.3]);
     }
 
     update(elapsed, dirty) {
@@ -187,27 +173,3 @@ class Head extends Drawable {
     }
 }
 
-class Wrench extends Drawable {
-    constructor(parent) {
-        super(parent, [-0.4,0.8,0], models.box);
-        this.material = materials.player;
-        this.stats = {
-            damage: 1,
-            attack_duration: 100
-        }
-        this.time = 0;
-    }
-    
-    update(elapsed, dirty) {
-        if (player.state == PlayerState.Attack) {
-            this.local_transform.pitch(-90/this.stats.attack_duration*elapsed);
-            this.time += elapsed;
-            if (this.time >= this.stats.attack_duration) {
-                //player.state = PlayerState.Idle;
-                this.local_transform.setPitch(0);
-                this.time = 0;
-            }
-        }
-        super.update(elapsed, dirty);
-    }
-}

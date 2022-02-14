@@ -9,6 +9,7 @@ class Background extends Drawable {
         if (Math.random() < 0.5) {
             this.local_transform.roll(180);
         }
+        this.local_transform.scale([1, 2, 1]);
     }
 
     toJSON(key) {

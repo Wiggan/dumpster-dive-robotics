@@ -55,7 +55,7 @@ class SelectionTool extends Tool {
         if (e.button == 0) {
             if (e.shiftKey && e.ctrlKey) {
                 if (selected_entities.length == 1) {
-                    if (selected_entities[0].collider.type == CollisionTypes.Trigger && clicked_entity.trigger) {
+                    if (selected_entities[0].collider.type == CollisionLayer.Trigger && clicked_entity.trigger) {
                         console.log("Connected trigger and triggee");
                         selected_entities[0].triggee = clicked_entity.uuid;
                     } else if (selected_entities[0].toJSON().class == 'Portal' && clicked_entity.toJSON().class == 'Portal') {

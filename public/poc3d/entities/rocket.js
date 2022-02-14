@@ -18,7 +18,7 @@ class Rocket extends Drawable {
         this.velocity = forward(this.local_transform.get());
         vec3.scale(this.velocity, this.velocity, this.stats.speed);
         this.instigator = instigator;
-        this.colliders.push(new Collider(this, [0, 0, 0], CollisionTypes.Projectile, 0.1, 0.1));
+        this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Projectile, 0.1, 0.1);
         game.scene.entities.push(this);
         this.dmg = 20;
         this.sound = new SFX(this, [0,0,0], sfx.rocket_flying);
@@ -44,9 +44,9 @@ class Rocket extends Drawable {
     }
 
     onCollision(other) {
-        if (other != this.instigator && other.collider.type != CollisionTypes.Projectile) {
+        if (other != this.instigator && other.collider.type != CollisionLayer.Projectile) {
             this.explode();
-            if (other.collider.type == CollisionTypes.Actor) {
+            if (other.collider.type == CollisionLayer.Actor) {
                 other.takeDamage(this.dmg);
             }
         }

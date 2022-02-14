@@ -3,7 +3,7 @@
 var selected_entities = [], selected_gui;
 
 function snapToGrid(pos) {
-    return [Math.round(pos[0]/2)*2, Math.round(pos[1]/2)*2, Math.round(pos[2]/2)*2];
+    return [Math.round(pos[0]), Math.round(pos[1]), Math.round(pos[2])];
 }
 
 class Tool extends Entity {

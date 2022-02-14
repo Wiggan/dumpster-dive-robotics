@@ -9,8 +9,9 @@ var fps = 0;
 var then = Date.now();
 var now = Date.now();
 function render() {
+    var animationRequest;
     try {
-        requestAnimationFrame(render);
+        animationRequest = requestAnimationFrame(render);
         now = Date.now();
         var elapsed = now - then;
         frame_intervals.push(elapsed);
@@ -25,6 +26,7 @@ function render() {
         renderer.render();
     } catch (error) {
         console.error(error);
+        cancelAnimationFrame(animationRequest);
     }
 }
 
