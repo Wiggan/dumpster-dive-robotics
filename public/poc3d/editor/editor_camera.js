@@ -52,7 +52,7 @@ class EditorCamera extends Camera {
             }
             cameras.splice(cameras.lastIndexOf(player.camera), 1);
             player = undefined;
-            gui.remove('Player');
+            gui.removeFolder(gui.player);
         }
     }
     
@@ -101,15 +101,15 @@ class EditorCamera extends Camera {
             game.placePlayer(this.active_tool.getWorldPosition());
             player.camera.activate();
             
-            var player_folder = gui.addFolder('Player');
-            player_folder.add(player.stats, 'movement_speed', 0.0001, 0.1, 0.000001);
-            player_folder.add(player.stats, 'acceleration', 0.0001, 0.1, 0.000001);
-            player_folder.add(player.stats, 'jump_speed', 0.00001, 0.1, 0.000001);
-            player_folder.add(constants, 'gravity', 0, 0.0001, 0.000001);
-            player_folder.add(constants, 'dash_timing', 50, 500, 10);
-            player_folder.add(constants, 'dash_duration', 100, 2000, 100);
-            player_folder.add(constants, 'dash_cooldown', 100, 2000, 100);
-            player_folder.open();
+            gui.player = gui.addFolder('Player');
+            gui.player.add(player.stats, 'movement_speed', 0.0001, 0.1, 0.000001);
+            gui.player.add(player.stats, 'acceleration', 0.0001, 0.1, 0.000001);
+            gui.player.add(player.stats, 'jump_speed', 0.00001, 0.1, 0.000001);
+            gui.player.add(constants, 'gravity', 0, 0.0001, 0.000001);
+            gui.player.add(constants, 'dash_timing', 50, 500, 10);
+            gui.player.add(constants, 'dash_duration', 100, 2000, 100);
+            gui.player.add(constants, 'dash_cooldown', 100, 2000, 100);
+            gui.player.open();
         }
         var original_json = JSON.stringify(game.scene);
         this.active_tool.onKeyDown(e);
