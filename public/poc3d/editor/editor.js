@@ -17,7 +17,7 @@ function render() {
         var elapsed = now - then;
         frame_intervals.push(elapsed);
         if (player) {
-            game.update(elapsed);
+            game.update(Math.min(elapsed, 30));
         } else {
             game.update(0);
         }

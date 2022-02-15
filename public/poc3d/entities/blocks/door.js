@@ -7,7 +7,7 @@ class Door extends Entity {
         this.door = new Drawable(this, [0, 0, 0], models.box);
         this.local_position =  [0, 0, 0];
         this.material = materials.dirt;
-        this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Level, 0.5, 1);
+        this.door.collider = new Collider(this.door, [0, 0, 0], CollisionLayer.Level, 0.5, 1);
         this.door.position =  [0, 0, 0];
         this.door.local_transform.scale([0.5, 2, 1]);
     }
@@ -25,7 +25,7 @@ class Door extends Entity {
         console.log("Opening door");
         this.transition = new Transition(this.door, [{
             time: 1000, to: {
-                position: [this.local_position[0], this.local_position[1], this.local_position[2]-2]
+                position: [this.local_position[0], this.local_position[1], this.local_position[2]-1]
             }
         }]);
     }

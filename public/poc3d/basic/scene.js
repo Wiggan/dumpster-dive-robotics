@@ -5,6 +5,7 @@ class Scene extends Entity {
         super(null, [0, 0, 0]);
         this.name = name;
         this.lights = [];
+        this.colliders = [];
         this.camera_anchors = [];
         this.entity_uuid_map = new Map();
         this.entities = entities.map((entity) => {
@@ -12,6 +13,7 @@ class Scene extends Entity {
                 var e = new classes[entity.class](this, entity.local_position);
                 e = Object.assign(e, entity);
                 this.entity_uuid_map.set(e.uuid, e);
+                this.colliders.push(...e.getColliders());
                 return e;
             }
         })
