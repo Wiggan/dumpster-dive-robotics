@@ -9,7 +9,6 @@ class BlockTool extends Tool {
                        new Portal(null, [0,0,0]),
                        new Lantern(null, [0,0,0]),
                        new FloorButton(null, [0,0,0]),
-                       new SinkableWall(null, [0,0,0]),
                     ];
         this.blocks.forEach(block => block.material = materials.blue);
         this.block_index = 0;

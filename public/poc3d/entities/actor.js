@@ -58,32 +58,32 @@ class Actor extends Entity {
             }
         }
 
-        if (Math.abs(this.velocity[0]) > 0.00001) {
-            dirty = true;
-            var movement = vec3.create();
-            movement[0] = this.velocity[0]*elapsed;
-            this.local_transform.translate(movement);
-            mat4.copy(this.world_transform, this.local_transform.get());
-            this.collider.update(0, true);
-            this.collider.detectCollisions().forEach(other => {
-                this.resolveX(other, movement[0]);
+        const indices = [0, 2];
+        indices.forEach(i => {
+            if (Math.abs(this.velocity[i]) > 0.00001) {
+                dirty = true;
+                var movement = vec3.create();
+                movement[i] = this.velocity[i]*elapsed;
+                this.local_transform.translate(movement);
                 mat4.copy(this.world_transform, this.local_transform.get());
                 this.collider.update(0, true);
-            });
-        }
-        if (Math.abs(this.velocity[2]) > 0.00001) {
-            dirty = true;
-            var movement = vec3.create();
-            movement[2] = this.velocity[2]*elapsed;
-            this.local_transform.translate(movement);
-            mat4.copy(this.world_transform, this.local_transform.get());
-            this.collider.update(0, true);
-            this.collider.detectCollisions().forEach(other => {
-                this.resolveY(other, movement[2]);
-                mat4.copy(this.world_transform, this.local_transform.get());
-                this.collider.update(0, true);
-            });
-        }
+                this.collider.detectCollisions().forEach(other => {
+                    // Todo handle enemy collision...
+                    if (other.type == CollisionLayer.Level) {
+                        if (i == 0) {
+                            this.resolveX(other, movement[i]);
+                        } else {
+                            this.resolveY(other, movement[i]);
+                        }
+                        mat4.copy(this.world_transform, this.local_transform.get());
+                        this.collider.update(0, true);
+                    } else if (other.type == CollisionLayer.Trigger) {
+                        other.parent.onCollision(this);
+                    }
+                });
+            }
+
+        });
         super.update(elapsed, dirty);
     }
 
