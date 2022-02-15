@@ -23,11 +23,11 @@ class Game {
         this.loadSettings();
     }
     
-    loadLevels(levels) {
+    loadLevels(levels, start_scene) {
         for (const [key, value] of Object.entries(JSON.parse(levels))) {
             this.scenes[key] = new Scene(value.name, value.entities);
         }
-        this.scene = this.scenes.PhysicsTryout;
+        this.scene = this.scenes[start_scene || 'Downfall'];
     }
     
     placePlayer(position) {        
