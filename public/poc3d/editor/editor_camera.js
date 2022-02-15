@@ -110,6 +110,8 @@ class EditorCamera extends Camera {
             gui.player.add(constants, 'dash_duration', 100, 2000, 100);
             gui.player.add(constants, 'dash_cooldown', 100, 2000, 100);
             gui.player.open();
+
+            game.paused = false;
         }
         var original_json = JSON.stringify(game.scene);
         this.active_tool.onKeyDown(e);
