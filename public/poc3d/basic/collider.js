@@ -106,9 +106,9 @@ class Collider {
 
     detectCollisions() {
         var collisions = [];
-        game.scene.entities.forEach((other) => {
-            if (other.collider && this.isColliding(other.collider)) {
-                collisions.push(other.collider);
+        game.scene.colliders.forEach((other) => {
+            if (other && this.isColliding(other)) {
+                collisions.push(other);
             }
         });
         return collisions;

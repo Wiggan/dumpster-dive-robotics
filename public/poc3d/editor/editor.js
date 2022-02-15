@@ -16,9 +16,10 @@ function render() {
         now = Date.now();
         var elapsed = now - then;
         frame_intervals.push(elapsed);
-        game.update(0);
         if (player) {
-            player.update(elapsed, true);
+            game.update(Math.min(elapsed, 30));
+        } else {
+            game.update(0);
         }
         editor_camera.update(elapsed);
         debug_camera.update(elapsed);

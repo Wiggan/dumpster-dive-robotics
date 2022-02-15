@@ -38,6 +38,19 @@ class Entity {
         this.children.forEach(child => child.draw(renderer));
     }
 
+    getColliders() {
+        var colliders = [];
+        if (this.collider) {
+            colliders.push(this.collider);
+        }
+        this.children.forEach(child => {
+            if (child.getColliders) {
+                child.getColliders().forEach(collider => colliders.push(collider));
+            }
+        })
+        return colliders;
+    }
+
     lookAtInstantly(point) {
         this.look_at = point;
         var target_vector = vec3.create();
