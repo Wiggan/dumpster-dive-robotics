@@ -7,7 +7,7 @@ class DebugCamera extends Camera {
         super(null, position);
         this.vel = [0, 0];
         this.speed = 0.01;
-        this.local_transform.yaw(-60);
+        this.local_transform.pitch(-90);
 
         var canvas = utils.getCanvas('game_canvas');
         canvas.requestPointerLock = canvas.requestPointerLock || canvas.mozRequestPointerLock;
@@ -35,11 +35,11 @@ class DebugCamera extends Camera {
     }
 
     updatePosition(e) {
-        var yaw = -e.movementX/10;
+        var roll = e.movementX/10;
         var pitch = -e.movementY/10;
-        active_camera.local_transform.yaw(yaw);
-        if (-80 < active_camera.local_transform.getPitch() + pitch && 
-            active_camera.local_transform.getPitch() + pitch < 80) {
+        active_camera.local_transform.roll(roll);
+        if (-10 > active_camera.local_transform.getPitch() + pitch && 
+            active_camera.local_transform.getPitch() + pitch > -170) {
             active_camera.local_transform.pitch(pitch);
 
         }

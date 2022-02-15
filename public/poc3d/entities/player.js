@@ -30,7 +30,7 @@ class Player extends Actor {
         this.base = new Base(this);
         this.body = new Body(this);
         this.head = new Head(this);
-        this.camera = new TrackingCamera(this, [0, 8, 0]);
+        this.camera = new TrackingCamera(this, [0, 3, 0]);
         this.inventory = [];
 
         this.state_context = {
@@ -77,7 +77,8 @@ class Player extends Actor {
     }
 
     left_click(point, object) {
-        this.body.look_at = point;
+        //this.base.frame_index++;
+       /*  this.body.look_at = point;
         if (ctrl_pressed) {
             if (this.sockets.left_arm.eq) { 
                 this.body.lookAtInstantly(point);
@@ -108,7 +109,7 @@ class Player extends Actor {
                 position: object.getWorldPosition(),
                 tolerance: this.stats.pickup_range
             };
-        }
+        } */
     }
 
     right_click(point, object) {
@@ -198,23 +199,32 @@ class HeadLamp extends PointLight {
     }
 }
 
-class Base extends Drawable {
+class Base extends Entity {
     constructor(parent) {
-        super(parent, [0,0,0], models.box);
-        this.material = materials.player;
-        this.local_transform.scale([0.8, 0.2, 0.2]);
+        super(parent, [0,0,0]);
+        this.frame_helper = 0;
+        this.frame_scaler = 20;
+        this.frame_index = 0;
+        this.tracks = new Drawable(this, [0,0,0.42], models.player.base.track_frames[this.frame_index]);
+        this.base = new Drawable(this, [0,0,0.42], models.player.base.base_frames[this.frame_index]);
+        this.tracks.material = materials.rubber;
+        this.base.material = materials.player;
+        
     }
 
 
     // TODO lampor som indikerar cooldown på hopp och dash
-/*     update(elapsed, dirty) {
-        if (this.parent.state == PlayerState.Goto || this.parent.state == PlayerState.GotoInteractible) {
-            this.look_at = this.parent.state_context.position;
-        } else {
-            this.look_at = undefined;
-        }
+    update(elapsed, dirty) {
+        // Animate
+        const frames = models.player.base.base_frames.length;
+        this.frame_helper -= this.parent.velocity[0] * elapsed;
+        this.frame_index = Math.floor((this.frame_helper * this.frame_scaler) % frames);
+        if (this.frame_index < 0) this.frame_index += frames;
+        console.log(this.frame_index);
+        this.tracks.model = models.player.base.track_frames[this.frame_index];
+        this.base.model = models.player.base.base_frames[this.frame_index];
         super.update(elapsed, dirty);
-    } */
+    }
 }
 
 class Body extends Drawable {

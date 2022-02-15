@@ -56,4 +56,26 @@ async function load_model(path) {
 async function load_all_models() {
     materials = await load_materials('/models/materials.json');
     models.box = await load_model('/models/box/part1.json');
+    models.player = {
+        base: {
+            track_frames: [
+                await load_model('/models/robot_tracks2/part2.json'),
+                await load_model('/models/robot_tracks2/part4.json'),
+                await load_model('/models/robot_tracks2/part6.json'),
+                await load_model('/models/robot_tracks2/part8.json'),
+                await load_model('/models/robot_tracks2/part14.json'),
+                await load_model('/models/robot_tracks2/part12.json'),
+                await load_model('/models/robot_tracks2/part10.json'),
+            ],
+            base_frames: [
+                await load_model('/models/robot_tracks2/part1.json'),
+                await load_model('/models/robot_tracks2/part3.json'),
+                await load_model('/models/robot_tracks2/part5.json'),
+                await load_model('/models/robot_tracks2/part7.json'),
+                await load_model('/models/robot_tracks2/part13.json'),
+                await load_model('/models/robot_tracks2/part11.json'),
+                await load_model('/models/robot_tracks2/part9.json'),
+            ],
+        }
+    }
 }

@@ -2,7 +2,7 @@
 
 // Global variables that are set and used
 // across the application
-let renderer, gui, editor_camera;
+let renderer, gui, editor_camera, debug_camera;
 
 
 var frame_intervals = [];
@@ -21,9 +21,11 @@ function render() {
             player.update(elapsed, true);
         }
         editor_camera.update(elapsed);
+        debug_camera.update(elapsed);
         then = now;
         game.scene.draw(renderer);
         editor_camera.draw(renderer);
+        debug_camera.draw(renderer);
         if (frame_intervals.length == 60) {
             fps = Math.floor(60000 / frame_intervals.reduce((total, interval) => total + interval));
             frame_intervals.length = 0;
@@ -51,10 +53,10 @@ async function init() {
                 entity.makePickable();
             }
         });
-        //value.entities.push(new DebugCamera([6, 6, 8]));
     }
     
     
+    debug_camera = new DebugCamera([6, 6, 8]);
     editor_camera = new EditorCamera([6, 16, 8]);
     editor_camera.activate();
     game.scene.lights.push(editor_camera.light);
