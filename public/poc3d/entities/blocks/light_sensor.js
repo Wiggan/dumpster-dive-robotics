@@ -32,10 +32,16 @@ class LightSensor extends Entity {
         })
         if (within_range && !this.triggered) {
             this.triggered = true;
-            game.scene.entity_uuid_map.get(this.triggee).start_triggering();
+            var triggee = game.scene.entity_uuid_map.get(this.triggee);
+            if (triggee) {
+                triggee.start_triggering();
+            }
         } else if (!within_range && this.triggered) {
             this.triggered = false;
-            game.scene.entity_uuid_map.get(this.triggee).stop_triggering();
+            var triggee = game.scene.entity_uuid_map.get(this.triggee);
+            if (triggee) {
+                triggee.stop_triggering();
+            }
         }
     }
 }

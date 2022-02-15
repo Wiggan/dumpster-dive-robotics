@@ -6,7 +6,7 @@ class PointLight extends Entity {
         if (scene) {
             scene.lights.push(this);
         }
-        this.active = false;
+        this.active = true;
         this.ambient = [0.2, 0.2, 0.3];
         this.diffuse = [0.4, 0.4, 0.6];
         this.specular = [0.8, 0.8, 0.8];

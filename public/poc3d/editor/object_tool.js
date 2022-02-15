@@ -6,6 +6,7 @@ class ObjectTool extends Tool {
         this.objects = [
             new Drone(null, [0, 0, 0]),
             new CameraAnchor(null, [0, 10, 0]),
+            new FlimmeringLight(null, [0, 0, 0]),
         ];
         this.objects.forEach(object => object.material = materials.blue);
         this.object_index = 0;

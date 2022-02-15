@@ -46,15 +46,15 @@ class Scene extends Entity {
         // Ensure only 4 lights are active. This should probably be done less often...
         this.lights.sort((a, b) => { return a.getSquaredHorizontalDistanceToPlayer() - b.getSquaredHorizontalDistanceToPlayer();});
         var activeLightCount = this.lights.filter((light) => light.active).length;
-        this.lights.forEach((light, i) => {
+        /* this.lights.forEach((light, i) => {
             if (i<4) {
                 if (activeLightCount < 4) {
-                    light.activate();
+                    //light.activate();
                 }
             } else {
-                light.inactivate();
+                //light.inactivate();
             }
-        });
+        }); */
         this.entities_to_draw = this.entities.filter(entity => entity.getSquaredHorizontalDistanceToPlayer() < 220);
         this.entities.forEach(entity => {
             entity.update(elapsed, false);
