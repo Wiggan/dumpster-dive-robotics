@@ -54,7 +54,8 @@ class Particle extends Drawable {
     
     reset() {
         this.life_time = this.parent.particle_life_time + Math.random()*200;
-        this.velocity = vec3.clone(forward(this.parent.getWorldTransform()));
+        this.velocity = vec3.clone(right(this.parent.getWorldTransform()));
+        vec3.scale(this.velocity, this.velocity, -1);
         vec3.rotateX(this.velocity, this.velocity, [0, 0, 0], (Math.random()-0.5)*this.parent.spread*Math.PI*2);
         vec3.rotateY(this.velocity, this.velocity, [0, 0, 0], (Math.random()-0.5)*this.parent.spread*Math.PI*2);
         vec3.rotateZ(this.velocity, this.velocity, [0, 0, 0], (Math.random()-0.5)*this.parent.spread*Math.PI*2);

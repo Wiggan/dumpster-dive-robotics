@@ -76,6 +76,14 @@ async function load_all_models() {
                 await load_model('/models/robot_tracks2/part11.json'),
                 await load_model('/models/robot_tracks2/part9.json'),
             ],
-        }
+        },
+        body: await load_model('/models/robot_tracks2/part15.json'),
+        head_holder: await load_model('/models/robot_tracks2/part16.json'),
+        head: await load_model('/models/robot_tracks2/part17.json'),
+        head_lamp: await load_model('/models/robot_tracks2/part19.json'),
+        rocket_launcher: await load_model('/models/robot_tracks2/part18.json'),
     }
+    models.light_sensor = await load_model('/models/light_sensor/part1.json');
+    models.door = await load_model('/models/door/part1.json');
+    models.ball = await load_model('/models/ball/part1.json');
 }

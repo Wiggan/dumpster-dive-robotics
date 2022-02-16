@@ -27,9 +27,10 @@ const original_stats = {
 class Player extends Actor {
     constructor(local_position) {
         super(null, local_position);
-        this.base = new Base(this);
         this.body = new Body(this);
-        this.head = new Head(this);
+        this.base = new Base(this.body);
+        this.head = new Head(this.body);
+        this.launcher = new Launcher(this.body);
         this.camera = new TrackingCamera(this, [0, 3, 0]);
         this.inventory = [];
 
@@ -39,10 +40,10 @@ class Player extends Actor {
         
         this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Player, 0.9, 0.9);
 
-        this.sockets = {
+/*         this.sockets = {
             left_arm: new Entity(this.body, [-0.4,0.8,0]),
             right_arm: new Entity(this.body, [0.4,0.8,0])
-        }
+        } */
         this.groundCollider.type = CollisionLayer.Player;
         this.stats = JSON.parse(JSON.stringify(original_stats));
         this.last_right = 0;
@@ -61,7 +62,7 @@ class Player extends Actor {
         this.stats = JSON.parse(JSON.stringify(original_stats));
         if (this.inventory.includes(items.lamp)) {
             if (!this.head.lamp) {
-                this.head.lamp = new HeadLamp(this.head, [0, 0, -0.4], game.scene);
+                this.head.lamp = new HeadLamp(this.head, [0, 0, 0], game.scene);
             }
         }
         if (this.inventory.includes(items.battery)) {
@@ -110,10 +111,11 @@ class Player extends Actor {
                 tolerance: this.stats.pickup_range
             };
         } */
+        this.launcher.fire();
     }
 
     right_click(point, object) {
-        if (this.sockets.right_arm.eq) {
+/*         if (this.sockets.right_arm.eq) {
             var pos = point;
             if (object) {
                 pos = object.getWorldPosition();
@@ -122,7 +124,7 @@ class Player extends Actor {
             this.body.lookAtInstantly(pos);
             this.velocity = undefined;
             this.sockets.right_arm.eq.fire(pos);
-        }
+        } */
     }
 
     jump() {
@@ -192,9 +194,8 @@ class HeadLamp extends PointLight {
         this.constant = LanternLight.Constant;
         this.linear = LanternLight.Linear;
         this.quadratic = LanternLight.Quadratic;
-        this.prism = new Drawable(this, [0, 0, 0], models.box);
+        this.prism = new Drawable(this, [0, 0, 0], models.player.head_lamp);
         this.prism.material = materials.light;
-        //this.prism.local_transform.scaleUniform(0.3);
         this.active = true;
     }
 }
@@ -205,8 +206,8 @@ class Base extends Entity {
         this.frame_helper = 0;
         this.frame_scaler = 20;
         this.frame_index = 0;
-        this.tracks = new Drawable(this, [0,0,0.42], models.player.base.track_frames[this.frame_index]);
-        this.base = new Drawable(this, [0,0,0.42], models.player.base.base_frames[this.frame_index]);
+        this.tracks = new Drawable(this, [0,0,0], models.player.base.track_frames[this.frame_index]);
+        this.base = new Drawable(this, [0,0,0], models.player.base.base_frames[this.frame_index]);
         this.tracks.material = materials.rubber;
         this.base.material = materials.player;
         
@@ -217,7 +218,7 @@ class Base extends Entity {
     update(elapsed, dirty) {
         // Animate
         const frames = models.player.base.base_frames.length;
-        this.frame_helper -= this.parent.velocity[0] * elapsed;
+        this.frame_helper -= player.velocity[0] * elapsed;
         this.frame_index = Math.floor((this.frame_helper * this.frame_scaler) % frames);
         if (this.frame_index < 0) this.frame_index += frames;
         console.log(this.frame_index);
@@ -229,25 +230,25 @@ class Base extends Entity {
 
 class Body extends Drawable {
     constructor(parent) {
-        super(parent, [0,0,0], models.box);
+        super(parent, [0, 0, 0.328], models.player.body);
         this.material = materials.player;
-        this.lamp = new BodyLamp(this);
+        //this.lamp = new BodyLamp(this);
         this.rotation_speed = 1;
-        this.local_transform.scale([0.6, 0.6, 0.9]);
     }
 }
 
 class Head extends Drawable {
     constructor(parent) {
-        super(parent, [0,0,-0.6], models.box);
+        super(parent, [0,0,0], models.player.head_holder);
         this.material = materials.player;
+        this.head = new Drawable(this, [0,0,0], models.player.head);
+        this.head.material = materials.player;
         this.lamp = undefined; //new HeadLamp(this);
-        this.local_transform.scale([0.3, 0.3, 0.3]);
     }
 
     update(elapsed, dirty) {
         super.update(elapsed, dirty);
-        this.look_at = this.parent.camera.pointing_at;
+        this.head.look_at = player.camera.pointing_at;
     }
 }
 

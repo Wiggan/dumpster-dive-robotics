@@ -2,10 +2,11 @@
 
 class Launcher extends Drawable {
     constructor(parent) {
-        super(parent, [0,0,0], models.box);
+        super(parent, [0,0,0], models.player.rocket_launcher);
         this.material = materials.player;
         this.lamp = new Drawable(this, [0, 0, 0], models.box);
         this.lamp.material = materials.green_led;
+        this.lamp.local_transform.scaleUniform(0.05);
         this.stats = {
             damage: 1,
             cooldown: 500
@@ -13,17 +14,20 @@ class Launcher extends Drawable {
         this.cooldown = 0;
     }
 
-    fire(point) {
+    fire() {
         if (this.cooldown == 0) {
             var pos = this.getWorldPosition();
-            var f = forward(this.getWorldTransform());
-            vec3.scale(f, f, 0.5);
+            var f = right(this.getWorldTransform());
+            vec3.scale(f, f, 0.3);
             vec3.add(pos, pos, f);
+            vec3.add(pos, pos, [0, 0, -0.5]);
 
-            new Rocket(pos, point, 0.01, player);
+
+
+            new Rocket(pos, f, 0.01, player);
             this.cooldown = this.stats.cooldown;
             this.lamp.material = materials.red_led;
-            this.sound = new SFX(this, [0,0,0], sfx.launch);
+            //this.sound = new SFX(this, [0,0,0], sfx.launch);
         }
     }
 

@@ -6,12 +6,12 @@ class Door extends Entity {
         this.local_position = local_position;
         this.background = new Background(this, [0, -2 + Math.random()*0.3, 0], models.box);
         this.background2 = new Background(this, [0, -2 + Math.random()*0.3, -1], models.box);
-        this.door = new Drawable(this, [0, 0, 0], models.box);
+        this.door = new Drawable(this, [0, 0, 0], models.door);
         this.material = materials.dirt;
         this.door.collider = new Collider(this.door, [0, 0, 0], CollisionLayer.Level, 0.5, 2);
         this.door.position =  [0, 0, 0];
         this.door.local_position =  [0, 0, -0.5];
-        this.door.local_transform.scale([0.5, 2, 2]);
+        //this.door.local_transform.scale([0.5, 2, 2]);
     }
 
     stop_triggering() {

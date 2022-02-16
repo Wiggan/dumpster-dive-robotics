@@ -25,6 +25,11 @@ class DynamicEntity extends Entity {
         vec3.scale(movement, this.velocity, elapsed);
         this.local_transform.translate(movement);
         this.last_movement = movement;
+        if (this.collider) {
+            this.collider.detectCollisions().forEach(other => {
+                this.onCollision(other);
+            });
+        }
         super.update(elapsed, dirty);
     }   
 }

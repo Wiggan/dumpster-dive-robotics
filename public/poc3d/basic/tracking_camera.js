@@ -16,6 +16,7 @@ class TrackingCamera extends Camera {
 
     activate() {
         document.addEventListener("mousemove", active_camera.updatePosition, false);
+        super.activate();
     }
     
     deactivate() {

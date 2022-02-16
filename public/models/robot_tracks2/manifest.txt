@@ -13,9 +13,8 @@ part11.json > alias: Base_05_Cube.019_None
 part12.json > alias: Tracks_05_Cube.017_None
 part13.json > alias: Base_04_Cube.025_None
 part14.json > alias: Tracks_04_Cube.023_None
-part15.json > alias: Base_09_Cube.022_None
-part16.json > alias: Tracks_09_Cube.020_None
-part17.json > alias: Base_08_Cube.028_None
-part18.json > alias: Tracks_08_Cube.026_None
-part19.json > alias: Base_07_Cube.031_None
-part20.json > alias: Tracks_07_Cube.029_None
+part15.json > alias: Body_Cylinder_None
+part16.json > alias: HeadHolder_Cylinder.001_None
+part17.json > alias: Head_Cylinder.002_None
+part18.json > alias: RocketLauncher_Cylinder.003_None
+part19.json > alias: HeadLamp_Cylinder.005_None

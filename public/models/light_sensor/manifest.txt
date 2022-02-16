@@ -1,0 +1,2 @@
+original OBJ file: C:\Users\Fredrik\Documents\dumpster-dive-robotics\public\models\light_sensor\light_sensor.obj
+part1.json > alias: Cube_Cube_Material

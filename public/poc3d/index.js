@@ -2,7 +2,7 @@
 
 // Global variables that are set and used
 // across the application
-let renderer;
+let renderer, debug_camera;
 
 var frame_intervals = [];
 var fps = 0;
@@ -17,6 +17,7 @@ function render() {
         frame_intervals.push(elapsed);
         var throttled_elapsed = Math.min(30, elapsed);
         game.update(throttled_elapsed);
+        debug_camera.update(elapsed);
         then = now;
         game.scene.draw(renderer);
         if (frame_intervals.length == 60) {
@@ -40,6 +41,7 @@ async function init() {
     game = new Game();
     await fetch('/models/levels.json').then(response => response.json()).then(levels => game.loadLevels(levels));
     game.placePlayer([4,0,4]);
+    debug_camera = new DebugCamera([6, 6, 8]);
     active_camera.activate();
 
     render();
