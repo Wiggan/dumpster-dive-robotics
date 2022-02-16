@@ -31,7 +31,7 @@ class Player extends Actor {
         this.base = new Base(this.body);
         this.head = new Head(this.body);
         this.launcher = new Launcher(this.body);
-        this.camera = new TrackingCamera(this, [0, 3, 0]);
+        this.camera = new TrackingCamera(this, [0, 3, 30]);
         this.inventory = [];
 
         this.state_context = {
@@ -165,12 +165,14 @@ class Player extends Actor {
             // TODO play sound
             this.force[0] = this.stats.acceleration;
             this.last_right = Date.now();
+            this.launcher.local_transform.setRoll(0);
         } else {
             if (Date.now() - this.last_left < constants.dash_timing) {
                 this.dash();
             }
             this.force[0] = -this.stats.acceleration;
             this.last_left = Date.now();
+            this.launcher.local_transform.setRoll(180);
         }
     }
 
@@ -221,7 +223,7 @@ class Base extends Entity {
         this.frame_helper -= player.velocity[0] * elapsed;
         this.frame_index = Math.floor((this.frame_helper * this.frame_scaler) % frames);
         if (this.frame_index < 0) this.frame_index += frames;
-        console.log(this.frame_index);
+        //console.log(this.frame_index);
         this.tracks.model = models.player.base.track_frames[this.frame_index];
         this.base.model = models.player.base.base_frames[this.frame_index];
         super.update(elapsed, dirty);
@@ -237,18 +239,21 @@ class Body extends Drawable {
     }
 }
 
-class Head extends Drawable {
+class Head extends DynamicEntity {
     constructor(parent) {
-        super(parent, [0,0,0], models.player.head_holder);
-        this.material = materials.player;
-        this.head = new Drawable(this, [0,0,0], models.player.head);
-        this.head.material = materials.player;
+        super(parent, [0,0,0]);
+        this.head_holder = new Drawable(this, [0,0,0], models.player.head_holder);
+        this.head_holder.material = materials.player;
+        this.head = new DynamicEntity(this, [0, 0, -0.689898]);
+        this.head.rotation_speed = 2;
+        this.head.drawable = new Drawable(this.head, [0,0,0], models.player.head);
+        this.head.drawable.material = materials.player;
         this.lamp = undefined; //new HeadLamp(this);
     }
 
     update(elapsed, dirty) {
-        super.update(elapsed, dirty);
         this.head.look_at = player.camera.pointing_at;
+        super.update(elapsed, dirty);
     }
 }
 

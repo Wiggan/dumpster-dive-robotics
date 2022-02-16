@@ -40,8 +40,8 @@ async function init() {
     //initMenu();
     game = new Game();
     await fetch('/models/levels.json').then(response => response.json()).then(levels => game.loadLevels(levels));
-    game.placePlayer([4,0,4]);
     debug_camera = new DebugCamera([6, 6, 8]);
+    game.placePlayer([4,0,4]);
     active_camera.activate();
 
     render();

@@ -172,6 +172,7 @@ class EditorCamera extends Camera {
     draw(renderer) {
         this.active_tool.draw(renderer);
         if (debug) {
+            console.log(this.x);
             renderer.add_drawable(models.box, materials.light, this.active_tool.getWorldTransform());
         }
     }

@@ -77,6 +77,11 @@ class Transform {
         this.#pitch = pitch;
     }
 
+    setRoll(delta) {
+        this.#dirty = true;
+        this.#roll = delta;
+    }
+
     roll(delta) {
         this.#dirty = true;
         this.#roll += delta;

@@ -2,7 +2,7 @@
 
 class Block extends Drawable {
     constructor(parent, local_position) {
-        super(parent, [local_position[0], 0, local_position[2]], models.box);
+        super(parent, [local_position[0], 0, local_position[2]], models.background);
         this.local_position = local_position;
         this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Level, 1, 1);
         this.material = materials.dirt;

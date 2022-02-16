@@ -12,7 +12,7 @@ class DynamicEntity extends Entity {
         if (this.look_at) {
             var target_vector = vec3.create();
             vec3.sub(target_vector, this.look_at, position(this.getWorldTransform()));
-            var forward_vector = forward(this.getWorldTransform());
+            var forward_vector = right(this.getWorldTransform());
             var angle = rad2deg(getHorizontalAngle(target_vector, forward_vector));
 
             if (Math.abs(angle) > 0.005) {

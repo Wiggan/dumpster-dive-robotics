@@ -20,7 +20,6 @@ class Rocket extends DynamicEntity {
         this.fire = new Fire(this, [0, 0, 0], fire_dir);
         vec3.normalize(this.velocity, this.velocity);
         vec3.scale(this.velocity, this.velocity, this.stats.speed);
-        console.log(this.velocity);
         this.instigator = instigator;
         this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Projectile, 0.1, 0.1);
         game.scene.entities.push(this);

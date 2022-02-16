@@ -15,8 +15,8 @@ class TrackingCamera extends Camera {
     }
 
     activate() {
-        document.addEventListener("mousemove", active_camera.updatePosition, false);
         super.activate();
+        document.addEventListener("mousemove", active_camera.updatePosition, false);
     }
     
     deactivate() {
@@ -100,7 +100,7 @@ class TrackingCamera extends Camera {
         if (debug) {
             var world_transform = mat4.create();
             mat4.fromTranslation(world_transform, this.pointing_at);
-    
+            console.log(this.x);
             renderer.add_drawable(models.box, materials.light, world_transform);
         }
     }

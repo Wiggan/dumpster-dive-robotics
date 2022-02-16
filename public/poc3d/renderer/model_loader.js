@@ -56,6 +56,7 @@ async function load_model(path) {
 async function load_all_models() {
     materials = await load_materials('/models/materials.json');
     models.box = await load_model('/models/box/part1.json');
+    models.background = await load_model('/models/background/part1.json');
     models.player = {
         base: {
             track_frames: [

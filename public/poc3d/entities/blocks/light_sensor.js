@@ -5,8 +5,7 @@ class LightSensor extends Entity {
         super(parent, local_position);
         this.local_position = local_position;
         this.block = new Block(this, [0, 0, 0], models.box);
-        this.sensor = new Drawable(this, [0, 0, 0], models.light_sensor);
-        this.sensor.local_transform.scale([0.4, 0.4, 0.4]);
+        this.sensor = new Drawable(this, [0, 0, 0.5], models.light_sensor);
         this.sensor.material = materials.metall;
         this.range = 4;
         this.triggee = '';

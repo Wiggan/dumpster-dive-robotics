@@ -1,9 +1,10 @@
 'use strict'
 
-class Launcher extends Drawable {
+class Launcher extends DynamicEntity {
     constructor(parent) {
-        super(parent, [0,0,0], models.player.rocket_launcher);
-        this.material = materials.player;
+        super(parent, [0, 0, 0]);
+        this.drawable = new Drawable(this, [0,0,0], models.player.rocket_launcher);
+        this.drawable.material = materials.player;
         this.lamp = new Drawable(this, [0, 0, 0], models.box);
         this.lamp.material = materials.green_led;
         this.lamp.local_transform.scaleUniform(0.05);
@@ -21,8 +22,6 @@ class Launcher extends Drawable {
             vec3.scale(f, f, 0.3);
             vec3.add(pos, pos, f);
             vec3.add(pos, pos, [0, 0, -0.5]);
-
-
 
             new Rocket(pos, f, 0.01, player);
             this.cooldown = this.stats.cooldown;
