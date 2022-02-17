@@ -16,7 +16,7 @@ function render() {
         now = Date.now();
         var elapsed = now - then;
         frame_intervals.push(elapsed);
-        if (player) {
+        if (player || game.scene.particles) {
             game.update(Math.min(elapsed, 30));
         } else {
             game.update(0);
@@ -139,6 +139,8 @@ function initControls() {
         material.add(value, 'shininess', 1, 50, 0.1);
         material.add(value, 'isLight');
     }
+
+
 
 }
 

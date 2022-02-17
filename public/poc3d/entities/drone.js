@@ -1,6 +1,6 @@
 'use strict'
 
-class Drone extends Pickable {
+class Drone extends Actor {
     constructor(parent, position) {
         super(null, position);
         this.position = position;
@@ -40,6 +40,8 @@ class Drone extends Pickable {
         this.health = Math.max(0, this.health - amount);
         if (this.health == 0) {
             game.scene.remove(this);
+            game.scene.colliders.splice(game.scene.colliders.lastIndexOf(this.collider), 1);
+            
             game.scene.entities.push(new FirePuff(null, this.getWorldPosition(), [0, 1, 0]));
             game.scene.entities.push(new Smoke(null, this.getWorldPosition()));
         }

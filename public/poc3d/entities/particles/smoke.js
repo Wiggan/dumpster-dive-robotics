@@ -1,7 +1,7 @@
 class Smoke extends ParticleSystem {
-    constructor(parent, local_position) {
+    constructor(parent, local_position, direction) {
         super(parent, local_position);
-        this.direction = [0, 1, 0];
+        this.direction = direction || [0, 1, 0];
         this.continuous = false;
         this.spread = 0.24;
         this.min_speed = 0.0004;

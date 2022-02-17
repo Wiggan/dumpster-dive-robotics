@@ -40,10 +40,6 @@ class Player extends Actor {
         
         this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Player, 0.9, 0.9);
 
-/*         this.sockets = {
-            left_arm: new Entity(this.body, [-0.4,0.8,0]),
-            right_arm: new Entity(this.body, [0.4,0.8,0])
-        } */
         this.groundCollider.type = CollisionLayer.Player;
         this.stats = JSON.parse(JSON.stringify(original_stats));
         this.last_right = 0;
@@ -181,7 +177,6 @@ class Player extends Actor {
 
     update(elapsed, dirty) {
         super.update(elapsed, dirty);
-        console.log(this.children.length);
         if (Math.abs(this.velocity[0]) < 0.001) {
             if (this.moving_sound) {
                 this.moving_sound.stop();
@@ -285,7 +280,8 @@ class Head extends DynamicEntity {
     }
 
     update(elapsed, dirty) {
-        this.head.look_at = player.camera.pointing_at;
+        //this.head.look_at = player.camera.pointing_at;
+        this.head.lookAtInstantly(player.camera.pointing_at);
         super.update(elapsed, dirty);
     }
 }

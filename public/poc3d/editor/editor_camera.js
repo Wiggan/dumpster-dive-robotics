@@ -97,21 +97,52 @@ class EditorCamera extends Camera {
             this.active_tool = this.tools[2];
         } else if (e.key == 'z' && e.ctrlKey) {
             this.undo();
-        } else if (e.key == 'p') {
-            game.placePlayer(this.active_tool.getWorldPosition());
-            player.camera.activate();
-            
-            gui.player = gui.addFolder('Player');
-            gui.player.add(player.stats, 'movement_speed', 0.0001, 0.1, 0.000001);
-            gui.player.add(player.stats, 'acceleration', 0.0001, 0.1, 0.000001);
-            gui.player.add(player.stats, 'jump_speed', 0.00001, 0.1, 0.000001);
-            gui.player.add(constants, 'gravity', 0, 0.0001, 0.000001);
-            gui.player.add(constants, 'dash_timing', 50, 500, 10);
-            gui.player.add(constants, 'dash_duration', 100, 2000, 100);
-            gui.player.add(constants, 'dash_cooldown', 100, 2000, 100);
-            gui.player.open();
+        } else if (e.key == 'p' || e.key == 'P') {
+            if (e.shiftKey) {
+                game.scene.particles = new ParticleSystem(null, this.active_tool.getWorldPosition());
+                game.scene.particles.setParticleCount(20);
+                game.scene.entities.push(game.scene.particles);
+                var particle = gui.addFolder('ParticleSystem');
+                particle.add(game.scene.particles, 'particle_count', 1, 50, 1).onChange(v => game.scene.particles.setParticleCount(v));
+                particle.add(game.scene.particles, 'spread', 0, 1, 0.01);
+                particle.add(game.scene.particles, 'particle_life_time', 0, 5000, 10);
+                particle.add(game.scene.particles, 'min_speed', 0, 0.01, 0.0001);
+                particle.add(game.scene.particles, 'max_speed', 0, 0.01, 0.0001);
+                particle.add(game.scene.particles, 'continuous');
+                particle.add(game.scene.particles, 'start_randomly');
+                ['start', 'stop'].forEach(folderName => {
+                    var folder = particle.addFolder(folderName);
+                    folder.add(game.scene.particles[folderName], 'scale', 0, 1, 0.001);
+                    const c = {};
+                    c.color = denormalizeColor(game.scene.particles[folderName].color);
+                    folder.addColor(c, 'color').onChange(v => game.scene.particles[folderName].color = normalizeColor(v));
+                });
+                var direction = particle.addFolder('direction');
+                Object.keys(game.scene.particles.direction).forEach((k) => {
+                    direction.add(game.scene.particles.direction, k).onChange((v) => {
+                        game.scene.particles.direction[Number(k)] = v;
+                    });
+                });
+                game.paused = false;
 
-            game.paused = false;
+            } else {
+                game.placePlayer(this.active_tool.getWorldPosition());
+                player.camera.activate();
+                
+                gui.player = gui.addFolder('Player');
+                gui.player.add(player.stats, 'movement_speed', 0.0001, 0.1, 0.000001);
+                gui.player.add(player.stats, 'acceleration', 0.0001, 0.1, 0.000001);
+                gui.player.add(player.stats, 'jump_speed', 0.00001, 0.1, 0.000001);
+                gui.player.add(constants, 'gravity', 0, 0.0001, 0.000001);
+                gui.player.add(constants, 'dash_timing', 50, 500, 10);
+                gui.player.add(constants, 'dash_duration', 100, 2000, 100);
+                gui.player.add(constants, 'dash_cooldown', 100, 2000, 100);
+                gui.player.open();
+    
+                game.paused = false;
+
+            }
+            
         }
         var original_json = JSON.stringify(game.scene);
         this.active_tool.onKeyDown(e);

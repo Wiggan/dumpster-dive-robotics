@@ -14,13 +14,27 @@ class ParticleSystem extends Entity {
         this.start = {color: [1.0, 0.0, 0.0], scale: 0.1};
         this.stop = {color: [1.0, 0.6, 0.0], scale: 0};
     }
+    
+
+    toJSON(key) {
+        return {
+        };
+    }
 
     setParticleCount(count) {
+        var lookat = vec3.clone(this.direction);
+        vec3.scale(lookat, lookat, -10000);
+        vec3.add(lookat, lookat, this.getWorldPosition());
+        this.lookAtInstantly(lookat);
         this.particle_count = count;
         this.children.length = 0;
         for (var i = 0; i < this.particle_count; i++) {
             new Particle(this, this.getWorldPosition());
         }
+    }
+
+    update(elapsed, dirty) {
+        super.update(elapsed, dirty);
     }
 
     draw(renderer) {

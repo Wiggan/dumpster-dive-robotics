@@ -29,6 +29,9 @@ class Scene extends Entity {
     }
 
     remove(object) {
+/*         object.getColliders().forEach(collider => {
+            this.colliders.splice(game.scene.colliders.lastIndexOf(collider), 1);
+        }); */
         this.entities.splice(game.scene.entities.lastIndexOf(object), 1);
     }
 

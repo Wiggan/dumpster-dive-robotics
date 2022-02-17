@@ -3,8 +3,6 @@
 class Rocket extends DynamicEntity {
     constructor(position, forward, speed, instigator) {
         super(null, position);
-        //this.local_transform.yaw(yaw);
-        //this.lookAtInstantly(forward);
         this.drawable = new Drawable(this, [0, 0, 0], models.ball);
         this.drawable.material = materials.metall;
         
@@ -13,7 +11,7 @@ class Rocket extends DynamicEntity {
             life_time: 1000,
             speed: speed
         }
-        this.velocity = forward; //forward(this.local_transform.get());
+        this.velocity = forward;
         var fire_dir = vec3.clone(this.velocity);
         vec3.scale(fire_dir, fire_dir, -1);
         vec3.normalize(fire_dir, fire_dir);
@@ -36,22 +34,23 @@ class Rocket extends DynamicEntity {
     }
 
     explode() {
-        game.scene.remove(this);
         var direction = vec3.clone(this.velocity);
         vec3.scale(direction, direction, -1);
         vec3.normalize(direction, direction);
+        console.log(direction);
         game.scene.entities.push(new FirePuff(null, this.getWorldPosition(), direction));
-        game.scene.entities.push(new Smoke(null, this.getWorldPosition()));
+        game.scene.entities.push(new Smoke(null, this.getWorldPosition(), direction));
         this.sound.stop();
         this.sound = new SFX(this, [0,0,0], sfx.rocket_exploding);
+        game.scene.remove(this);
     }
 
     onCollision(other) {
         if (other.parent != this.instigator && other.type != CollisionLayer.Projectile) {
-            this.explode();
-            if (other.type == CollisionLayer.Actor) {
+            if (other.type == CollisionLayer.Enemy) {
                 other.parent.takeDamage(this.dmg);
             }
+            this.explode();
         }
     }
 }

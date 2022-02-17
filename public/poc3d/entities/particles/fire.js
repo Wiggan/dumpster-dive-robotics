@@ -3,7 +3,7 @@
 class FirePuff extends ParticleSystem {
     constructor(parent, local_position, direction) {
         super(parent, local_position);
-        this.direction = direction;
+        this.direction = direction || [0,1,0];
         this.continuous = false;
         this.spread = 0.3;
         this.min_speed = 0.0005;
@@ -20,7 +20,7 @@ class FirePuff extends ParticleSystem {
 class Fire extends ParticleSystem {
     constructor(parent, local_position, direction) {
         super(parent, local_position);
-        this.direction = direction;
+        this.direction = direction || [0,1,0];
         this.continuous = true;
         this.spread = 0.3;
         this.min_speed = 0.0005;

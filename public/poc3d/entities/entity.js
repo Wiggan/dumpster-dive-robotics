@@ -55,7 +55,7 @@ class Entity {
         this.look_at = point;
         var target_vector = vec3.create();
         vec3.sub(target_vector, this.look_at, position(this.getWorldTransform()));
-        var forward_vector = forward(this.getWorldTransform());
+        var forward_vector = right(this.getWorldTransform());
         var angle = rad2deg(getHorizontalAngle(target_vector, forward_vector));
         // This does not work for robot.body...
         this.local_transform.yaw(angle);
