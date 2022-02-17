@@ -46,6 +46,9 @@ class Player extends Actor {
         this.last_left = 0;
         this.dash_on_cooldown = false;
         this.jump_on_cooldown = false;
+        this.dmg_on_cooldown = false;
+        this.max_health = 3;
+        this.health = 3;
     }
 
     toJSON(key) {
@@ -189,6 +192,23 @@ class Player extends Actor {
             this.moving_sound.setRate(Math.abs(this.velocity[0])/original_stats.movement_speed);
         }
     }
+
+    takeDamage(amount, instigator) {
+        if (!this.dmg_on_cooldown) {
+            console.log('Player taking dmg');
+            super.takeDamage(amount, instigator);
+            if (this.getWorldPosition()[0] < instigator.getWorldPosition()[0]) {
+                this.velocity = [-0.004, 0, -0.02];
+            } else {
+                this.velocity = [0.004, 0, -0.02];
+            }
+            this.dmg_on_cooldown = true;
+            window.setTimeout(() => {
+                console.log("Dmg cooldown ended!");
+                this.dmg_on_cooldown = false;
+            }, constants.dmg_cooldown);
+        }
+    }
 }
 
 class BodyLamp extends Drawable {
@@ -280,8 +300,7 @@ class Head extends DynamicEntity {
     }
 
     update(elapsed, dirty) {
-        //this.head.look_at = player.camera.pointing_at;
-        this.head.lookAtInstantly(player.camera.pointing_at);
+        this.head.look_at = player.camera.pointing_at;
         super.update(elapsed, dirty);
     }
 }

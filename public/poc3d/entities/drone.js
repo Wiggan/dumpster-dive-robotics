@@ -17,14 +17,13 @@ class Drone extends Actor {
         this.fire = new Fire(this, [0, 0.5, 0]);
         this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Enemy, 0.4, 0.4);
         this.name = "Drone";
-        this.max_health = 50;
-        this.health = 50;
         this.patrol_position = vec3.clone(this.position);
         this.target_position = this.patrol_position;
         this.tolerance = 0.1;
         this.stats = {
             movement_speed: 0.001
         };
+        this.dmg = 1;
     }
     
     toJSON(key) {
@@ -32,18 +31,6 @@ class Drone extends Actor {
             class: 'Drone',
             local_position: this.position,
             patrol_position: this.patrol_position
-        }
-    }
-
-
-    takeDamage(amount) {
-        this.health = Math.max(0, this.health - amount);
-        if (this.health == 0) {
-            game.scene.remove(this);
-            game.scene.colliders.splice(game.scene.colliders.lastIndexOf(this.collider), 1);
-            
-            game.scene.entities.push(new FirePuff(null, this.getWorldPosition(), [0, 1, 0]));
-            game.scene.entities.push(new Smoke(null, this.getWorldPosition()));
         }
     }
 

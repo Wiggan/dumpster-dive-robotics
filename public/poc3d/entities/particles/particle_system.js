@@ -23,7 +23,7 @@ class ParticleSystem extends Entity {
 
     setParticleCount(count) {
         var lookat = vec3.clone(this.direction);
-        vec3.scale(lookat, lookat, -10000);
+        vec3.scale(lookat, lookat, -1);
         vec3.add(lookat, lookat, this.getWorldPosition());
         this.lookAtInstantly(lookat);
         this.particle_count = count;

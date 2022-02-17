@@ -17,6 +17,8 @@ class Actor extends Entity {
         this.groundCollider = new Collider(this, [0, 0, 0.55 ], CollisionLayer.Trigger, 0.8, 0.1);
         this.force[2] = constants.gravity;
         this.last_grounded = Date.now();
+        this.max_health = 2;
+        this.health = 2;
     }
 
     checkIfGrounded() {
@@ -79,6 +81,10 @@ class Actor extends Entity {
                         this.collider.update(0, true);
                     } else if (other.type == CollisionLayer.Trigger) {
                         other.parent.onCollision(this);
+                    } else if (other.type == CollisionLayer.Enemy) {
+                        if (this.collider.type == CollisionLayer.Player) {
+                            this.takeDamage(other.parent.dmg, other.parent)
+                        }
                     }
                 });
             }
@@ -108,6 +114,17 @@ class Actor extends Entity {
         } else {
             position[2] = other.getTop() - this.collider.half_height*1.01;
             this.local_transform.setPosition(position);
+        }
+    }
+    
+    takeDamage(amount, instigator) {
+        this.health = Math.max(0, this.health - amount);
+        if (this.health == 0) {
+            game.scene.remove(this);
+            game.scene.colliders.splice(game.scene.colliders.lastIndexOf(this.collider), 1);
+            
+            game.scene.entities.push(new FirePuff(null, this.getWorldPosition(), [0, 1, 0]));
+            game.scene.entities.push(new Smoke(null, this.getWorldPosition()));
         }
     }
 }
