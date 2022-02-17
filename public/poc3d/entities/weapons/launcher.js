@@ -26,7 +26,7 @@ class Launcher extends DynamicEntity {
             new Rocket(pos, f, 0.01, player);
             this.cooldown = this.stats.cooldown;
             this.lamp.material = materials.red_led;
-            //this.sound = new SFX(this, [0,0,0], sfx.launch);
+            this.sound = new SFX(this, [0,0,0], sfx.launch);
         }
     }
 

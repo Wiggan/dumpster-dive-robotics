@@ -7,11 +7,25 @@ var music;
 function load_all_sounds() {
     sfx = {
         launch: [
+            new Howl({ src: ['/sfx/ddr_sfx - 01 Start - rocket_launching.ogg']}),
+            new Howl({ src: ['/sfx/ddr_sfx - 02 - rocket_launching.ogg']}),
+            new Howl({ src: ['/sfx/ddr_sfx - 03 - rocket_launching.ogg']}),
         ],
         rocket_exploding: [
+            new Howl({ src: ['/sfx/ddr_sfx - 01 Start - rocket_exploding.ogg']}),
+            new Howl({ src: ['/sfx/ddr_sfx - 02 - rocket_exploding.ogg']}),
+            new Howl({ src: ['/sfx/ddr_sfx - 03 - rocket_exploding.ogg']}),
         ],
         rocket_flying: [
-        ]
+            new Howl({ src: ['/sfx/ddr_sfx - 01 Start - rocket_flying.ogg']}),
+            new Howl({ src: ['/sfx/ddr_sfx - 02 - rocket_flying.ogg']}),
+            new Howl({ src: ['/sfx/ddr_sfx - 03 - rocket_flying.ogg']}),
+        ],
+        player: {
+            moving: [new Howl({ src: ['/sfx/ddr_sfx - 01 Start - moving.ogg'], loop: true})],
+            moving_faster: [new Howl({ src: ['/sfx/ddr_sfx - 02 - moving.ogg'], loop: true})],
+            dash: [new Howl({ src: ['/sfx/ddr_sfx - 01 Start - dash.ogg']})],
+        }
     }
 
     music = {
@@ -38,8 +52,17 @@ class SFX extends Entity {
         }
     }
 
+    remove() {
+        this.parent.removeChild(this);
+    }
+
+    setRate(rate) {
+        this.sound.rate(rate, this.id);
+    }
+
     stop() {
         this.sound.stop(this.id);
+        this.remove();
     }
 }
 

@@ -24,7 +24,7 @@ class Rocket extends DynamicEntity {
         this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Projectile, 0.1, 0.1);
         game.scene.entities.push(this);
         this.dmg = 20;
-        //this.sound = new SFX(this, [0,0,0], sfx.rocket_flying);
+        this.sound = new SFX(this, [0,0,0], sfx.rocket_flying);
     }
 
     update(elapsed, dirty) {
@@ -42,8 +42,8 @@ class Rocket extends DynamicEntity {
         vec3.normalize(direction, direction);
         game.scene.entities.push(new FirePuff(null, this.getWorldPosition(), direction));
         game.scene.entities.push(new Smoke(null, this.getWorldPosition()));
-        //this.sound.stop();
-        //this.sound = new SFX(this, [0,0,0], sfx.rocket_exploding);
+        this.sound.stop();
+        this.sound = new SFX(this, [0,0,0], sfx.rocket_exploding);
     }
 
     onCollision(other) {

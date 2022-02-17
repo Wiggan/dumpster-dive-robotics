@@ -142,7 +142,7 @@ class Player extends Actor {
     dash() {
         if (!this.dash_on_cooldown) {
             console.log("Dashing!");
-            // TODO play sound
+            new SFX(this, [0,0,0], sfx.player.dash);
             this.dash_on_cooldown = true;
             this.stats.movement_speed *= 2;
             this.stats.acceleration *= 2;
@@ -179,6 +179,22 @@ class Player extends Actor {
     endMovement(right) {
         this.force[0] = right ? Math.min(0, this.force[0]) : Math.max(0, this.force[0]);
         this.velocity[0] = right ? Math.min(0, this.velocity[0]) : Math.max(0, this.velocity[0]);
+    }
+
+    update(elapsed, dirty) {
+        super.update(elapsed, dirty);
+        console.log(this.children.length);
+        if (Math.abs(this.velocity[0]) < 0.001) {
+            if (this.moving_sound) {
+                this.moving_sound.stop();
+                this.moving_sound = undefined;
+            }
+        } else {
+            if (!this.moving_sound) this.moving_sound = new SFX(this, [0, 0, 0], sfx.player.moving);
+        }
+        if (this.moving_sound) {
+            this.moving_sound.setRate(Math.abs(this.velocity[0])/original_stats.movement_speed);
+        }
     }
 }
 
