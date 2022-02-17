@@ -5,9 +5,9 @@ class Launcher extends DynamicEntity {
         super(parent, [0, 0, 0]);
         this.drawable = new Drawable(this, [0,0,0], models.player.rocket_launcher);
         this.drawable.material = materials.player;
-        this.lamp = new Drawable(this, [0, 0, 0], models.box);
+        this.lamp = new Drawable(this, [0, 0, -0.50], models.box);
         this.lamp.material = materials.green_led;
-        this.lamp.local_transform.scaleUniform(0.05);
+        this.lamp.local_transform.scale([0.015, 0.38, 0.015]);
         this.stats = {
             damage: 1,
             cooldown: 500

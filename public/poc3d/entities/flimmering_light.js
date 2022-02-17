@@ -27,6 +27,11 @@ class FlimmeringLight extends Drawable {
         if (Math.random() < 0.05) {
             this.light.active = !this.light.active;
         }
+        if (this.light.active) {
+            this.material = materials.light;
+        } else {
+            this.material = materials.light_inactive;
+        }
         super.update(elapsed, dirty);
     }
 }

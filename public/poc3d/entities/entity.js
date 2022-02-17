@@ -78,6 +78,9 @@ class Entity {
             }
         }
         this.children.forEach(child => child.update(elapsed, dirty));
+        if (this.children.length > 100) {
+            console.log("Many children: " + this.children.length);
+        }
     }
 
     makePickable() {

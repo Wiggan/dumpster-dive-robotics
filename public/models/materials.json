@@ -172,9 +172,9 @@
     },
     "light_inactive": {
         "diffuse": [
-            0.1,
-            0.1,
-            0.5
+            0.7941176470588236,
+            0.7730510889476898,
+            0.43598615916955025
         ],
         "ambient": [
             0.6,
@@ -187,7 +187,7 @@
             0.8
         ],
         "shininess": 24,
-        "isLight": true
+        "isLight": false
     },
     "red_led": {
         "diffuse": [

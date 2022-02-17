@@ -229,6 +229,12 @@ class Base extends Entity {
         this.tracks.material = materials.rubber;
         this.base.material = materials.player;
         
+        this.dash_led = new Drawable(this, [0.1, 0, -0.20], models.box);
+        this.dash_led.material = materials.green_led;
+        this.dash_led.local_transform.scale([0.015, 0.28, 0.015]);
+        this.jump_led = new Drawable(this, [-0.1, 0, -0.20], models.box);
+        this.jump_led.material = materials.green_led;
+        this.jump_led.local_transform.scale([0.015, 0.28, 0.015]);
     }
 
 
@@ -242,6 +248,19 @@ class Base extends Entity {
         //console.log(this.frame_index);
         this.tracks.model = models.player.base.track_frames[this.frame_index];
         this.base.model = models.player.base.base_frames[this.frame_index];
+
+        // Update leds
+        if (player.dash_on_cooldown) {
+            this.dash_led.material = materials.red_led;
+        } else {
+            this.dash_led.material = materials.green_led;
+        }
+        if (player.jump_on_cooldown) {
+            this.jump_led.material = materials.red_led;
+        } else {
+            this.jump_led.material = materials.green_led;
+        }
+
         super.update(elapsed, dirty);
     }
 }
