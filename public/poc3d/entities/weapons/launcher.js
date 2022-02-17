@@ -31,6 +31,13 @@ class Launcher extends DynamicEntity {
     }
 
     update(elapsed, dirty) {
+        // Update direction based on pointer
+        if (player.camera.pointing_at[0] < this.getWorldPosition()[0]) {
+            this.local_transform.setRoll(180);
+        } else {
+            this.local_transform.setRoll(0);
+        }
+
         this.cooldown = Math.max(0, this.cooldown - elapsed);
         if (this.cooldown == 0) {
             this.lamp.material = materials.green_led;

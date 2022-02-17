@@ -165,14 +165,12 @@ class Player extends Actor {
             // TODO play sound
             this.force[0] = this.stats.acceleration;
             this.last_right = Date.now();
-            this.launcher.local_transform.setRoll(0);
         } else {
             if (Date.now() - this.last_left < constants.dash_timing) {
                 this.dash();
             }
             this.force[0] = -this.stats.acceleration;
             this.last_left = Date.now();
-            this.launcher.local_transform.setRoll(180);
         }
     }
 
@@ -280,7 +278,7 @@ class Head extends DynamicEntity {
         this.head_holder = new Drawable(this, [0,0,0], models.player.head_holder);
         this.head_holder.material = materials.player;
         this.head = new DynamicEntity(this, [0, 0, -0.689898]);
-        this.head.rotation_speed = 2;
+        this.head.rotation_speed = 0.2;
         this.head.drawable = new Drawable(this.head, [0,0,0], models.player.head);
         this.head.drawable.material = materials.player;
         this.lamp = undefined; //new HeadLamp(this);
