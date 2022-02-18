@@ -4,6 +4,7 @@ class ObjectTool extends Tool {
     constructor() {
         super();
         this.objects = [
+            new VacuumFan(null, [0, 0, 0]),
             new Drone(null, [0, 0, 0]),
             new CameraAnchor(null, [0, 10, 0]),
             new FlimmeringLight(null, [0, 0, 0]),

@@ -52,6 +52,10 @@ function up(transform) {
     return [transform[4], transform[5], transform[6]];
 }
 
+function down(transform) {
+    return [-transform[4], -transform[5], -transform[6]];
+}
+
 function position(transform) {
     return [transform[12], transform[13], transform[14]];
 }

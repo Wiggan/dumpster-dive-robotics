@@ -20,18 +20,6 @@ class Actor extends Entity {
 
     update(elapsed, dirty) {
         dirty |= this.local_transform.isDirty();
-        if (this.look_at) {
-            var target_vector = vec3.create();
-            vec3.sub(target_vector, this.look_at, position(this.getWorldTransform()));
-            var forward_vector = forward(this.getWorldTransform());
-            var angle = rad2deg(getHorizontalAngle(target_vector, forward_vector));
-
-            if (Math.abs(angle) > 0.005) {
-                var angle_increment = Math.sign(angle) * Math.min(Math.abs(angle), this.rotation_speed * elapsed);
-                this.local_transform.yaw(angle_increment);
-                dirty = true;
-            }
-        }
 
         const indices = [0, 2];
         indices.forEach(i => {
