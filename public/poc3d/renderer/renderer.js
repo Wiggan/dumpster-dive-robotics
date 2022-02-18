@@ -182,19 +182,21 @@ class Renderer {
 
 
     validateSize() {
+        var width = gl.canvas.width;
+        var height = gl.canvas.height;
         // 1. Resize Color Texture
         for (var i = 0; i < 2; i++) {
             gl.bindTexture(gl.TEXTURE_2D, this.offscreenTextures[i]);
-            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.canvas.width, gl.canvas.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
         }
         for (var i = 0; i < 2; i++) {
             gl.bindTexture(gl.TEXTURE_2D, this.pingpongTextures[i]);
-            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.canvas.width, gl.canvas.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
         }
 
         // 2. Resize Render Buffer
         gl.bindRenderbuffer(gl.RENDERBUFFER, this.renderbuffer);
-        gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, gl.canvas.width, gl.canvas.height);
+        gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, width, height);
 
         // 3. Clean up
         gl.bindTexture(gl.TEXTURE_2D, null);

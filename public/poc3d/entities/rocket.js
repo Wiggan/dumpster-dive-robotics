@@ -9,7 +9,8 @@ class Rocket extends DynamicEntity {
         this.elapsed = 0;
         this.stats = {
             life_time: 1000,
-            speed: speed
+            speed: speed,
+            dmg: 1
         }
         this.velocity = forward;
         var fire_dir = vec3.clone(this.velocity);
@@ -21,7 +22,6 @@ class Rocket extends DynamicEntity {
         this.instigator = instigator;
         this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Projectile, 0.1, 0.1);
         game.scene.entities.push(this);
-        this.dmg = 1;
         this.sound = new SFX(this, [0,0,0], sfx.rocket_flying);
     }
 
@@ -48,7 +48,7 @@ class Rocket extends DynamicEntity {
     onCollision(other) {
         if (other.parent != this.instigator && other.type != CollisionLayer.Projectile) {
             if (other.type == CollisionLayer.Enemy) {
-                other.parent.takeDamage(this.dmg, this.instigator);
+                other.parent.takeDamage(this.stats.dmg, this.instigator);
             }
             this.explode();
         }

@@ -13,39 +13,12 @@ class Actor extends Entity {
             pickup_range: 1,
             attack_range: 1
         };
-        this.onGround = false;
-        this.groundCollider = new Collider(this, [0, 0, 0.55 ], CollisionLayer.Trigger, 0.8, 0.1);
-        this.force[2] = constants.gravity;
-        this.last_grounded = Date.now();
         this.max_health = 2;
         this.health = 2;
     }
 
-    checkIfGrounded() {
-        var grounded = this.groundCollider.detectCollisions().filter(other => {
-            return other.type == CollisionLayer.Level
-        }).length != 0;
-
-        // Save last time when actor was grounded
-        if (this.onGround && !grounded) {
-            this.last_grounded = Date.now();
-        }
-        return grounded;
-    }
 
     update(elapsed, dirty) {
-        this.force[2] = constants.gravity;
-        this.onGround = this.checkIfGrounded();
-
-        // Accelerate
-        var at = vec3.create();
-        vec3.scale(at, this.force, elapsed);
-        vec3.add(this.velocity, this.velocity, at);
-
-        // Limit velocities
-        this.velocity[0] = Math.min(this.stats.movement_speed, Math.max(-this.stats.movement_speed, this.velocity[0]));
-        this.velocity[2] = Math.min(this.stats.jump_speed, Math.max(-this.stats.jump_speed, this.velocity[2]));
-
         dirty |= this.local_transform.isDirty();
         if (this.look_at) {
             var target_vector = vec3.create();
@@ -83,7 +56,7 @@ class Actor extends Entity {
                         other.parent.onCollision(this);
                     } else if (other.type == CollisionLayer.Enemy) {
                         if (this.collider.type == CollisionLayer.Player) {
-                            this.takeDamage(other.parent.dmg, other.parent)
+                            this.takeDamage(other.parent.stats.dmg, other.parent)
                         }
                     }
                 });

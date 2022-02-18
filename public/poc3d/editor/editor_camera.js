@@ -194,7 +194,11 @@ class EditorCamera extends Camera {
         var p2 = getScreenSpaceToWorldLocation([this.x, this.y, 100]);
         var intersection = getHorizontalIntersection(p1, p2, 0);
         if (Number.isFinite(intersection[0]) && Number.isFinite(intersection[1]) && Number.isFinite(intersection[2])) {
-            this.active_tool.setPosition(intersection);
+            if (alt_pressed) {
+                this.active_tool.setPosition(snapToGrid(intersection));
+            } else {
+                this.active_tool.setPosition(intersection);
+            }
         }
         this.active_tool.update(elapsed, dirty);
         super.update(elapsed, dirty);

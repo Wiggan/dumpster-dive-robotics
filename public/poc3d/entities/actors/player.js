@@ -40,7 +40,6 @@ class Player extends Actor {
         
         this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Player, 0.9, 0.9);
 
-        this.groundCollider.type = CollisionLayer.Player;
         this.stats = JSON.parse(JSON.stringify(original_stats));
         this.last_right = 0;
         this.last_left = 0;
@@ -49,6 +48,11 @@ class Player extends Actor {
         this.dmg_on_cooldown = false;
         this.max_health = 3;
         this.health = 3;
+        
+        this.onGround = false;
+        this.groundCollider = new Collider(this, [0, 0, 0.55 ], CollisionLayer.Player, 0.8, 0.1);
+        this.force[2] = constants.gravity;
+        this.last_grounded = Date.now();
     }
 
     toJSON(key) {
@@ -75,6 +79,20 @@ class Player extends Actor {
         this.inventory.push(item);
         this.updateStats();
     }
+
+    
+    checkIfGrounded() {
+        var grounded = this.groundCollider.detectCollisions().filter(other => {
+            return other.type == CollisionLayer.Level
+        }).length != 0;
+
+        // Save last time when actor was grounded
+        if (this.onGround && !grounded) {
+            this.last_grounded = Date.now();
+        }
+        return grounded;
+    }
+
 
     left_click(point, object) {
         //this.base.frame_index++;
@@ -179,6 +197,19 @@ class Player extends Actor {
     }
 
     update(elapsed, dirty) {
+                
+        this.force[2] = constants.gravity;
+        this.onGround = this.checkIfGrounded();
+
+        // Accelerate
+        var at = vec3.create();
+        vec3.scale(at, this.force, elapsed);
+        vec3.add(this.velocity, this.velocity, at);
+
+        // Limit velocities
+        this.velocity[0] = Math.min(this.stats.movement_speed, Math.max(-this.stats.movement_speed, this.velocity[0]));
+        this.velocity[2] = Math.min(this.stats.jump_speed, Math.max(-this.stats.jump_speed, this.velocity[2]));
+        
         super.update(elapsed, dirty);
         if (Math.abs(this.velocity[0]) < 0.001) {
             if (this.moving_sound) {

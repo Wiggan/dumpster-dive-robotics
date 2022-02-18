@@ -7,49 +7,30 @@ class Drone extends Actor {
         this.type = PickableType.Enemy;
         this.body = new Drawable(this, [0, 0, 0], models.box);
         this.lamp = new Drawable(this, [0, 0, 0], models.box);
-        this.body.local_transform.yaw(90);
-        this.lamp.local_transform.yaw(90);
         this.lamp.material = materials.red_led;
         this.lamp.id = this.id;
         this.body.material = materials.player;
         this.body.id = this.id;
-        this.local_transform.yaw(Math.random()*360);
         this.fire = new Fire(this, [0, 0.5, 0]);
         this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Enemy, 0.4, 0.4);
-        this.name = "Drone";
-        this.patrol_position = vec3.clone(this.position);
-        this.target_position = this.patrol_position;
         this.tolerance = 0.1;
         this.stats = {
-            movement_speed: 0.001
+            movement_speed: 0.001,
+            dmg: 1
         };
-        this.dmg = 1;
+        this.strategy = new PatrolStrategy(this);
     }
     
     toJSON(key) {
         return {
             class: 'Drone',
+            strategy: this.strategy,
             local_position: this.position,
-            patrol_position: this.patrol_position
         }
     }
 
     update(elapsed, dirty) {
-        if (this.patrol_position) {
-            if (!this.velocity) {
-                this.velocity = vec3.create();
-            }
-            this.look_at = this.target_position;
-            vec3.scale(this.velocity, forward(this.getWorldTransform()), this.stats.movement_speed);
-            if(vec3.dist(this.target_position, this.getWorldPosition()) < this.tolerance) {
-                if (this.target_position == this.position) {
-                    this.target_position = this.patrol_position;
-                } else {
-                    this.target_position = this.position;
-                }
-            }
-        }
-        dirty = true;
+        dirty |= this.strategy.update(elapsed);
         super.update(elapsed, dirty);
         var pos = vec3.create();
         vec3.add(pos, this.getLocalPosition(), [0, Math.sin(Date.now()*0.005)*0.005, 0]);

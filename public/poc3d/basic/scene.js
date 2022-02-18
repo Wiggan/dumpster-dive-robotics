@@ -14,6 +14,9 @@ class Scene extends Entity {
                 e = Object.assign(e, entity);
                 this.entity_uuid_map.set(e.uuid, e);
                 this.colliders.push(...e.getColliders());
+                if (e.strategy) {
+                    e.strategy = Object.assign(new classes[entity.strategy.class](e), entity.strategy);
+                }
                 return e;
             }
         })

@@ -9,7 +9,6 @@ class Launcher extends DynamicEntity {
         this.lamp.material = materials.green_led;
         this.lamp.local_transform.scale([0.015, 0.38, 0.015]);
         this.stats = {
-            damage: 1,
             cooldown: 500
         }
         this.cooldown = 0;

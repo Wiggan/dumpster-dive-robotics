@@ -99,6 +99,18 @@ class Tool extends Entity {
                         });
                     });
                     posFolder.open();
+                } else if (key == 'strategy') {
+                    var posFolder = selected_gui.addFolder(key);
+                    if (persistent.strategy.toJSON().class == 'PatrolStrategy') {
+                        persistent.strategy.patrol_points.forEach((point, i) => {
+                            var local_position = Object.assign({}, point);
+                            Object.keys(local_position).forEach((k) => {
+                                posFolder.add(local_position, k).onChange((v) => {
+                                    selected_entities[0].strategy.patrol_points[i][Number(k)] = v;
+                                });
+                            });
+                        })
+                    }
                 }
             }
         }
@@ -159,6 +171,15 @@ class Tool extends Entity {
             }
             if (entity.children) {
                 entity.children.forEach(child => this.drawSelected(renderer, child));
+            }
+            if (entity.strategy) {
+                if (entity.toJSON().strategy.toJSON().class == 'PatrolStrategy') {
+                    entity.strategy.patrol_points.forEach(point => {
+                        var transform = mat4.create();
+                        mat4.fromTranslation(transform, point);
+                        renderer.add_drawable(models.ball, materials.light, transform);
+                    });
+                }
             }
         }
     }

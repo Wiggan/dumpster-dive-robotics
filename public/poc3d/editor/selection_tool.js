@@ -54,19 +54,6 @@ class SelectionTool extends Tool {
         
         if (e.button == 0) {
             if (e.shiftKey && e.ctrlKey) {
-                if (selected_entities.length == 1) {
-                    if (selected_entities[0].triggee != undefined && clicked_entity.start_triggering) {
-                        console.log("Connected trigger and triggee");
-                        selected_entities[0].triggee = clicked_entity.uuid;
-                    } else if (selected_entities[0].toJSON().class == 'Portal' && clicked_entity.toJSON().class == 'Portal') {
-                        console.log("Connected portals");
-                        selected_entities[0].destination_uuid = clicked_entity.uuid;
-                        clicked_entity.destination_uuid = selected_entities[0].uuid;
-                    } else if (selected_entities[0].toJSON().class == 'Drone') {
-                        console.log("Set partol position for drone");
-                        selected_entities[0].patrol_position = this.getWorldPosition();
-                    }
-                }
             } else {
                 if (!e.shiftKey) {
                     selected_entities.length = 0;
@@ -79,7 +66,25 @@ class SelectionTool extends Tool {
                 }
             }
         } else if (e.button == 2) {
-            this.deselectEntity(clicked_entity);
+            if (e.altKey) {
+                if (selected_entities.length == 1) {
+                    if (selected_entities[0].triggee != undefined && clicked_entity.start_triggering) {
+                        console.log("Connected trigger and triggee");
+                        selected_entities[0].triggee = clicked_entity.uuid;
+                    } else if (selected_entities[0].toJSON().class == 'Portal' && clicked_entity.toJSON().class == 'Portal') {
+                        console.log("Connected portals");
+                        selected_entities[0].destination_uuid = clicked_entity.uuid;
+                        clicked_entity.destination_uuid = selected_entities[0].uuid;
+                    } else if (selected_entities[0].toJSON().strategy) {
+                        if (selected_entities[0].toJSON().strategy.toJSON().class == 'PatrolStrategy') {
+                            console.log("Adding patrol point for actor");
+                            selected_entities[0].strategy.patrol_points.push(this.getWorldPosition());
+                        }
+                    }
+                }
+            } else {
+                this.deselectEntity(clicked_entity);
+            }
         }
     }
 
