@@ -1,0 +1,5 @@
+original OBJ file: C:\Users\Fredrik\Documents\dumpster-dive-robotics\public\models\vacuum_fan\vacuum_fan.obj
+part1.json > alias: Base_Cylinder_None
+part2.json > alias: Wheels_Cylinder.001_None
+part3.json > alias: ThirdWheel_Icosphere_None
+part4.json > alias: Fan_Cylinder.002_None

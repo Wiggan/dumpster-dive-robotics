@@ -28,8 +28,7 @@ class PatrolStrategy {
 
     update(elapsed) {
         if (this.patrol_points.length > 0) {
-            var dist = vec3.dist(this.patrol_points[this.position_index], this.parent.getWorldPosition())
-            console.log(dist);
+            var dist = vec3.dist(this.patrol_points[this.position_index], this.parent.getWorldPosition());
             if(dist < patrol_tolerance) {
                 this.index++;
                 this.position_index = this.getPositionIndex(this.index);
