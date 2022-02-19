@@ -36,7 +36,7 @@ class LampBoss extends Actor {
             movement_speed: 0.002,
             dmg: 1
         };
-        this.strategy = new PatrolStrategy(this);
+        this.strategy = new BossStrategy(this);
     }
     
     toJSON(key) {

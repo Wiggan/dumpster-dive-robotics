@@ -86,10 +86,8 @@ class Tool extends Entity {
                     });
                 } else if (key == 'class') {
                     selected_gui.add(persistent, key).onChange((v) => selected_entities[0][key] = v);
-                } else if (key == 'patrol_position') {
-                    //selected_gui.add(persistent, key).onChange((v) => selected_entities[0][key] = v);
                 } else if (key == 'local_position') {
-                    var local_position = Object.assign({}, persistent.local_position);
+                    var local_position = Object.assign({}, selected_entities[0].getWorldPosition());
                     var posFolder = selected_gui.addFolder(key);
                     Object.keys(local_position).forEach((k) => {
                         posFolder.add(local_position, k).onChange((v) => {
@@ -102,6 +100,16 @@ class Tool extends Entity {
                 } else if (key == 'strategy') {
                     var posFolder = selected_gui.addFolder(key);
                     if (persistent.strategy.toJSON().class == 'PatrolStrategy') {
+                        persistent.strategy.patrol_points.forEach((point, i) => {
+                            var local_position = Object.assign({}, point);
+                            Object.keys(local_position).forEach((k) => {
+                                posFolder.add(local_position, k).onChange((v) => {
+                                    selected_entities[0].strategy.patrol_points[i][Number(k)] = v;
+                                });
+                            });
+                        })
+                    }
+                    if (persistent.strategy.toJSON().class == 'BossStrategy') {
                         persistent.strategy.patrol_points.forEach((point, i) => {
                             var local_position = Object.assign({}, point);
                             Object.keys(local_position).forEach((k) => {
