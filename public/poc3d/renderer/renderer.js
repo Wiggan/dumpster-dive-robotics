@@ -306,6 +306,7 @@ class Renderer {
             gl.uniform1f(program['uLight[' + i + '].constant'], this.lights[i].constant);
             gl.uniform1f(program['uLight[' + i + '].linear'], this.lights[i].linear);
             gl.uniform1f(program['uLight[' + i + '].quadratic'], this.lights[i].quadratic);
+            //console.log(this.lights[i]);
         }
         gl.uniform1i(program.uNumLights, Math.min(4, this.lights.length));
 

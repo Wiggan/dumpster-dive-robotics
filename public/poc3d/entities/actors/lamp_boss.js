@@ -23,7 +23,7 @@ class LampBoss extends Actor {
             fan.material = materials.rubber;
         });
         
-        this.lamp = new PointLight(this, position, parent);
+        this.lamp = new PointLight(this, [0, 0, 0], parent);
         this.lamp.constant = LanternLight.Constant;
         this.lamp.linear = LanternLight.Linear;
         this.lamp.quadratic = LanternLight.Quadratic;

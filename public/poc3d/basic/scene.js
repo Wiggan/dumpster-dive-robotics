@@ -43,9 +43,9 @@ class Scene extends Entity {
         this.entities_to_draw.forEach(entity => {
             entity.draw(renderer);
         });
-        this.lights.forEach((light) => {
+/*         this.lights.forEach((light) => {
             light.draw(renderer);
-        });
+        }); */
     }
 
     update(elapsed) {

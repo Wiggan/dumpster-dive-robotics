@@ -26,6 +26,9 @@ class PointLight extends Entity {
         if (this.active) {
             renderer.add_light(this);
         }
+        if (debug) {
+            renderer.add_drawable(models.box, materials.light, this.getWorldTransform());
+        }
     }
 
     activate() {
