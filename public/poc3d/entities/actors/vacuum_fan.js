@@ -18,7 +18,7 @@ class VacuumFan extends Actor {
         this.third_wheel.material = materials.rubber;
         this.collider = new Collider(this, [0, 0, 0.25], CollisionLayer.Enemy, 0.4, 0.4);
         this.stats = {
-            movement_speed: 0.001,
+            movement_speed: 0.0005,
             dmg: 1
         };
         this.strategy = new PatrolStrategy(this);

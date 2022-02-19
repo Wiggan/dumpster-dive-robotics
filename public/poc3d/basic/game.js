@@ -28,7 +28,7 @@ class Game {
         for (const [key, value] of Object.entries(JSON.parse(levels))) {
             this.scenes[key] = new Scene(value.name, value.entities);
         }
-        this.scene = this.scenes[start_scene || 'Downfall'];
+        this.scene = this.scenes[start_scene || 'LampBossRoom'];
     }
     
     placePlayer(position) {        

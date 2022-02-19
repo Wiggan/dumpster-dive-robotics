@@ -90,6 +90,14 @@ async function load_all_models() {
         third_wheel: await load_model('/models/vacuum_fan/part3.json'),
         fan: await load_model('/models/vacuum_fan/part4.json'),
     }
+    models.lamp_boss = {
+        fan: await load_model('/models/lamp_boss/part1.json'),
+        body: await load_model('/models/lamp_boss/part2.json'),
+        led_list: await load_model('/models/lamp_boss/part3.json'),
+        motors: await load_model('/models/lamp_boss/part4.json'),
+        head_lamp: await load_model('/models/lamp_boss/part5.json'),
+
+    }
     models.light_sensor = await load_model('/models/light_sensor/part1.json');
     models.door = await load_model('/models/door/part1.json');
     models.ball = await load_model('/models/ball/part1.json');

@@ -1,0 +1,6 @@
+original OBJ file: C:\Users\Fredrik\Documents\dumpster-dive-robotics\public\models\lamp_boss\lamp_boss.obj
+part1.json > alias: Fan_Cylinder.002_None
+part2.json > alias: Body_Cylinder_None
+part3.json > alias: LedList_Cylinder.006_None
+part4.json > alias: Motors_Cylinder.008_None
+part5.json > alias: HeadLamp_Cylinder.005_None
