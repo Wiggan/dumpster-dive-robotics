@@ -8,7 +8,7 @@ class LightSensor extends Entity {
         this.sensor = new Drawable(this, [0, 0, 0.5], models.light_sensor);
         this.sensor.material = materials.metall;
         this.range = 4;
-        this.triggee = '';
+        this.triggees = [];
         this.triggered = false;
     }
 
@@ -17,7 +17,8 @@ class LightSensor extends Entity {
             class: 'LightSensor',
             uuid: this.uuid,
             local_position: this.local_position,
-            triggee: this.triggee
+            triggees: this.triggees,
+            range: this.range
         }
     }
 
@@ -31,16 +32,20 @@ class LightSensor extends Entity {
         })
         if (within_range && !this.triggered) {
             this.triggered = true;
-            var triggee = game.scene.entity_uuid_map.get(this.triggee);
-            if (triggee) {
-                triggee.start_triggering();
-            }
+            this.triggees.forEach((triggee) => {
+                var t = game.scene.entity_uuid_map.get(triggee);
+                if (t) {
+                    t.start_triggering();
+                }
+            });
         } else if (!within_range && this.triggered) {
             this.triggered = false;
-            var triggee = game.scene.entity_uuid_map.get(this.triggee);
-            if (triggee) {
-                triggee.stop_triggering();
-            }
+            this.triggees.forEach((triggee) => {
+                var t = game.scene.entity_uuid_map.get(triggee);
+                if (t) {
+                    t.stop_triggering();
+                }
+            });
         }
     }
 }

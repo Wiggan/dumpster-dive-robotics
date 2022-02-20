@@ -12,6 +12,7 @@ class Launcher extends DynamicEntity {
             cooldown: 500
         }
         this.cooldown = 0;
+        this.instigator = parent;
     }
 
     fire() {
@@ -22,7 +23,7 @@ class Launcher extends DynamicEntity {
             vec3.add(pos, pos, f);
             vec3.add(pos, pos, [0, 0, -0.5]);
 
-            new Rocket(pos, f, 0.01, player);
+            new Rocket(pos, f, 0.01, this.instigator);
             this.cooldown = this.stats.cooldown;
             this.lamp.material = materials.red_led;
             this.sound = new SFX(this, [0,0,0], sfx.launch);
@@ -30,12 +31,6 @@ class Launcher extends DynamicEntity {
     }
 
     update(elapsed, dirty) {
-        // Update direction based on pointer
-        if (player.camera.pointing_at[0] < this.getWorldPosition()[0]) {
-            this.local_transform.setRoll(180);
-        } else {
-            this.local_transform.setRoll(0);
-        }
 
         this.cooldown = Math.max(0, this.cooldown - elapsed);
         if (this.cooldown == 0) {

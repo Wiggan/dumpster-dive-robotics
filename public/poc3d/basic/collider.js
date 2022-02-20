@@ -116,9 +116,13 @@ class Collider {
 
     draw(renderer) {
         if (debug) {
-            //if (this.parent.toJSON().class == "Player") {
+            if (this.type == CollisionLayer.Enemy) {
+                renderer.add_drawable(models.box, materials.red_led, this.world_transform);
+            } else if (this.type == CollisionLayer.Trigger) {
+                renderer.add_drawable(models.box, materials.green_led, this.world_transform);
+            } else {
                 renderer.add_drawable(models.box, materials.light, this.world_transform);
-            //}
+            }
         }
     }
 };

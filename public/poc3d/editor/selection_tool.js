@@ -68,9 +68,9 @@ class SelectionTool extends Tool {
         } else if (e.button == 2) {
             if (e.altKey) {
                 if (selected_entities.length == 1) {
-                    if (selected_entities[0].triggee != undefined && clicked_entity.start_triggering) {
+                    if (selected_entities[0].triggees != undefined && clicked_entity.start_triggering && !selected_entities[0].triggees.includes(clicked_entity.uuid)) {
                         console.log("Connected trigger and triggee");
-                        selected_entities[0].triggee = clicked_entity.uuid;
+                        selected_entities[0].triggees.push(clicked_entity.uuid);
                     } else if (selected_entities[0].toJSON().class == 'Portal' && clicked_entity.toJSON().class == 'Portal') {
                         console.log("Connected portals");
                         selected_entities[0].destination_uuid = clicked_entity.uuid;

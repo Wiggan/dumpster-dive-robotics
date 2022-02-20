@@ -31,6 +31,7 @@ class Player extends Actor {
         this.base = new Base(this.body);
         this.head = new Head(this.body);
         this.launcher = new Launcher(this.body);
+        this.launcher.instigator = this;
         this.camera = new TrackingCamera(this, [0, 3, 30]);
         this.inventory = [];
 
@@ -167,6 +168,14 @@ class Player extends Actor {
         this.velocity[0] = Math.min(this.stats.movement_speed, Math.max(-this.stats.movement_speed, this.velocity[0]));
         this.velocity[2] = Math.min(this.stats.jump_speed, Math.max(-this.stats.jump_speed, this.velocity[2]));
         
+        
+        // Update direction based on pointer
+        if (this.camera.pointing_at[0] < this.getWorldPosition()[0]) {
+            this.launcher.local_transform.setRoll(180);
+        } else {
+            this.launcher.local_transform.setRoll(0);
+        }
+
         super.update(elapsed, dirty);
         if (Math.abs(this.velocity[0]) < 0.001) {
             if (this.moving_sound) {
@@ -179,16 +188,20 @@ class Player extends Actor {
         if (this.moving_sound) {
             this.moving_sound.setRate(Math.abs(this.velocity[0])/original_stats.movement_speed);
         }
+
+        
     }
 
-    takeDamage(amount, instigator) {
+    takeDamage(amount, instigator, collider) {
         if (!this.dmg_on_cooldown) {
             console.log('Player taking dmg');
             super.takeDamage(amount, instigator);
-            if (this.getWorldPosition()[0] < instigator.getWorldPosition()[0]) {
-                this.velocity = [-0.004, 0, -0.02];
-            } else {
-                this.velocity = [0.004, 0, -0.02];
+            if (collider.type == CollisionLayer.Enemy) {
+                if (this.getWorldPosition()[0] < instigator.getWorldPosition()[0]) {
+                    this.velocity = [-0.004, 0, -0.02];
+                } else {
+                    this.velocity = [0.004, 0, -0.02];
+                }
             }
             this.dmg_on_cooldown = true;
             window.setTimeout(() => {

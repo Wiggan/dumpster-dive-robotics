@@ -74,12 +74,18 @@ class Tool extends Entity {
                 if (key == 'destination_uuid') {
                     selected_gui.add(persistent, key/*, Object.keys(game.scenes)*/).onChange((v) => selected_entities[0][key] = v);
                 } else if (key == 'uuid') {
-                    selected_gui.add(persistent, key).onChange((v) => selected_entities[0][key] = v);
+                    selected_gui.add(selected_entities[0], key).onChange((v) => selected_entities[0][key] = v);
                 } else if (key == 'force') {
-                    selected_gui.add(persistent, key).onChange((v) => selected_entities[0][key] = v);
-                } else if (key == 'triggee') {
-                    selected_gui.add(persistent, key/*, game.scene.entities.filter(entity => entity.trigger)*/).listen().onChange((v) => {
-                        selected_entities[0][key] = v;
+                    selected_gui.add(selected_entities[0], key).onChange((v) => selected_entities[0][key] = v);
+                } else if (key == 'range') {
+                    selected_gui.add(selected_entities[0], key);
+                } else if (key == 'triggees') {
+                    var triggees = Object.assign({}, selected_entities[0][key]);
+                    var triggeesFolder = selected_gui.addFolder(key);
+                    Object.keys(triggees).forEach((k) => {
+                        triggeesFolder.add(triggees, k).listen().onChange((v) => {
+                            selected_entities[0][key][k] = v;
+                        });
                     });
                 } else if (key == 'class') {
                     selected_gui.add(persistent, key).onChange((v) => selected_entities[0][key] = v);

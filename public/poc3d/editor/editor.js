@@ -46,7 +46,7 @@ async function init() {
     await load_all_models();
     await load_all_sounds();
     game = new Game();
-    await fetch('/models/levels.json').then(response => response.json()).then(levels => game.loadLevels(levels, 'PhysicsTryout'));
+    await fetch('/models/levels.json').then(response => response.json()).then(levels => game.loadLevels(levels, 'LampBossRoom'));
     
     for (const [key, value] of Object.entries(game.scenes)) {
         game.scenes[key].entities.forEach(entity => {

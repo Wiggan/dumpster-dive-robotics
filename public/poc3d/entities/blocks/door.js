@@ -7,10 +7,13 @@ class Door extends Entity {
         this.background = new Background(this, [0, -2 + Math.random()*0.3, 0], models.box);
         this.background2 = new Background(this, [0, -2 + Math.random()*0.3, -1], models.box);
         this.door = new Drawable(this, [0, 0, 0], models.door);
-        this.material = materials.dirt;
         this.door.collider = new Collider(this.door, [0, 0, 0], CollisionLayer.Level, 0.5, 2);
+        this.door.collider2 = new Collider(this.door, [0, 0, 1.1], CollisionLayer.Level, 0.45, 0.1);
         this.door.position =  [0, 0, 0];
         this.door.local_position =  [0, -0.1, -0.5];
+        this.stats = {
+            dmg: 1000
+        }
         //this.door.local_transform.scale([0.5, 2, 2]);
     }
 
@@ -19,7 +22,7 @@ class Door extends Entity {
         this.transition = new Transition(this.door, [{
             time: 1000, to: {
                 position: this.door.local_position
-            }
+            }, callback: () => game.scene.entities.push(new Smoke(null, this.getWorldPosition(), [0, 0, 1]))
         }]);
     }
     
@@ -45,6 +48,12 @@ class Door extends Entity {
             this.transition.update(elapsed);
             this.door.local_transform.setPosition(this.door.position);
             dirty = true;
+            this.door.update(0, true);
+            this.door.collider2.detectCollisions().forEach(other => {
+                if (other.type == CollisionLayer.Player) {
+                    other.parent.takeDamage(this.stats.dmg, this, this.collider2);
+                }
+            });
         }
         super.update(elapsed, dirty);
     }
