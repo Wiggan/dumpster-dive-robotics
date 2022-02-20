@@ -295,7 +295,10 @@ class Renderer {
         gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
     
         // We will discuss these operations in later chapters
-        mat4.perspective(projection_matrix, 45, gl.canvas.width / gl.canvas.height, 1, 10000);
+        var halfWidth = Math.tan(0.5 * deg2rad(45 * gl.canvas.width / gl.canvas.height));
+        var halfHeight = halfWidth * gl.canvas.height / gl.canvas.width;
+        var verticalFoV = rad2deg(2.0 * Math.atan(halfHeight));
+        mat4.perspective(projection_matrix, verticalFoV, gl.canvas.width / gl.canvas.height, 1, 10000);
     
         //const lightPositions = this.lights.map((light) => {return light.getPosition()}).flat();
         for (var i = 0; i < 4 && i < this.lights.length; i++) {

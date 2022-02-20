@@ -22,7 +22,11 @@ class Game {
         this.paused = false;
         this.overlay = [0.0, 0.0, 0.0, 0.0];
         this.transition;
-        this.loadSettings();
+        try {
+            this.loadSettings();
+        } catch {
+
+        }
     }
     
     loadLevels(levels, start_scene) {

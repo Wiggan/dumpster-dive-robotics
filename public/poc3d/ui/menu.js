@@ -26,6 +26,8 @@ function showStartScreen () {
     game.getCookie(); // To get disabled buttons right... blah
     //playMusic(music.start_screen);
     hideAllViews();
+    game.overlay = [0.0, 0.0, 0.0, 0.8];
+    game.paused = true;
     showView(views.start);
 }
 

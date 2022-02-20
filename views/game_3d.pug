@@ -56,7 +56,7 @@ block head
       width: 100%;
       display: flex;
       justify-content: center;
-      background-color: #3498db;
+      background-color: rgb(9, 11, 29);
     }
     #init {
       background-color: transparent;
@@ -70,7 +70,9 @@ block head
       font-weight: 700;
       font-size: 2rem;
     }
-
+    #logo {
+      color: white;
+    }
 
     .btn {
       display: block;
@@ -101,13 +103,13 @@ block head
     }
 
     .third {
-      border-color: #3498db;
+      border-color: rgb(9, 11, 29);
       color: #fff;
-      box-shadow: 0 0 40px 40px #3498db inset, 0 0 0 0 #3498db;
+      box-shadow: 0 0 40px 40px rgb(9, 11, 29) inset, 0 0 0 0 rgb(9, 11, 29);
       transition: all 150ms ease-in-out;
     }
     .third:hover {
-      box-shadow: 0 0 10px 0 #3498db inset, 0 0 10px 4px #3498db;
+      box-shadow: 0 0 10px 0 rgb(9, 11, 29) inset, 0 0 10px 4px rgb(9, 11, 29);
     }
     .slider-container {
     }
@@ -133,7 +135,7 @@ block content
         button.btn.third#settings Settings
         button.btn.third#exit Exit
       #start-content
-        h1 Hexatropolis
+        h1#logo Dumpster Dive: Robotics
         button.btn.third#continue Continue
         button.btn.third#new_game New Game
       #settings-content 

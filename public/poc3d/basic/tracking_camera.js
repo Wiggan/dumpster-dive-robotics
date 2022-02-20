@@ -83,6 +83,8 @@ class TrackingCamera extends Camera {
             //console.log("t: " + t)
             vec3.lerp(new_pos, new_pos, anchor.getWorldPosition(), t);
         });
+
+        //new_pos[1] = new_pos[1]*1024/gl.canvas.width;
         this.local_transform.setPosition(new_pos);
         var p1 = getScreenSpaceToWorldLocation([this.x, this.y, 0]);
         var p2 = getScreenSpaceToWorldLocation([this.x, this.y, 100]);

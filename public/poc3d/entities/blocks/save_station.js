@@ -22,7 +22,9 @@ class SaveStation extends Pickable {
     }
 
     interact() {
+        player.health = player.max_health;
         game.save();
+
 
         this.particles.start.color = [0.9, 0.5, 0.9];
         this.transition = new Transition(this, [

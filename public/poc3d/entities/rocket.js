@@ -49,7 +49,7 @@ class Rocket extends DynamicEntity {
         if (other.parent != this.instigator && other.type != CollisionLayer.Projectile) {
             if (other.type == CollisionLayer.Enemy && this.instigator == player) {
                 other.parent.takeDamage(this.stats.dmg, this.instigator, this.collider);
-            } else if (other.parent != this.instigator && other.type == CollisionLayer.Player && this.instigator != player) {
+            } else if (other.type == CollisionLayer.Player && this.instigator != player) {
                 other.parent.takeDamage(this.stats.dmg, this.instigator, this.collider);
             }
             this.explode();
