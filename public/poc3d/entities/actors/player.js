@@ -121,7 +121,7 @@ class Player extends Actor {
     dash() {
         if (!this.dash_on_cooldown) {
             console.log("Dashing!");
-            new SFX(this, [0,0,0], sfx.player.dash);
+            new SFX(this, [0,0,0], sfx.player_dash);
             this.dash_on_cooldown = true;
             this.stats.movement_speed *= 2;
             this.stats.acceleration *= 2;
@@ -187,7 +187,7 @@ class Player extends Actor {
                 this.moving_sound = undefined;
             }
         } else {
-            if (!this.moving_sound) this.moving_sound = new SFX(this, [0, 0, 0], sfx.player.moving);
+            if (!this.moving_sound) this.moving_sound = new SFX(this, [0, 0, 0], sfx.player_moving);
         }
         if (this.moving_sound) {
             this.moving_sound.setRate(Math.abs(this.velocity[0])/original_stats.movement_speed);

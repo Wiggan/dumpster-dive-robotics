@@ -21,11 +21,9 @@ function load_all_sounds() {
             new Howl({ src: ['/sfx/ddr_sfx - 02 - rocket_flying.ogg']}),
             new Howl({ src: ['/sfx/ddr_sfx - 03 - rocket_flying.ogg']}),
         ],
-        player: {
-            moving: [new Howl({ src: ['/sfx/ddr_sfx - 01 Start - moving.ogg'], loop: true})],
-            moving_faster: [new Howl({ src: ['/sfx/ddr_sfx - 02 - moving.ogg'], loop: true})],
-            dash: [new Howl({ src: ['/sfx/ddr_sfx - 01 Start - dash.ogg']})],
-        }
+        player_moving: [new Howl({ src: ['/sfx/ddr_sfx - 01 Start - moving.ogg'], loop: true})],
+        player_dash: [new Howl({ src: ['/sfx/ddr_sfx - 01 Start - dash.ogg']})],
+        
     }
 
     music = {
