@@ -1,7 +1,7 @@
 class Blue extends ParticleSystem {
-    constructor(parent, local_position) {
+    constructor(parent, local_position, direction) {
         super(parent, local_position);
-        this.direction = [0, 0.5, 0.5];
+        this.direction = direction || [0, 0.5, 0.5];
         this.continuous = true;
         this.spread = 0.1;
         this.min_speed = 0.00001;

@@ -74,9 +74,9 @@ class Tool extends Entity {
                 if (key == 'destination_uuid') {
                     selected_gui.add(persistent, key/*, Object.keys(game.scenes)*/).onChange((v) => selected_entities[0][key] = v);
                 } else if (key == 'uuid') {
-                    selected_gui.add(selected_entities[0], key).onChange((v) => selected_entities[0][key] = v);
+                    selected_gui.add(selected_entities[0], key);
                 } else if (key == 'force') {
-                    selected_gui.add(selected_entities[0], key).onChange((v) => selected_entities[0][key] = v);
+                    selected_gui.add(selected_entities[0], key);
                 } else if (key == 'range') {
                     selected_gui.add(selected_entities[0], key);
                 } else if (key == 'triggees') {
@@ -97,6 +97,7 @@ class Tool extends Entity {
                             var newPos = vec3.clone(selected_entities[0].getWorldPosition());
                             newPos[Number(k)] = v;
                             selected_entities[0].local_transform.setPosition(newPos);
+                            selected_entities[0].local_position = newPos;
                         });
                     });
                     posFolder.open();

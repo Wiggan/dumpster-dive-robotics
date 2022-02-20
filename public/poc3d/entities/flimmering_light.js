@@ -3,7 +3,7 @@
 class FlimmeringLight extends Drawable {
     constructor(parent, local_position) {
         super(parent, local_position, models.box);
-        this.light = new PointLight(parent, local_position, parent);
+        this.light = new PointLight(this, [0, 0, 0], parent);
         this.local_position = local_position;
         this.light.ambient = [0.0, 0.0, 0.0];
         this.light.diffuse = [0.7, 0.7, 0.6];

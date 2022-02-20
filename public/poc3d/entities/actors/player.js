@@ -96,7 +96,11 @@ class Player extends Actor {
 
 
     left_click(point, object) {
-        this.launcher.fire();
+        if (object && object.type == PickableType.Default && vec3.dist(object.getWorldPosition(), this.getWorldPosition()) < constants.interaction_range) {
+            object.interact();
+        } else {
+            this.launcher.fire();
+        }
     }
 
     right_click(point, object) {
@@ -188,13 +192,10 @@ class Player extends Actor {
         if (this.moving_sound) {
             this.moving_sound.setRate(Math.abs(this.velocity[0])/original_stats.movement_speed);
         }
-
-        
     }
 
     takeDamage(amount, instigator, collider) {
         if (!this.dmg_on_cooldown) {
-            console.log('Player taking dmg');
             super.takeDamage(amount, instigator);
             if (collider.type == CollisionLayer.Enemy) {
                 if (this.getWorldPosition()[0] < instigator.getWorldPosition()[0]) {
@@ -204,9 +205,14 @@ class Player extends Actor {
                 }
             }
             this.dmg_on_cooldown = true;
+            this.body.material = materials.red_led;
+            this.head.head.drawable.material = materials.red_led;
+            this.base.base.material = materials.red_led;
             window.setTimeout(() => {
-                console.log("Dmg cooldown ended!");
                 this.dmg_on_cooldown = false;
+                this.body.material = materials.player;
+                this.head.head.drawable.material = materials.player;
+                this.base.base.material = materials.player;
             }, constants.dmg_cooldown);
         }
     }

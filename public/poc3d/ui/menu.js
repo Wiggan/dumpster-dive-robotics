@@ -37,10 +37,6 @@ function initMenu() {
     document.getElementById("resume").onclick = (e) => {
         game.hideMenu();
     };
-    document.getElementById("save").onclick = (e) => {
-        game.save();
-        game.hideMenu();
-    };
     document.getElementById("load").onclick = (e) => {
         mscConfirm('Load?', 'All unsaved progress will be lost.', () => { game.load(); game.hideMenu(); });
     };

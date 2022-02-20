@@ -34,9 +34,10 @@ class LampBoss extends Actor {
         this.lamp.drawable.material = materials.light;
         this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Enemy, 0.8, 0.4);
         this.stats = {
-            movement_speed: 0.005,
-            acceleration: 0.0001,
-            dmg: 1
+            movement_speed: 0.004,
+            acceleration: 0.00008,
+            dmg: 1,
+            dmg_cooldown: 3000
         };
         this.strategy = new BossStrategy(this);
 
@@ -133,6 +134,19 @@ class LampBoss extends Actor {
             });
         }
         super.draw(renderer);
+    }
+
+    takeDamage(amount, instigator, collider) {
+        if (!this.dmg_on_cooldown) {
+            super.takeDamage(amount, instigator);
+            this.dmg_on_cooldown = true;
+            this.body.material = materials.red_led;
+            window.setTimeout(() => {
+                this.body.material = materials.metall;
+                this.dmg_on_cooldown = false;
+            }, this.stats.dmg_cooldown);
+
+        }
     }
 }
 

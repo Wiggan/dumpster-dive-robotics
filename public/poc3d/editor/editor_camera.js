@@ -81,7 +81,7 @@ class EditorCamera extends Camera {
             e.preventDefault();
         } else if (e.key == 'w' || e.key == 'W') {
             this.velocity[2] = -0.005;
-        } else if (e.key == 's' || e.key == 'S') {
+        } else if ((e.key == 's' || e.key == 'S') && !e.ctrlKey) {
             this.velocity[2] = 0.005;
         } else if ((e.key == 'a' || e.key == 'A') && !e.shiftKey) {
             this.velocity[0] = -0.005;
@@ -158,7 +158,7 @@ class EditorCamera extends Camera {
             e.preventDefault();
         } else if (e.key == 'w' || e.key == 'W') {
             this.velocity[2] = 0;
-        } else if (e.key == 's' || e.key == 'S') {
+        } else if ((e.key == 's' || e.key == 'S') && !e.ctrlKey) {
             this.velocity[2] = 0;
         } else if (e.key == 'a' || e.key == 'A') {
             this.velocity[0] = 0;

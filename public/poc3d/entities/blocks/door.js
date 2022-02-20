@@ -22,7 +22,7 @@ class Door extends Entity {
         this.transition = new Transition(this.door, [{
             time: 1000, to: {
                 position: this.door.local_position
-            }, callback: () => game.scene.entities.push(new Smoke(null, this.getWorldPosition(), [0, 0, 1]))
+            }, callback: () => game.scene.entities.push(new Smoke(null, this.door.collider2.getWorldPosition(), [0, 0, 1]))
         }]);
     }
     
@@ -51,7 +51,7 @@ class Door extends Entity {
             this.door.update(0, true);
             this.door.collider2.detectCollisions().forEach(other => {
                 if (other.type == CollisionLayer.Player) {
-                    other.parent.takeDamage(this.stats.dmg, this, this.collider2);
+                    other.parent.takeDamage(this.stats.dmg, this, this.door.collider2);
                 }
             });
         }

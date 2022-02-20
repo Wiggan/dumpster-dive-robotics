@@ -12,7 +12,8 @@ const constants = {
     dash_cooldown: 1600,
     jump_forgiveness: 200,
     jump_cooldown: 300,
-    dmg_cooldown: 1000
+    dmg_cooldown: 1000,
+    interaction_range: 1.5
 };
 
 class Game {
@@ -28,7 +29,7 @@ class Game {
         for (const [key, value] of Object.entries(JSON.parse(levels))) {
             this.scenes[key] = new Scene(value.name, value.entities);
         }
-        this.scene = this.scenes[start_scene || 'LampBossRoom'];
+        this.scene = this.scenes[start_scene || 'Downfall'];
     }
     
     placePlayer(position) {        
@@ -62,9 +63,10 @@ class Game {
         this.transition = new Transition(this, [
             {
                 time: 300,
-                to: { overlay: [0.0, 0.0, 0.0, 1.0], paused: false },
+                to: { overlay: [0.0, 0.0, 0.0, 1.0]},
                 callback: () => {
                     this.setScene(scene, player_position);
+                    game.paused = false;
                 }
             },
             {
@@ -115,7 +117,6 @@ class Game {
         cookie.persistent = {
             inventory: player.inventory,
             position: player.getWorldPosition(),
-            //equipment: player.equipment,
             scene: game.scene.name
         };
         this.saveCookie(cookie);
@@ -160,7 +161,7 @@ class Game {
     getCookie() {
         let splitCookie = document.cookie.split(/[=;\s]/);
         var index = splitCookie.indexOf('cookie');
-        if (index > 0) {
+        if (index > -1) {
             var cookie = JSON.parse(splitCookie[index + 1]);
             setSavedGameExists(cookie.persistent != undefined);
             return cookie;

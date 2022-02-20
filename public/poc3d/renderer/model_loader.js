@@ -101,4 +101,5 @@ async function load_all_models() {
     models.light_sensor = await load_model('/models/light_sensor/part1.json');
     models.door = await load_model('/models/door/part1.json');
     models.ball = await load_model('/models/ball/part1.json');
+    models.ceiling_cannon = await load_model('/models/ceiling_cannon/part1.json');
 }

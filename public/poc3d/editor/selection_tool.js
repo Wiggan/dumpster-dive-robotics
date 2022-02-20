@@ -33,6 +33,7 @@ class SelectionTool extends Tool {
                         game.scene.remove(blockInPosition);
                     }
                     entity.local_transform.translate(snapToGrid(translation));
+                    entity.local_position = new_position;
                 });
             }
         } else if (e.key == 'Delete') {

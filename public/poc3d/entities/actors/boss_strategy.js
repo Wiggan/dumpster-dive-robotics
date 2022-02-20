@@ -12,7 +12,6 @@ class BossStrategy {
         this.patrol_points = [];
         this.position_index = 0;
         this.state;
-
     }
 
     toJSON(key) {
@@ -41,7 +40,7 @@ class BossStrategy {
     }
 
     update(elapsed) {
-        if (!this.state && player) {
+        if (!this.state && player && !game.paused) {
             this.pickNewState();
         } else if (this.state == BossStates.Patrol) {
             if (this.patrol_points.length > 0) {
