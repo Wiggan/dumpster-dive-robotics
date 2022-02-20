@@ -12,7 +12,7 @@ const constants = {
     dash_cooldown: 1600,
     jump_forgiveness: 200,
     jump_cooldown: 300,
-    damage_cooldown: 1000
+    dmg_cooldown: 1000
 };
 
 class Game {

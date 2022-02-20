@@ -83,5 +83,14 @@ function uuid() {
       var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
       return v.toString(16);
     });
-  }
+}
   
+function snapToGrid(pos) {
+    return [Math.round(pos[0]), Math.round(pos[1]), Math.round(pos[2])];
+}
+
+function debugDraw(renderer, point) {
+    var transform = mat4.create();
+    mat4.fromTranslation(transform, point);
+    renderer.add_drawable(models.ball, materials.light, transform);
+}

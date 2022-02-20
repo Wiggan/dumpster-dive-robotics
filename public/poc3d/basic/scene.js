@@ -31,6 +31,33 @@ class Scene extends Entity {
         }
     }
 
+    getCollisionGrid() {
+        var collisionGrid = {
+            offsetX: 0,
+            offsetY: 0,
+            grid: []
+        }
+        var level_colliders = this.colliders.filter(collider => {return collider.type == CollisionLayer.Level;});
+        level_colliders.sort((a, b) => {
+            if (a.getMidY() == b.getMidY()) {
+                return a.getMidX() - b.getMidX();
+            } else {
+                return a.getMidY() - b.getMidY();
+            }
+        });
+        collisionGrid.offsetX = level_colliders[0].getMidX();
+        collisionGrid.offsetY = level_colliders[0].getMidY();
+        level_colliders.forEach(collider => {
+            var x = collider.getMidX() - collisionGrid.offsetX;
+            var y = collider.getMidY() - collisionGrid.offsetY;
+            if (!collisionGrid.grid[y]) {
+                collisionGrid.grid[y] = [];
+            }
+            collisionGrid.grid[y][x] = 1;
+        });
+        return collisionGrid;
+    }
+
     remove(object) {
 /*         object.getColliders().forEach(collider => {
             this.colliders.splice(game.scene.colliders.lastIndexOf(collider), 1);

@@ -76,7 +76,7 @@ class SelectionTool extends Tool {
                         selected_entities[0].destination_uuid = clicked_entity.uuid;
                         clicked_entity.destination_uuid = selected_entities[0].uuid;
                     } else if (selected_entities[0].toJSON().strategy) {
-                        if (selected_entities[0].toJSON().strategy.toJSON().class == 'PatrolStrategy') {
+                        if (selected_entities[0].toJSON().strategy.toJSON().class == 'PatrolStrategy' ||selected_entities[0].toJSON().strategy.toJSON().class == 'BossStrategy') {
                             console.log("Adding patrol point for actor");
                             selected_entities[0].strategy.patrol_points.push(this.getWorldPosition());
                         }

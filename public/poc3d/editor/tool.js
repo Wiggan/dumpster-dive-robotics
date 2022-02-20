@@ -2,9 +2,6 @@
 
 var selected_entities = [], selected_gui;
 
-function snapToGrid(pos) {
-    return [Math.round(pos[0]), Math.round(pos[1]), Math.round(pos[2])];
-}
 
 class Tool extends Entity {
     constructor() {
@@ -99,21 +96,12 @@ class Tool extends Entity {
                     posFolder.open();
                 } else if (key == 'strategy') {
                     var posFolder = selected_gui.addFolder(key);
-                    if (persistent.strategy.toJSON().class == 'PatrolStrategy') {
+                    if (persistent.strategy.toJSON().class == 'PatrolStrategy' || persistent.strategy.toJSON().class == 'BossStrategy') {
                         persistent.strategy.patrol_points.forEach((point, i) => {
+                            var pointFolder = posFolder.addFolder('point ' + i);
                             var local_position = Object.assign({}, point);
                             Object.keys(local_position).forEach((k) => {
-                                posFolder.add(local_position, k).onChange((v) => {
-                                    selected_entities[0].strategy.patrol_points[i][Number(k)] = v;
-                                });
-                            });
-                        })
-                    }
-                    if (persistent.strategy.toJSON().class == 'BossStrategy') {
-                        persistent.strategy.patrol_points.forEach((point, i) => {
-                            var local_position = Object.assign({}, point);
-                            Object.keys(local_position).forEach((k) => {
-                                posFolder.add(local_position, k).onChange((v) => {
+                                pointFolder.add(local_position, k, -1000, 1000, 1).onChange((v) => {
                                     selected_entities[0].strategy.patrol_points[i][Number(k)] = v;
                                 });
                             });
@@ -181,11 +169,9 @@ class Tool extends Entity {
                 entity.children.forEach(child => this.drawSelected(renderer, child));
             }
             if (entity.strategy) {
-                if (entity.toJSON().strategy.toJSON().class == 'PatrolStrategy') {
+                if (entity.toJSON().strategy.toJSON().class == 'PatrolStrategy' || entity.toJSON().strategy.toJSON().class == 'BossStrategy') {
                     entity.strategy.patrol_points.forEach(point => {
-                        var transform = mat4.create();
-                        mat4.fromTranslation(transform, point);
-                        renderer.add_drawable(models.ball, materials.light, transform);
+                        debugDraw(renderer, point);
                     });
                 }
             }

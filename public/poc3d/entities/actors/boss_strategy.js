@@ -30,16 +30,18 @@ class BossStrategy {
             this.state = BossStates.Patrol;
             this.position_index = Math.floor(this.patrol_points.length * Math.random());
             this.parent.look_at =  this.patrol_points[this.position_index];
+            this.parent.goto(this.patrol_points[this.position_index]);
         } else {
             this.state = BossStates.Attack;
-            this.attack_position = player.getWorldPosition();
+            this.attack_position = snapToGrid(player.getWorldPosition());
             this.parent.look_at = this.attack_position;
+            this.parent.goto(this.attack_position);
         }
         console.log(this.state);
     }
 
     update(elapsed) {
-        if (!this.state) {
+        if (!this.state && player) {
             this.pickNewState();
         } else if (this.state == BossStates.Patrol) {
             if (this.patrol_points.length > 0) {
@@ -47,21 +49,12 @@ class BossStrategy {
                 if(dist < patrol_tolerance) {
                     this.pickNewState();
                 }
-                var direction = vec3.create();
-                vec3.subtract(direction, this.patrol_points[this.position_index], this.parent.getWorldPosition());
-                vec3.normalize(direction, direction);
-                vec3.scale(this.parent.velocity, direction, this.parent.stats.movement_speed);
             }
         } else if (this.state == BossStates.Attack) {
             var dist = vec3.dist(this.attack_position, this.parent.getWorldPosition());
             if(dist < patrol_tolerance) {
                 this.pickNewState();
             }
-            var direction = vec3.create();
-            vec3.subtract(direction, this.attack_position, this.parent.getWorldPosition());
-            vec3.normalize(direction, direction);
-            vec3.scale(this.parent.velocity, direction, this.parent.stats.movement_speed);
-            
         }
     }
 

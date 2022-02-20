@@ -38,7 +38,7 @@ class Player extends Actor {
             position: [local_position[0], local_position[1], local_position[2] - 1]
         };
         
-        this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Player, 0.9, 0.9);
+        this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Player, 0.7, 0.9);
 
         this.stats = JSON.parse(JSON.stringify(original_stats));
         this.last_right = 0;
@@ -95,53 +95,10 @@ class Player extends Actor {
 
 
     left_click(point, object) {
-        //this.base.frame_index++;
-       /*  this.body.look_at = point;
-        if (ctrl_pressed) {
-            if (this.sockets.left_arm.eq) { 
-                this.body.lookAtInstantly(point);
-                this.velocity = undefined;
-                this.sockets.left_arm.eq.fire(point);
-            }
-        } else if (object == undefined) {
-            this.velocity = vec3.create();
-            this.state_context = {
-                position: point,
-                tolerance: 0.1
-            };
-        } else if (object.type == PickableType.Enemy) {
-            if (this.sockets.left_arm.eq) {
-                var pos = point;
-                if (object) {
-                    pos = object.getWorldPosition();
-                }
-                
-                this.body.lookAtInstantly(pos);
-                this.velocity = undefined;
-                this.sockets.left_arm.eq.fire(pos);
-            }
-        } else {
-            this.velocity = vec3.create();
-            this.state_context = {
-                target: object,
-                position: object.getWorldPosition(),
-                tolerance: this.stats.pickup_range
-            };
-        } */
         this.launcher.fire();
     }
 
     right_click(point, object) {
-/*         if (this.sockets.right_arm.eq) {
-            var pos = point;
-            if (object) {
-                pos = object.getWorldPosition();
-            }
-            
-            this.body.lookAtInstantly(pos);
-            this.velocity = undefined;
-            this.sockets.right_arm.eq.fire(pos);
-        } */
     }
 
     jump() {
