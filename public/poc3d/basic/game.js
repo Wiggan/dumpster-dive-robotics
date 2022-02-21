@@ -22,6 +22,7 @@ class Game {
         this.paused = false;
         this.overlay = [0.0, 0.0, 0.0, 0.0];
         this.transition;
+        this.slain_bosses = [];
         try {
             this.loadSettings();
         } catch {
@@ -64,20 +65,44 @@ class Game {
 
     changeScene(scene, player_position) {
         this.paused = true;
-        this.transition = new Transition(this, [
-            {
-                time: 300,
-                to: { overlay: [0.0, 0.0, 0.0, 1.0]},
-                callback: () => {
-                    this.setScene(scene, player_position);
-                    game.paused = false;
+        
+        if (scene.name.includes('Boss')) {
+            this.transition = new Transition(this, [
+                {
+                    time: 300,
+                    to: { overlay: [0.0, 0.0, 0.0, 1.0]},
+                    callback: () => {
+                        
+                        this.setScene(scene, player_position);
+                        if (scene.containsBoss()) {
+                            this.scene.getAllOfClass('Portal').forEach(portal => {
+                                portal.disable();
+                            });
+                        }
+                        game.paused = false;
+                    }
+                },
+                {
+                    time: 300,
+                    to: { overlay: [0.0, 0.0, 0.0, 0.0], transition: null }
                 }
-            },
-            {
-                time: 300,
-                to: { overlay: [0.0, 0.0, 0.0, 0.0], transition: null }
-            }
-        ]);
+            ]);
+        } else {
+            this.transition = new Transition(this, [
+                {
+                    time: 300,
+                    to: { overlay: [0.0, 0.0, 0.0, 1.0]},
+                    callback: () => {
+                        this.setScene(scene, player_position);
+                        game.paused = false;
+                    }
+                },
+                {
+                    time: 300,
+                    to: { overlay: [0.0, 0.0, 0.0, 0.0], transition: null }
+                }
+            ]);
+        }
     }
 
     setScene(scene, player_position) {
@@ -121,7 +146,8 @@ class Game {
         cookie.persistent = {
             inventory: player.inventory,
             position: player.getWorldPosition(),
-            scene: game.scene.name
+            scene: game.scene.name,
+            slain_bosses: game.slain_bosses
         };
         this.saveCookie(cookie);
     }
@@ -135,6 +161,9 @@ class Game {
             }
             if (cookie.persistent.inventory) {
                 player.inventory = cookie.persistent.inventory;
+            }
+            if (cookie.persistent.slain_bosses) {
+                this.slain_bosses = cookie.persistent.slain_bosses;
             }
         }
     }

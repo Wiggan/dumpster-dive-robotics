@@ -77,10 +77,13 @@ class Actor extends Entity {
             this.local_transform.setPosition(position);
         }
     }
+
+    onDeath() {}
     
     takeDamage(amount, instigator, collider) {
         this.health = Math.max(0, this.health - amount);
         if (this.health == 0) {
+            this.onDeath();
             game.scene.remove(this);
             game.scene.colliders.splice(game.scene.colliders.lastIndexOf(this.collider), 1);
             

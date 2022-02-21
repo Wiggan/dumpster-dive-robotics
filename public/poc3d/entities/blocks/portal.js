@@ -10,6 +10,7 @@ class Portal extends Pickable {
         this.particle_socket = new Entity(this, [0, 0, 0]);
         this.particles = new Blue(this.particle_socket, [0, 1, -0.5]);
         this.rotation_speed = 1;
+        this.active = true;
         this.label = "Portal";
         this.destination_uuid = '';
     }
@@ -32,9 +33,19 @@ class Portal extends Pickable {
                 break;
             }    
         }
-        game.changeScene(destination_portal.scene, destination_portal.getWorldPosition());
+        if (this.active) {
+            game.changeScene(destination_portal.scene, destination_portal.getWorldPosition());
+        }
     }
     
+    enable() {
+        this.label = "Portal";
+        this.active = true;
+    }
+    disable() {
+        this.label = "Inactive Portal";
+        this.active = false;
+    }
     update(elapsed, dirty) {
         this.particle_socket.local_transform.yaw(elapsed * this.rotation_speed);
         this.particle_socket.local_transform.setPosition([0, Math.sin(Date.now()*0.005), 0]);

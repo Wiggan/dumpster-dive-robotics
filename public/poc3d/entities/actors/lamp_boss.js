@@ -40,7 +40,6 @@ class LampBoss extends Actor {
             dmg_cooldown: 3000
         };
         this.strategy = new BossStrategy(this);
-
     }
     
     toJSON(key) {
@@ -147,6 +146,13 @@ class LampBoss extends Actor {
             }, this.stats.dmg_cooldown);
 
         }
+    }
+
+    onDeath() {
+        game.slain_bosses.push(this.class);
+        this.scene.getAllOfClass('Portal').forEach(portal => {
+            portal.enable();
+        });
     }
 }
 

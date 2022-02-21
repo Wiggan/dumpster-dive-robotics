@@ -9,7 +9,7 @@ class Scene extends Entity {
         this.camera_anchors = [];
         this.entity_uuid_map = new Map();
         this.entities = entities.map((entity) => {
-            if (entity.class && entity.class != 'Player') {
+            if (entity.class && entity.class != 'Player' && !game.slain_bosses.includes(entity.class)) {
                 var e = new classes[entity.class](this, entity.local_position);
                 e = Object.assign(e, entity);
                 this.entity_uuid_map.set(e.uuid, e);
@@ -56,6 +56,14 @@ class Scene extends Entity {
             collisionGrid.grid[y][x] = 1;
         });
         return collisionGrid;
+    }
+
+    getAllOfClass(c) {
+        return this.entities.filter((entity) => entity.class == c)
+    }
+
+    containsBoss() {
+        return this.getAllOfClass('LampBoss').length > 0;
     }
 
     remove(object) {
