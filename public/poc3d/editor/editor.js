@@ -145,7 +145,9 @@ function initControls() {
         material.add(value, 'isLight');
     }
 
-
+    var renderer_folder = gui.addFolder('Renderer');
+    renderer_folder.add(renderer, 'fov', 10, 110, 1);
+    renderer_folder.add(renderer, 'width_factor', -2, 2, 0.001);
 
 }
 

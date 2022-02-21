@@ -15,27 +15,38 @@ class Renderer {
         this.drawables = [];
         this.lights = [];
         this.textboxes = [];
-
+        this.fov = 31;
+        this.width_factor = 0.769;
+        
         // Retrieve the canvas
         const canvas = utils.getCanvas('game_canvas');
         const canvas_text = utils.getCanvas('text_canvas');
-
+        
         // Set the canvas to the size of the screen
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        canvas_text.width = window.innerWidth;
-        canvas_text.height = window.innerHeight;
-
+        this.aspect_ratio = 16/9;
+        canvas.width = 800;
+        if (window.innerWidth > 1800 && window.innerHeight > 1800 / this.aspect_ratio) {
+            canvas.width = 1700;
+        } else if (window.innerWidth > 1400 && window.innerHeight > 1400 / this.aspect_ratio) {
+            canvas.width = 1350;
+        } else if (window.innerWidth > 1200 && window.innerHeight > 1200 / this.aspect_ratio) {
+            canvas.width = 1150;
+        }
+        
+        canvas.height = canvas.width / this.aspect_ratio;
+        canvas_text.width = canvas.width;
+        canvas_text.height = canvas.width / this.aspect_ratio;
         // Retrieve a WebGL context
         gl = utils.getGLContext(canvas);
         d2 = canvas_text.getContext('2d');
-
+        
         // Set the clear color to be black
         gl.clearColor(0, 0, 0, 1);
         gl.enable(gl.DEPTH_TEST);
-
+        
         this.setup_textures();
         this.configureGeometry();
+        //this.aspect_ratio = gl.canvas.width / gl.canvas.height;
     }
 
     create_texture() {
@@ -295,11 +306,10 @@ class Renderer {
         gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
     
         // We will discuss these operations in later chapters
-        var halfWidth = Math.tan(0.5 * deg2rad(45 * gl.canvas.width / gl.canvas.height));
+/*         var halfWidth = Math.tan(0.5 * deg2rad(45 * gl.canvas.width / gl.canvas.height));
         var halfHeight = halfWidth * gl.canvas.height / gl.canvas.width;
-        var verticalFoV = rad2deg(2.0 * Math.atan(halfHeight));
-        mat4.perspective(projection_matrix, verticalFoV, gl.canvas.width / gl.canvas.height, 1, 10000);
-    
+        var verticalFoV = rad2deg(2.0 * Math.atan(halfHeight)); */
+        mat4.perspective(projection_matrix, deg2rad(this.fov), this.aspect_ratio, 1, 10000);
         //const lightPositions = this.lights.map((light) => {return light.getPosition()}).flat();
         for (var i = 0; i < 4 && i < this.lights.length; i++) {
             gl.uniform3fv(program['uLight[' + i + '].position'], this.lights[i].getPosition());
@@ -316,6 +326,9 @@ class Renderer {
         gl.uniform3fv(program.uCameraPos, active_camera.getPosition()); 
         gl.uniformMatrix4fv(program.uProjectionMatrix, false, projection_matrix);
         view_matrix = active_camera.getViewMatrix();
+        if (debug) {
+            console.log(active_camera.getWorldPosition());
+        }
         gl.uniformMatrix4fv(program.uViewMatrix, false, view_matrix);
         this.drawables.forEach((drawable) => {
             gl.uniformMatrix4fv(program.uModelMatrix, false, drawable.world_transform);
