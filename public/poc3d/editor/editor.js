@@ -46,8 +46,11 @@ async function init() {
     await load_all_models();
     await load_all_sounds();
     game = new Game();
-    await fetch('/models/levels.json').then(response => response.json()).then(levels => game.loadLevels(levels, 'LampBossRoom'));
+    await fetch('/models/levels.json').then(response => response.json()).then(levels => game.json_levels = levels);
     
+    game.startNewGame();
+    game.setScene(game.scenes['LampBossRoom'], [16, 0, -6]);
+
     for (const [key, value] of Object.entries(game.scenes)) {
         game.scenes[key].entities.forEach(entity => {
             if (!entity.id) {
@@ -59,11 +62,11 @@ async function init() {
     
     debug_camera = new DebugCamera([6, 6, 8]);
     editor_camera = new EditorCamera([6, 16, 8]);
-    editor_camera.activate();
     game.scene.lights.push(editor_camera.light);
     picking = true;
     render();
     initControls();
+    editor_camera.activate();
 }
 
 

@@ -52,7 +52,9 @@ class EditorCamera extends Camera {
             }
             cameras.splice(cameras.lastIndexOf(player.camera), 1);
             player = undefined;
-            gui.removeFolder(gui.player);
+            if (gui.player) {   
+                gui.removeFolder(gui.player);
+            }
         }
     }
     
@@ -126,6 +128,7 @@ class EditorCamera extends Camera {
                 game.paused = false;
 
             } else {
+                player = new Player();
                 game.placePlayer(this.active_tool.getWorldPosition());
                 player.camera.activate();
                 
