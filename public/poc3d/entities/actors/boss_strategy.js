@@ -46,7 +46,8 @@ class BossStrategy {
             if (this.patrol_points.length > 0) {
                 var dist = vec3.dist(this.patrol_points[this.position_index], this.parent.getWorldPosition());
                 if(dist < patrol_tolerance) {
-                    this.pickNewState();
+                    this.state = BossStates.Wait;
+                    window.setTimeout(() => this.pickNewState(), 500);
                 }
             }
         } else if (this.state == BossStates.Attack) {

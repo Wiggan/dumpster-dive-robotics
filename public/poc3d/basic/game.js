@@ -19,28 +19,25 @@ const constants = {
 class Game {
     constructor() {
         this.scenes = {};
-        this.paused = false;
+        this.paused = true;
         this.overlay = [0.0, 0.0, 0.0, 0.0];
         this.transition;
-        this.slain_bosses = [];
         try {
             this.loadSettings();
         } catch {
 
         }
+        debug_camera = new DebugCamera([6, 6, 8]);
     }
     
-    loadLevels(levels, start_scene) {
-        for (const [key, value] of Object.entries(JSON.parse(levels))) {
+    loadLevels() {
+        for (const [key, value] of Object.entries(JSON.parse(game.json_levels))) {
             this.scenes[key] = new Scene(value.name, value.entities);
         }
-        this.scene = this.scenes[start_scene || 'Downfall'];
     }
     
-    placePlayer(position) {        
-        player = new Player(position);/* 
-        player.equip(new DoubleLauncher(null, [0, 0, 0]), player.sockets.right_arm);
-        player.equip(new Launcher(null, [0, 0, 0]), player.sockets.left_arm); */
+    placePlayer(position) {       
+        player.local_transform.setPosition(position); 
         this.scene.entities.push(player);
         this.scene.colliders.push(...player.getColliders());
     }
@@ -61,6 +58,11 @@ class Game {
     startNewGame() {
         //playMusic(music.in_game);
         // Todo
+        player = new Player();
+        this.loadLevels();
+        this.scene = this.scenes['Downfall'];
+        this.placePlayer([16,0,-9]);
+        player.camera.activate();
     }
 
     changeScene(scene, player_position) {
@@ -106,9 +108,12 @@ class Game {
     }
 
     setScene(scene, player_position) {
-        game.scene.remove(player);
+        if (game.scene) {
+            game.scene.remove(player);
+        }
         game.scene = scene;
         game.scene.entities.push(player);
+        game.scene.colliders.push(...player.getColliders());
         player.local_transform.setPosition(player_position);
         game.scene.update(0);
     }
@@ -147,7 +152,7 @@ class Game {
             inventory: player.inventory,
             position: player.getWorldPosition(),
             scene: game.scene.name,
-            slain_bosses: game.slain_bosses
+            slain_bosses: player.slain_bosses
         };
         this.saveCookie(cookie);
     }
@@ -156,16 +161,20 @@ class Game {
         //playMusic(music.in_game);
         var cookie = this.getCookie() || {};
         if (cookie.persistent) {
+            player = new Player();
+            if (cookie.persistent.slain_bosses) {
+                player.slain_bosses = cookie.persistent.slain_bosses;
+            }
             if (cookie.persistent.scene && cookie.persistent.position) {
+                this.loadLevels();
                 this.setScene(this.scenes[cookie.persistent.scene], cookie.persistent.position);
+                player.camera.activate();
             }
             if (cookie.persistent.inventory) {
                 player.inventory = cookie.persistent.inventory;
             }
-            if (cookie.persistent.slain_bosses) {
-                this.slain_bosses = cookie.persistent.slain_bosses;
-            }
         }
+        
     }
 
     saveSettings() {

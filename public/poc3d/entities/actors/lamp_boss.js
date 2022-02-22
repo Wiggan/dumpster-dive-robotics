@@ -149,7 +149,7 @@ class LampBoss extends Actor {
     }
 
     onDeath() {
-        game.slain_bosses.push(this.class);
+        player.slain_bosses.push(this.class);
         this.scene.getAllOfClass('Portal').forEach(portal => {
             portal.enable();
         });

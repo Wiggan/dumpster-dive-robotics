@@ -33,7 +33,7 @@ function showStartScreen () {
 
 function initMenu() {
     document.getElementById("init").onclick = async (e) => {
-        await init();
+        await loadAssets();
         showStartScreen();
     };
     document.getElementById("resume").onclick = (e) => {

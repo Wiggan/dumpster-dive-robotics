@@ -19,7 +19,9 @@ function render() {
         game.update(throttled_elapsed);
         debug_camera.update(elapsed);
         then = now;
-        game.scene.draw(renderer);
+        if (game.scene) {
+            game.scene.draw(renderer);
+        }
         if (frame_intervals.length == 60) {
             fps = Math.floor(60000 / frame_intervals.reduce((total, interval) => total + interval));
             frame_intervals.length = 0;
@@ -31,21 +33,21 @@ function render() {
     }
 }
 
-// Entry point to our application
-async function init() {
+async function loadAssets() {
     renderer = new Renderer();
     await initProgram();
     await load_all_models();
     load_all_sounds();
-    //initMenu();
     game = new Game();
-    await fetch('/models/levels.json').then(response => response.json()).then(levels => game.loadLevels(levels));
-    debug_camera = new DebugCamera([6, 6, 8]);
-    game.placePlayer([16,0,-9]);
-    active_camera.activate();
+    await fetch('/models/levels.json').then(response => response.json()).then(levels => game.json_levels = levels);
 
-    render();
     initControls();
+    render();
+}
+
+// Entry point to our application
+function start() {
+
 }
 
 function initControls() {

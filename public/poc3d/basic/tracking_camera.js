@@ -78,11 +78,13 @@ class TrackingCamera extends Camera {
     update(elapsed, dirty) {
         var new_pos = this.parent.getWorldPosition();
         new_pos[1] += 16;
-        game.scene.camera_anchors.forEach((anchor) => {
-            var t = 1.0/(1.0 + (anchor.getSquaredHorizontalDistanceToPlayer() / anchor.force));
-            //console.log("t: " + t)
-            vec3.lerp(new_pos, new_pos, anchor.getWorldPosition(), t);
-        });
+        if (game.scene) {
+            game.scene.camera_anchors.forEach((anchor) => {
+                var t = 1.0/(1.0 + (anchor.getSquaredHorizontalDistanceToPlayer() / anchor.force));
+                //console.log("t: " + t)
+                vec3.lerp(new_pos, new_pos, anchor.getWorldPosition(), t);
+            });
+        }
 
         //new_pos[1] = new_pos[1]*1024/gl.canvas.width;
         this.local_transform.setPosition(new_pos);

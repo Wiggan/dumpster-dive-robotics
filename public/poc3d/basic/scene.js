@@ -9,7 +9,7 @@ class Scene extends Entity {
         this.camera_anchors = [];
         this.entity_uuid_map = new Map();
         this.entities = entities.map((entity) => {
-            if (entity.class && entity.class != 'Player' && !game.slain_bosses.includes(entity.class)) {
+            if (entity.class && entity.class != 'Player' && !player.slain_bosses.includes(entity.class)) {
                 var e = new classes[entity.class](this, entity.local_position);
                 e = Object.assign(e, entity);
                 this.entity_uuid_map.set(e.uuid, e);

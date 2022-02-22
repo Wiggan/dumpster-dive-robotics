@@ -26,7 +26,7 @@ const original_stats = {
 
 class Player extends Actor {
     constructor(local_position) {
-        super(null, local_position);
+        super(null, local_position || [0, 0, 0]);
         this.body = new Body(this);
         this.base = new Base(this.body);
         this.head = new Head(this.body);
@@ -34,11 +34,8 @@ class Player extends Actor {
         this.launcher.instigator = this;
         this.camera = new TrackingCamera(this, [0, 3, 30]);
         this.inventory = [];
+        this.slain_bosses = [];
 
-        this.state_context = {
-            position: [local_position[0], local_position[1], local_position[2] - 1]
-        };
-        
         this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Player, 0.7, 0.9);
 
         this.stats = JSON.parse(JSON.stringify(original_stats));
