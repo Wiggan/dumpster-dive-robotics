@@ -61,7 +61,7 @@ async function init() {
     
     
     debug_camera = new DebugCamera([6, 6, 8]);
-    editor_camera = new EditorCamera([6, 16, 8]);
+    editor_camera = new EditorCamera([0, 16, -5]);
     game.scene.lights.push(editor_camera.light);
     picking = true;
     render();

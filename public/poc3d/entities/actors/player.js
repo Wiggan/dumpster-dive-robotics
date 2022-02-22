@@ -49,6 +49,7 @@ class Player extends Actor {
         
         this.onGround = false;
         this.groundCollider = new Collider(this, [0, 0, 0.55 ], CollisionLayer.Player, 0.8, 0.1);
+        this.jumpHelperCollider = new Collider(this, [0, 0, -0.45 ], CollisionLayer.Player, 0.95, 0.1);
         this.force[2] = constants.gravity;
         this.last_grounded = Date.now();
     }
@@ -156,7 +157,12 @@ class Player extends Actor {
     }
 
     update(elapsed, dirty) {
-                
+
+        // Stop if no force is applied
+        if (Math.abs(this.force[0]) < 0.00001) {
+            this.velocity[0] = 0;
+        }
+
         this.force[2] = constants.gravity;
         this.onGround = this.checkIfGrounded();
 
@@ -165,6 +171,33 @@ class Player extends Actor {
         vec3.scale(at, this.force, elapsed);
         vec3.add(this.velocity, this.velocity, at);
 
+        // Help with jumping
+        if (!this.onGround) {
+            var jump_collisions = this.jumpHelperCollider.detectCollisions();
+            var block_above = undefined;
+            var block_above_left = undefined;
+            var block_above_right = undefined;
+            var player_position = snapToGrid(this.getWorldPosition());
+            jump_collisions.forEach(collider => {
+                if (collider.getMidX() == player_position[0] && collider.getMidY() == player_position[2]-1) {
+                    block_above = collider;
+                }
+                if (collider.getMidX() == player_position[0]-1 && collider.getMidY() == player_position[2]-1) {
+                    block_above_left = collider;
+                }
+                if (collider.getMidX() == player_position[0]+1 && collider.getMidY() == player_position[2]-1) {
+                    block_above_right = collider;
+                }
+            });
+            if (!block_above) {
+                if (block_above_left && this.collider.getTop() < block_above_left.getBottom()) {
+                    this.velocity[0] += constants.jump_help_strength*elapsed;
+                } else if (block_above_right && this.collider.getTop() < block_above_right.getBottom()) {
+                    this.velocity[0] -= constants.jump_help_strength*elapsed;
+                }
+            }
+            console.log("Jump help:" + (block_above_left ? "Block above left! " : "") + (block_above ? "Block above! " : "") + (block_above_right ? "Block above right! " : ""));
+        }
         // Limit velocities
         this.velocity[0] = Math.min(this.stats.movement_speed, Math.max(-this.stats.movement_speed, this.velocity[0]));
         this.velocity[2] = Math.min(this.stats.jump_speed, Math.max(-this.stats.jump_speed, this.velocity[2]));

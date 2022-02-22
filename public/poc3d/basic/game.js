@@ -13,7 +13,8 @@ const constants = {
     jump_forgiveness: 200,
     jump_cooldown: 300,
     dmg_cooldown: 1000,
-    interaction_range: 1.5
+    interaction_range: 1.5,
+    jump_help_strength: 0.0005,
 };
 
 class Game {

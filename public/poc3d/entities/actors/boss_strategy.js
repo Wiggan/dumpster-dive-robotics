@@ -31,10 +31,12 @@ class BossStrategy {
             this.parent.look_at =  this.patrol_points[this.position_index];
             this.parent.goto(this.patrol_points[this.position_index]);
         } else {
-            this.state = BossStates.Attack;
-            this.attack_position = snapToGrid(player.getWorldPosition());
-            this.parent.look_at = this.attack_position;
-            this.parent.goto(this.attack_position);
+            if (player) {
+                this.state = BossStates.Attack;
+                this.attack_position = snapToGrid(player.getWorldPosition());
+                this.parent.look_at = this.attack_position;
+                this.parent.goto(this.attack_position);
+            }
         }
         console.log(this.state);
     }
