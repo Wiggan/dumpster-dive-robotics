@@ -73,6 +73,9 @@ class Scene extends Entity {
         this.entities.splice(game.scene.entities.lastIndexOf(object), 1);
     }
 
+    removeLight(light) {
+        this.lights.splice(this.lights.lastIndexOf(light), 1);
+    }
 
     draw(renderer) {
         this.entities_to_draw.forEach(entity => {

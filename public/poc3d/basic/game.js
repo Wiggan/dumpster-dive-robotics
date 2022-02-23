@@ -111,9 +111,15 @@ class Game {
     setScene(scene, player_position) {
         if (game.scene) {
             game.scene.remove(player);
+            if (player.inventory.includes(items.lamp)) {
+                game.scene.removeLight(player.head.lamp);
+            }
         }
         game.scene = scene;
         game.scene.entities.push(player);
+        if (player.inventory.includes(items.lamp)) {
+            game.scene.lights.push(player.head.lamp);
+        }
         game.scene.colliders.push(...player.getColliders());
         player.local_transform.setPosition(player_position);
         game.scene.update(0);

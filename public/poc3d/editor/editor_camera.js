@@ -97,6 +97,8 @@ class EditorCamera extends Camera {
             this.active_tool = this.tools[1];
         } else if (e.key == '3') {
             this.active_tool = this.tools[2];
+        } else if (e.key == 'l' || e.key == 'L') {
+            new HeadLampPowerUp(this.active_tool.getWorldPosition());
         } else if (e.key == 'z' && e.ctrlKey) {
             this.undo();
         } else if (e.key == 'p' || e.key == 'P') {

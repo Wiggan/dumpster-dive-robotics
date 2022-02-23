@@ -98,6 +98,9 @@ async function load_all_models() {
         head_lamp: await load_model('/models/lamp_boss/part5.json'),
 
     }
+    models.powerups = {
+        head_lamp: await load_model('/models/head_lamp_powerup/part1.json'),
+    }
     models.light_sensor = await load_model('/models/light_sensor/part1.json');
     models.door = await load_model('/models/door/part1.json');
     models.ball = await load_model('/models/ball/part1.json');

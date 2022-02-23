@@ -1,0 +1,2 @@
+original OBJ file: C:\Users\Fredrik\Documents\dumpster-dive-robotics\public\models\head_lamp_powerup\head_lamp_powerup.obj
+part1.json > alias: HeadLamp_Cylinder.005_None
