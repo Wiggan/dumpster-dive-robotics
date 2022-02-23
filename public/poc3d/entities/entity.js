@@ -122,6 +122,15 @@ class Entity {
         }
     }
 
+    getSquaredHorizontalDistanceToActiveCamera() {
+        if (player) {
+            return vec2.sqrDist(vec2.fromValues(this.getWorldPosition()[0], this.getWorldPosition()[2]),
+                vec2.fromValues(active_camera.getWorldPosition()[0], active_camera.getWorldPosition()[2]));
+        } else {
+            return 0;
+        }
+    }
+
     getDistanceToPlayer() {
         if (player) {
             return vec3.dist(this.getWorldPosition(), player.getWorldPosition());
@@ -170,6 +179,7 @@ class Transition {
                                 vec2.lerp(this.entity[key], this.original_state[key], keypoint.to[key], t);
                             } else if (value.length == 3) {
                                 vec3.lerp(this.entity[key], this.original_state[key], keypoint.to[key], t);
+                                console.log(this.entity[key]);
                             } else if (value.length == 4) {
                                 vec4.lerp(this.entity[key], this.original_state[key], keypoint.to[key], t);
                             }

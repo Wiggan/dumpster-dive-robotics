@@ -52,7 +52,7 @@ class Rocket extends DynamicEntity {
             } else if (other.type == CollisionLayer.Player) {
                 other.parent.takeDamage(this.stats.dmg, this.instigator, this.collider);
             }
-            console.log(other)
+            //console.log(other)
             this.explode();
         }
     }

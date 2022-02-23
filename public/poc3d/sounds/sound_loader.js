@@ -27,6 +27,7 @@ function load_all_sounds() {
     }
 
     music = {
+        boss_intro: new Howl({ src: ['/music/boss_intro.ogg']}),
     }
 
 }

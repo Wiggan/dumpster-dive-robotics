@@ -1,5 +1,7 @@
 'use strict';
 
+const timeouts = [100, 50, 100, 50, 100, 50, 1000];
+
 class FlimmeringLight extends Drawable {
     constructor(parent, local_position) {
         super(parent, local_position, models.box);
@@ -13,8 +15,18 @@ class FlimmeringLight extends Drawable {
         this.light.quadratic = 0.65;
         this.local_transform.scaleUniform(0.3);
         this.material = materials.light;
+        this.timeout_index = 0;
+        this.toggle();
     }
     
+    toggle() {
+        window.setTimeout(() => {
+            this.timeout_index++;
+            this.light.active = !this.light.active;
+            this.toggle();
+        }, timeouts[this.timeout_index%timeouts.length]);
+    }
+
     toJSON(key) {
         return {
             class: 'FlimmeringLight',
@@ -24,9 +36,7 @@ class FlimmeringLight extends Drawable {
     }
 
     update(elapsed, dirty) {
-        if (Math.random() < 0.05) {
-            this.light.active = !this.light.active;
-        }
+
         if (this.light.active) {
             this.material = materials.light;
         } else {

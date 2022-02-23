@@ -50,6 +50,8 @@ class Game {
     update(elapsed) {
         if (!this.paused) {
             this.scene.update(elapsed);
+        } else {
+            active_camera.update(elapsed);
         }
         if (this.transition) {
             this.transition.update(elapsed);
@@ -67,9 +69,9 @@ class Game {
     }
 
     changeScene(scene, player_position) {
-        this.paused = true;
         
         if (scene.name.includes('Boss')) {
+            
             this.transition = new Transition(this, [
                 {
                     time: 300,
@@ -82,7 +84,31 @@ class Game {
                                 portal.disable();
                             });
                         }
-                        game.paused = false;
+                        this.paused = true;
+                        playMusic(music.boss_intro);
+                        // Zoom in on boss
+                        player.camera.position = player.camera.getWorldPosition();
+                        var original_position = [player.camera.position[0], player.camera.position[1], player.camera.position[2]];
+                        var boss = game.scene.getBoss();
+                        var boss_position = [boss.getWorldPosition()[0], boss.getWorldPosition()[1] + 3, boss.getWorldPosition()[2]];
+                        console.log("boss_position: " + boss_position);
+                        console.log("original_position: " + original_position);
+                        player.camera.transition = new Transition(player.camera,[
+                            {
+                                time: 2000,
+                                to: { position: boss_position }
+                            },
+                            {
+                                time: 2000,
+                                to: { position: original_position, transition: null }, 
+                                callback: () => {
+                                    game.paused = false;
+                                    console.log("original_position: " + original_position);
+                                    player.camera.position = undefined;
+                                    // playMusic(music.boss_fight);
+                                }
+                            },
+                        ]);
                     }
                 },
                 {

@@ -66,6 +66,13 @@ class Scene extends Entity {
         return this.getAllOfClass('LampBoss').length > 0;
     }
 
+    getBoss() {
+        var bosses = this.entities.filter((entity) => entity.class && entity.class.includes('Boss'));
+        if (bosses.length > 0) {
+            return bosses[0];
+        }
+    }
+
     remove(object) {
 /*         object.getColliders().forEach(collider => {
             this.colliders.splice(game.scene.colliders.lastIndexOf(collider), 1);
@@ -78,6 +85,7 @@ class Scene extends Entity {
     }
 
     draw(renderer) {
+        this.entities_to_draw = this.entities.filter(entity => entity.getSquaredHorizontalDistanceToActiveCamera() < 220);
         this.entities_to_draw.forEach(entity => {
             entity.draw(renderer);
         });
@@ -99,7 +107,6 @@ class Scene extends Entity {
                 //light.inactivate();
             }
         }); */
-        this.entities_to_draw = this.entities.filter(entity => entity.getSquaredHorizontalDistanceToPlayer() < 220);
         this.entities.forEach(entity => {
             entity.update(elapsed, false);
         });
