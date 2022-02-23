@@ -22,7 +22,7 @@ function render() {
             } else {
                 game.update(0);
             }
-            game.scene.update(elapsed);
+            //game.scene.update(elapsed);
             game.scene.draw(renderer);
         }
         editor_camera.update(elapsed);
@@ -79,6 +79,14 @@ async function init() {
 
 function setSavedGameExists(exists) {
     //...
+}
+function showStartScreen() {
+    game.overlay = [0.0, 0.0, 0.0, 0.0];
+    player = new Player();
+    game.loadLevels();
+    game.setScene(game.scenes['LampBossRoom'], [1600, 0, -6]);
+    game.scene.lights.push(editor_camera.light);
+    editor_camera.activate();
 }
 
 function download(filename, text) {
