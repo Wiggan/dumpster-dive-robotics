@@ -182,7 +182,7 @@ class Game {
     save() {
         var cookie = this.getCookie() || {};
         cookie.persistent = {
-            inventory: player.inventory,
+            inventory: player.inventory.map((item) => item.key),
             position: player.getWorldPosition(),
             scene: game.scene.name,
             slain_bosses: player.slain_bosses
@@ -204,10 +204,11 @@ class Game {
                 player.camera.activate();
             }
             if (cookie.persistent.inventory) {
-                player.inventory = cookie.persistent.inventory;
+                cookie.persistent.inventory.forEach((item) => {
+                    player.pickUp(items[item]);
+                });
             }
         }
-        
     }
 
     saveSettings() {

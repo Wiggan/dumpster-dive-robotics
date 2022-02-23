@@ -179,7 +179,6 @@ class Transition {
                                 vec2.lerp(this.entity[key], this.original_state[key], keypoint.to[key], t);
                             } else if (value.length == 3) {
                                 vec3.lerp(this.entity[key], this.original_state[key], keypoint.to[key], t);
-                                console.log(this.entity[key]);
                             } else if (value.length == 4) {
                                 vec4.lerp(this.entity[key], this.original_state[key], keypoint.to[key], t);
                             }

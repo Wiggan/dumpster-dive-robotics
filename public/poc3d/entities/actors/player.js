@@ -2,10 +2,12 @@
 
 const items = {
     lamp: {
+        key: 'lamp',
         name: 'Lamp', 
         description: 'Lamp attached to head'
     },
     battery: {
+        key: 'battery',
         name: 'Battery', 
         description: 'Extra battery cell providing a higher voltage for all systems', 
         modifiers: {
