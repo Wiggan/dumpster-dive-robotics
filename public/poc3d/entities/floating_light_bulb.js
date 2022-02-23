@@ -55,7 +55,6 @@ class FloatingLightBulb extends PointLight {
             case States.ShuttingDown:
                 this.local_transform.setPosition(this.position);
                 this.local_transform.yaw(elapsed * 0.05);
-                this.transition.update(elapsed);
                 break;
         }
 

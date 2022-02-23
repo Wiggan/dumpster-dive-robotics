@@ -22,7 +22,6 @@ class FloorButton extends Trigger {
 
     update(elapsed, dirty) {
         if (this.transition) {
-            this.transition.update(elapsed);
             this.button_model.local_transform.setPosition(this.button_position);
             dirty = true;
         }

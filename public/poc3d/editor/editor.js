@@ -16,15 +16,18 @@ function render() {
         now = Date.now();
         var elapsed = now - then;
         frame_intervals.push(elapsed);
-        if (player || game.scene.particles) {
-            game.update(Math.min(elapsed, 30));
-        } else {
-            game.update(0);
+        if (game.scene) {
+            if (player || game.scene.particles) {
+                game.update(Math.min(elapsed, 30));
+            } else {
+                game.update(0);
+            }
+            game.scene.update(elapsed);
+            game.scene.draw(renderer);
         }
         editor_camera.update(elapsed);
         debug_camera.update(elapsed);
         then = now;
-        game.scene.draw(renderer);
         editor_camera.draw(renderer);
         debug_camera.draw(renderer);
         if (frame_intervals.length == 60) {
@@ -48,9 +51,18 @@ async function init() {
     game = new Game();
     await fetch('/models/levels.json').then(response => response.json()).then(levels => game.json_levels = levels);
     
-    game.startNewGame();
-    game.setScene(game.scenes['LampBossRoom'], [16, 0, -6]);
-
+    debug_camera = new DebugCamera([6, 6, 8]);
+    editor_camera = new EditorCamera([0, 16, -5]);
+    picking = true;
+    
+    render();
+    
+    //game.startNewGame();
+    player = new Player();
+    game.loadLevels();
+    game.setScene(game.scenes['LampBossRoom'], [1600, 0, -6]);
+    game.scene.lights.push(editor_camera.light);
+    
     for (const [key, value] of Object.entries(game.scenes)) {
         game.scenes[key].entities.forEach(entity => {
             if (!entity.id) {
@@ -58,15 +70,10 @@ async function init() {
             }
         });
     }
-    
-    
-    debug_camera = new DebugCamera([6, 6, 8]);
-    editor_camera = new EditorCamera([0, 16, -5]);
-    game.scene.lights.push(editor_camera.light);
-    picking = true;
-    render();
-    initControls();
+    initGui();
     editor_camera.activate();
+    initControls();
+    
 }
 
 
@@ -115,13 +122,16 @@ function initControls() {
             active_camera.onKeyDown(e);
         }
     });
+}
 
+function initGui() {
 
     gui = new dat.GUI({name: 'Editor'});
     var scenes_folder = gui.addFolder('Scenes');
     var current_scene = {scene: game.scene.name};
     var changeScene = (scene_name) => {
         game.scene = game.scenes[scene_name];
+
         game.scene.lights.push(editor_camera.light);
     } 
     var scene_list = scenes_folder.add(current_scene, 'scene', Object.keys(game.scenes)).onChange(changeScene);

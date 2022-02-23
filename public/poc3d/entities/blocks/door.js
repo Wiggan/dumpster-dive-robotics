@@ -45,7 +45,6 @@ class Door extends Entity {
     
     update(elapsed, dirty) {
         if (this.transition) {
-            this.transition.update(elapsed);
             this.door.local_transform.setPosition(this.door.position);
             dirty = true;
             this.door.update(0, true);

@@ -21,12 +21,12 @@ function setSavedGameExists(exists) {
     document.getElementById("load").disabled = !exists;
 }
 
-function showStartScreen () {
+function showStartScreen() {
     document.getElementById("outer-container").style.display = "block";
     game.getCookie(); // To get disabled buttons right... blah
     //playMusic(music.start_screen);
     hideAllViews();
-    game.overlay = [0.0, 0.0, 0.0, 0.8];
+    game.overlay = [0.0, 0.0, 0.0, 1.0];
     game.paused = true;
     showView(views.start);
 }

@@ -43,9 +43,6 @@ class SaveStation extends Pickable {
     }
     
     update(elapsed, dirty) {
-        if (this.transition) {
-            this.transition.update(elapsed);
-        }
         this.particle_socket.local_transform.scaleUniform(this.scale);
         this.particle_socket.local_transform.roll(elapsed * this.rotation_speed);
         this.particle_socket.local_transform.setPosition([0, 0, Math.sin(Date.now()*0.005)]);

@@ -246,6 +246,20 @@ class Player extends Actor {
             }, constants.dmg_cooldown);
         }
     }
+
+    onDeath() {
+        game.transition = new Transition(game, [
+            {
+                time: 2000,
+                to: { overlay: [0.0, 0.0, 0.0, 1.0]},
+                callback: () => {
+                    showStartScreen();
+                    
+                }
+            }
+        ]);
+        super.onDeath();
+    }
 }
 
 class BodyLamp extends Drawable {

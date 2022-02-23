@@ -81,6 +81,11 @@ class Entity {
         if (this.children.length > 100) {
             console.log("Many children: " + this.children.length);
         }
+        
+        
+        if (this.transition) {
+            this.transition.update(elapsed);
+        }
     }
 
     makePickable() {
