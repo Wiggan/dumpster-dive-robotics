@@ -70,7 +70,7 @@ class Game {
 
     changeScene(scene, player_position) {
         
-        if (scene.name.includes('Boss')) {
+        if (scene.containsBoss()) {
             
             this.transition = new Transition(this, [
                 {
@@ -78,13 +78,11 @@ class Game {
                     to: { overlay: [0.0, 0.0, 0.0, 1.0]},
                     callback: () => {
                         
-                        this.setScene(scene, player_position);
-                        if (scene.containsBoss()) {
-                            this.scene.getAllOfClass('Portal').forEach(portal => {
-                                portal.disable();
-                            });
-                        }
                         this.paused = true;
+                        this.setScene(scene, player_position);
+                        this.scene.getAllOfClass('Portal').forEach(portal => {
+                            portal.disable();
+                        });
                         playMusic(music.boss_intro);
                         // Zoom in on boss
                         player.camera.position = player.camera.getWorldPosition();

@@ -40,6 +40,7 @@ class LampBoss extends Actor {
             dmg_cooldown: 3000
         };
         this.strategy = new BossStrategy(this);
+        this.blinking_drawables_on_damage = [this.body, this.motors];
     }
     
     toJSON(key) {
@@ -136,16 +137,8 @@ class LampBoss extends Actor {
     }
 
     takeDamage(amount, instigator, collider) {
-        if (!this.dmg_on_cooldown) {
-            super.takeDamage(amount, instigator);
-            this.dmg_on_cooldown = true;
-            this.body.material = materials.red_led;
-            window.setTimeout(() => {
-                this.body.material = materials.metall;
-                this.dmg_on_cooldown = false;
-            }, this.stats.dmg_cooldown);
-
-        }
+        super.takeDamage(amount, instigator, collider);
+        // Todo drop a propeller for each hit and become slower?
     }
 
     onDeath() {

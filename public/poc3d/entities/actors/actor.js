@@ -15,6 +15,7 @@ class Actor extends Entity {
         };
         this.max_health = 2;
         this.health = 2;
+        this.blinking_drawables_on_damage = [];
     }
 
 
@@ -78,6 +79,21 @@ class Actor extends Entity {
         }
     }
 
+    setRedMaterials(drawables) {
+        console.log("Setting red materials");
+        this.original_materials = drawables.map((drawable) => drawable.material);
+        drawables.forEach((drawable) => {
+            drawable.material = materials.red_led;
+        });
+    }
+    
+    restoreMaterials(drawables) {
+        console.log("Restoring materials");
+        drawables.forEach((drawable, index) => {
+            drawable.material = this.original_materials[index];
+        });
+    }
+
     onDeath() {
         game.scene.remove(this);
         game.scene.colliders.splice(game.scene.colliders.lastIndexOf(this.collider), 1);
@@ -91,5 +107,20 @@ class Actor extends Entity {
         if (this.health == 0) {
             this.onDeath();
         }
+        this.dmg_on_cooldown = true;
+        this.damage_blink = 0;
+        this.setRedMaterials(this.blinking_drawables_on_damage);
+        this.damage_interval = window.setInterval(() => {
+            if (this.damage_blink++ % 2 == 0) {
+                this.restoreMaterials(this.blinking_drawables_on_damage);
+            } else {
+                this.setRedMaterials(this.blinking_drawables_on_damage);
+            }
+        }, 100);
+        window.setTimeout(() => {
+            this.dmg_on_cooldown = false;
+            window.clearInterval(this.damage_interval);
+            this.restoreMaterials(this.blinking_drawables_on_damage);
+        }, constants.dmg_cooldown);
     }
 }

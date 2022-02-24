@@ -48,6 +48,7 @@ class Player extends Actor {
         this.dmg_on_cooldown = false;
         this.max_health = 3;
         this.health = 3;
+        this.blinking_drawables_on_damage = [this.body, this.head.head.drawable, this.base.base];
         
         this.onGround = false;
         this.groundCollider = new Collider(this, [0, 0, 0.55 ], CollisionLayer.Player, 0.8, 0.1);
@@ -228,7 +229,7 @@ class Player extends Actor {
 
     takeDamage(amount, instigator, collider) {
         if (!this.dmg_on_cooldown) {
-            super.takeDamage(amount, instigator);
+            super.takeDamage(amount, instigator, collider);
             if (collider.type == CollisionLayer.Enemy) {
                 if (this.getWorldPosition()[0] < instigator.getWorldPosition()[0]) {
                     this.velocity = [-0.004, 0, -0.02];
@@ -236,16 +237,6 @@ class Player extends Actor {
                     this.velocity = [0.004, 0, -0.02];
                 }
             }
-            this.dmg_on_cooldown = true;
-            this.body.material = materials.red_led;
-            this.head.head.drawable.material = materials.red_led;
-            this.base.base.material = materials.red_led;
-            window.setTimeout(() => {
-                this.dmg_on_cooldown = false;
-                this.body.material = materials.player;
-                this.head.head.drawable.material = materials.player;
-                this.base.base.material = materials.player;
-            }, constants.dmg_cooldown);
         }
     }
 

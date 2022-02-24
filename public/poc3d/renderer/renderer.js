@@ -24,18 +24,15 @@ class Renderer {
         
         // Set the canvas to the size of the screen
         this.aspect_ratio = 16/9;
-        canvas.width = 800;
-        if (window.innerWidth > 1800 && window.innerHeight > 1800 / this.aspect_ratio) {
-            canvas.width = 1700;
-        } else if (window.innerWidth > 1400 && window.innerHeight > 1400 / this.aspect_ratio) {
-            canvas.width = 1350;
-        } else if (window.innerWidth > 1200 && window.innerHeight > 1200 / this.aspect_ratio) {
-            canvas.width = 1150;
+        if (window.innerWidth < window.innerHeight * this.aspect_ratio) {
+            canvas.height = window.innerWidth / this.aspect_ratio;
+            canvas.width = window.innerWidth;
+        } else {
+            canvas.height = window.innerHeight;
+            canvas.width = window.innerHeight * this.aspect_ratio;
         }
-        
-        canvas.height = canvas.width / this.aspect_ratio;
         canvas_text.width = canvas.width;
-        canvas_text.height = canvas.width / this.aspect_ratio;
+        canvas_text.height = canvas.height;
         // Retrieve a WebGL context
         gl = utils.getGLContext(canvas);
         d2 = canvas_text.getContext('2d');
