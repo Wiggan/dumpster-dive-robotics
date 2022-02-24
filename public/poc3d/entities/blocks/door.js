@@ -19,6 +19,7 @@ class Door extends Entity {
 
     stop_triggering() {
         //console.log("Closing door");
+        this.door.collider2.local_transform.setPosition([0, 0, 1.1]);
         this.transition = new Transition(this.door, [{
             time: 1000, to: {
                 position: this.door.local_position
@@ -28,6 +29,7 @@ class Door extends Entity {
     
     start_triggering() {
         //console.log("Opening door");
+        this.door.collider2.local_transform.setPosition([0, 0, 0]);
         this.transition = new Transition(this.door, [{
             time: 1000, to: {
                 position: [this.door.local_position[0], this.door.local_position[1], this.door.local_position[2]-2]
