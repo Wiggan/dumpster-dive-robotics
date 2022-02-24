@@ -33,6 +33,8 @@ class TrackingCamera extends Camera {
         super.onKeyDown(e);
         if (e.key == 'Control') {
             e.preventDefault();
+        } else if (e.key == 'Shift') {
+            player.dash();
         } else if (e.key == 'w' || e.key == 'W') {
         } else if (e.key == 's' || e.key == 'S') {
         } else if ((e.key == 'a' || e.key == 'A') && !e.repeat) {

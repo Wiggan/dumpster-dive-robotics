@@ -139,16 +139,10 @@ class Player extends Actor {
 
     startMovement(right) {
         if (right) {
-            if (Date.now() - this.last_right < constants.dash_timing) {
-                this.dash();
-            }
             // TODO play sound
             this.force[0] = this.stats.acceleration;
             this.last_right = Date.now();
         } else {
-            if (Date.now() - this.last_left < constants.dash_timing) {
-                this.dash();
-            }
             this.force[0] = -this.stats.acceleration;
             this.last_left = Date.now();
         }
