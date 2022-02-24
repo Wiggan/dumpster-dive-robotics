@@ -138,13 +138,22 @@ class Player extends Actor {
     }
 
     startMovement(right) {
+        var position = this.getWorldPosition();
+        position[2] = 0.45;
+        var direction = [-1, 0, -0.5];
         if (right) {
             // TODO play sound
             this.force[0] = this.stats.acceleration;
             this.last_right = Date.now();
+            position[0] = -0.4
         } else {
             this.force[0] = -this.stats.acceleration;
             this.last_left = Date.now();
+            direction[0] = 1;
+            position[0] = 0.4
+        }
+        if (this.onGround) {
+            new Dirt(this, position, direction, 6);
         }
     }
 
@@ -318,7 +327,7 @@ class Base extends Entity {
 
 class Body extends Drawable {
     constructor(parent) {
-        super(parent, [0, 0, 0.328], models.player.body);
+        super(parent, [0, 0, 0.450], models.player.body);
         this.material = materials.player;
         //this.lamp = new BodyLamp(this);
         this.rotation_speed = 1;
