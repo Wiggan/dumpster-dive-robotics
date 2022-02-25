@@ -105,4 +105,10 @@ async function load_all_models() {
     models.door = await load_model('/models/door/part1.json');
     models.ball = await load_model('/models/ball/part1.json');
     models.ceiling_cannon = await load_model('/models/ceiling_cannon/part1.json');
+    
+    models.pool_boss = {
+        wheels: await load_model('/models/pool_boss/part1.json'),
+        base: await load_model('/models/pool_boss/part3.json'),
+        cleaner: await load_model('/models/pool_boss/part4.json'),
+    }
 }
