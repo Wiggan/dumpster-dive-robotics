@@ -13,21 +13,35 @@ class Trigger extends Entity {
         console.log("huh");
     }
 
-    onCollision(other) {
-        if (other.collider.type == CollisionLayer.Player) {
-            if (this.triggee && typeof this.triggee == 'string' && !this.triggered) {
-                var triggee_entity = game.scene.entity_uuid_map.get(this.triggee);
-                this.triggered = true;
-                triggee_entity.trigger();
-                this.onTrigger(other);
-            } else if (/*this.triggee && typeof this.triggee == 'function' &&*/ !this.triggered) {
-                this.triggered = true;
-                this.onTrigger(other);
-            }
-        }
-    }
-
     update(elapsed, dirty) {
         super.update(elapsed, dirty);
+        var  triggered = false;
+        this.collider.detectCollisions().forEach(other => {
+            if (other.type == CollisionLayer.Player) {
+                triggered = true;
+            } 
+        });
+        if (triggered && !this.triggered) {
+            this.triggered = true;
+            if (this.triggees) {
+                this.triggees.forEach((triggee) => {
+                    var t = game.scene.entity_uuid_map.get(triggee);
+                    if (t) {
+                        t.start_triggering();
+                    }
+                });
+            }
+            this.onTrigger();
+        } else if (!triggered && this.triggered) {
+            this.triggered = false;
+            if (this.triggees) {
+                this.triggees.forEach((triggee) => {
+                    var t = game.scene.entity_uuid_map.get(triggee);
+                    if (t) {
+                        t.stop_triggering();
+                    }
+                });
+            }
+        }
     }
 }

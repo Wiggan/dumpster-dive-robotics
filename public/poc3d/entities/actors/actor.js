@@ -41,8 +41,6 @@ class Actor extends Entity {
                         }
                         mat4.copy(this.world_transform, this.local_transform.get());
                         this.collider.update(0, true);
-                    } else if (other.type == CollisionLayer.Trigger) {
-                        other.parent.onCollision(this);
                     } else if (other.type == CollisionLayer.Enemy) {
                         if (this.collider.type == CollisionLayer.Player) {
                             this.takeDamage(other.parent.stats.dmg, other.parent, this.collider)

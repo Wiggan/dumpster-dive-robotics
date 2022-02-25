@@ -108,6 +108,9 @@ class Collider {
         var collisions = [];
         game.scene.colliders.forEach((other) => {
             if (other && this.isColliding(other)) {
+                if (this.parent == player && other.type == CollisionLayer.Trigger) {
+                    console.log("player and trigger");
+                }
                 collisions.push(other);
             }
         });
