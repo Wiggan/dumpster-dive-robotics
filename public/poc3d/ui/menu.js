@@ -24,7 +24,7 @@ function setSavedGameExists(exists) {
 function showStartScreen() {
     document.getElementById("outer-container").style.display = "block";
     game.getCookie(); // To get disabled buttons right... blah
-    //playMusic(music.start_screen);
+    playMusic(music.intro);
     hideAllViews();
     game.overlay = [0.0, 0.0, 0.0, 1.0];
     game.paused = true;

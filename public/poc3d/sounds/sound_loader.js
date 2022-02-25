@@ -28,6 +28,9 @@ function load_all_sounds() {
 
     music = {
         boss_intro: new Howl({ src: ['/music/boss_intro.ogg']}),
+        boss_fight: new Howl({ src: ['/music/boss_fight.ogg'], loop: true}),
+        intro: new Howl({ src: ['/music/intro.ogg'], loop: true}),
+        in_game: new Howl({ src: ['/music/in_game.ogg'], loop: true}),
     }
 
 }

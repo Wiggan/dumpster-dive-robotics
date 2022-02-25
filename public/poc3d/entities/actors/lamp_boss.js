@@ -147,6 +147,7 @@ class LampBoss extends Actor {
         this.scene.getAllOfClass('Portal').forEach(portal => {
             portal.enable();
         });
+        playMusic(music.in_game);
         new HeadLampPowerUp(snapToGrid(this.getWorldPosition()));
     }
 }

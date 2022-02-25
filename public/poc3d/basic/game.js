@@ -59,7 +59,7 @@ class Game {
     }
 
     startNewGame() {
-        //playMusic(music.in_game);
+        playMusic(music.in_game);
         // Todo
         player = new Player();
         this.loadLevels();
@@ -103,7 +103,7 @@ class Game {
                                     game.paused = false;
                                     console.log("original_position: " + original_position);
                                     player.camera.position = undefined;
-                                    // playMusic(music.boss_fight);
+                                    playMusic(music.boss_fight);
                                 }
                             },
                         ]);
@@ -189,7 +189,7 @@ class Game {
     }
 
     load() {
-        //playMusic(music.in_game);
+        playMusic(music.in_game);
         var cookie = this.getCookie() || {};
         if (cookie.persistent) {
             player = new Player();
