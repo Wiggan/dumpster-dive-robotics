@@ -16,8 +16,9 @@ class WaterSurface extends Trigger {
         } */
     }
 
-    onTrigger() {
+    onTrigger(other) {
         console.log("Water triggered");
+        new WaterSplash(null, other.getWorldPosition());
     }
 
     toJSON(key) {

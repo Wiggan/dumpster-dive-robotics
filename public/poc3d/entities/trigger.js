@@ -19,10 +19,10 @@ class Trigger extends Entity {
                 var triggee_entity = game.scene.entity_uuid_map.get(this.triggee);
                 this.triggered = true;
                 triggee_entity.trigger();
-                this.onTrigger();
+                this.onTrigger(other);
             } else if (/*this.triggee && typeof this.triggee == 'function' &&*/ !this.triggered) {
                 this.triggered = true;
-                this.onTrigger();
+                this.onTrigger(other);
             }
         }
     }
