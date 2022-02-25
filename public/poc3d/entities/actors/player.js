@@ -116,6 +116,9 @@ class Player extends Actor {
                 console.log("Jump cooldown ended!");
                 this.jump_on_cooldown = false;
             }, constants.jump_cooldown);
+            
+            var position = [0, 0, 0.45];
+            new Dirt(this, position, [0, 0, -1], 10, 0.4);
         }
     }
 

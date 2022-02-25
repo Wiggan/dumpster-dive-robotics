@@ -1,9 +1,9 @@
 class Dirt extends ParticleSystem {
-    constructor(parent, local_position, direction, particle_count) {
+    constructor(parent, local_position, direction, particle_count, spread) {
         super(parent, local_position);
         this.direction = direction || [0, 1, 0];
         this.continuous = false;
-        this.spread = 0.16;
+        this.spread = spread || 0.16;
         this.min_speed = 0.0007;
         this.max_speed = 0.0021;
         this.particle_life_time = 250;
