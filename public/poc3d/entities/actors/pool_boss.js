@@ -1,53 +1,40 @@
 'use strict'
 
-class LampBoss extends Actor {
+class PoolBoss extends Actor {
     constructor(parent, position) {
-        super(null, position);
+        super(null, position); 
         this.scene = parent;
         this.position = position;
         this.type = PickableType.Enemy;
-        this.body = new Drawable(this, [0, 0, 0], models.lamp_boss.body);
-        this.led_list = new Drawable(this, [0, 0, 0], models.lamp_boss.led_list);
-        this.motors = new Drawable(this, [0, 0, 0], models.lamp_boss.motors);
-        this.fans = [
-            new Drawable(this, [0.22, -0.22, 0], models.lamp_boss.fan),
-            new Drawable(this, [0.22, 0.22, 0], models.lamp_boss.fan),
-            new Drawable(this, [-0.22, -0.22, 0], models.lamp_boss.fan),
-            new Drawable(this, [-0.22, 0.22, 0], models.lamp_boss.fan)
-        ];
-        
-        this.led_list.material = materials.red_led;
-        this.body.material = materials.metall;
-        
-        this.fans.forEach(fan => {
-            fan.local_transform.roll(Math.random()*360);
-            fan.material = materials.rubber;
-        });
-        
-        this.lamp = new PointLight(this, [0, 0, 0], parent);
-        this.lamp.constant = LanternLight.Constant;
-        this.lamp.linear = LanternLight.Linear;
-        this.lamp.quadratic = LanternLight.Quadratic;
-        this.lamp.active = true;
-        
-        this.lamp.drawable = new Drawable(this, [0, 0, 0], models.lamp_boss.head_lamp);
-        this.lamp.drawable.material = materials.light;
+        this.base = new Drawable(this, [0, 0, 0], models.pool_boss.base);
+        this.local_transform.yaw(-90);
+        this.wheels = new Drawable(this, [0, 0, 0], models.pool_boss.wheels);
+        this.cleaner = new Drawable(this, [0, 0, 0], models.pool_boss.cleaner);
+        this.launcher = new Launcher(this);
+        this.launcher.local_transform.yaw(-90);
+        this.launcher.local_transform.roll(-90);
+        this.launcher.local_transform.scaleUniform(3);
+
+        this.base.material = materials.metall;
+        this.wheels.material = materials.rubber;
+        this.cleaner.material = materials.rubber;
+
         this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Enemy, 0.8, 0.4);
         this.stats = {
-            movement_speed: 0.004,
-            acceleration: 0.00008,
+            movement_speed: 0.003,
+            acceleration: 0.00001,
             dmg: 1,
             dmg_cooldown: 3000,
-            patrol_tolerance: 0.3
+            patrol_tolerance: 0.5
         };
         this.strategy = new BossStrategy(this);
-        this.blinking_drawables_on_damage = [this.body, this.motors];
-        this.attack_done = false;
+        this.blinking_drawables_on_damage = [this.base, this.wheels, this.cleaner];
+        this.attack_done = true;
     }
     
     toJSON(key) {
         return {
-            class: 'LampBoss',
+            class: 'PoolBoss',
             strategy: this.strategy,
             local_position: this.position,
         }
@@ -71,7 +58,7 @@ class LampBoss extends Actor {
         var y2 = snapToGrid(position)[2] - this.collisionGrid.offsetY;
         this.pathFinder.findPath(x1, y1, x2, y2, (path => {
             if (path === null || path.length == 0) {
-                console.log("No path to position")
+                console.log("No path to position:" + JSON.stringify(position) + " current_position: " + this.getWorldPosition());
             } else {
                 this.path = path;
                 this.path_index = 0;
@@ -83,8 +70,9 @@ class LampBoss extends Actor {
     }
 
     attack(position) {
-        this.goto(position);
-        this.attack_done = false;
+        this.launcher.lookAtInstantly(position);
+        this.launcher.fire();
+        this.attack_done = true;
     }
 
     gridToWorld(point2d) {
@@ -112,7 +100,7 @@ class LampBoss extends Actor {
         vec3.add(this.velocity, this.velocity, at);
 
         // Limit velocities
-        this.velocity[0] = Math.min(this.stats.movement_speed, Math.max(-this.stats.movement_speed, this.velocity[0]));
+        this.velocity[0] = 0;//Math.min(this.stats.movement_speed, Math.max(-this.stats.movement_speed, this.velocity[0]));
         this.velocity[2] = Math.min(this.stats.movement_speed, Math.max(-this.stats.movement_speed, this.velocity[2]));
 
         if (this.path) {
@@ -121,22 +109,15 @@ class LampBoss extends Actor {
                 if (!this.path[this.path_index]) {
                     console.log("Reached end of path");
                     this.path = undefined;
+                    this.world_target_position = undefined;
                 } else {
                     this.setTargetPoint(this.path[this.path_index]);
                 }
             }
         }
         dirty |= this.strategy.update(elapsed);
-        this.fans.forEach(fan => {
-            fan.local_transform.roll(1.8*elapsed);
-        });
-
-        if (this.strategy.state == BossStates.Attack) {
-            var dist = vec3.dist(this.strategy.attack_position, this.getWorldPosition());
-            if(dist < this.stats.patrol_tolerance) {
-                this.attack_done = true;
-            }
-        }
+        this.cleaner.local_transform.yaw(1.8*elapsed);
+        this.wheels.local_transform.yaw(1.8*elapsed*this.velocity[2]);
 
         super.update(elapsed, dirty);
     }
@@ -167,4 +148,4 @@ class LampBoss extends Actor {
 }
 
 
-classes.LampBoss = LampBoss;
+classes.PoolBoss = PoolBoss;

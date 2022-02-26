@@ -37,7 +37,7 @@ class Rocket extends DynamicEntity {
         var direction = vec3.clone(this.velocity);
         vec3.scale(direction, direction, -1);
         vec3.normalize(direction, direction);
-        console.log(direction);
+        //console.log(direction);
         game.scene.entities.push(new FirePuff(null, this.getWorldPosition(), direction));
         game.scene.entities.push(new Smoke(null, this.getWorldPosition(), direction));
         this.sound.stop();

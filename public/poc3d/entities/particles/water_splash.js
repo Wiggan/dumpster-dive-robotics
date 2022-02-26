@@ -12,5 +12,6 @@ class WaterSplash extends ParticleSystem {
         this.start = {color: normalizeColor([29, 95, 115]), scale: 0.22};
         this.stop = {color: normalizeColor([190, 228, 255]), scale: 0};
         this.setParticleCount(particle_count || 25);
+        console.log(this.local_position)
     }
 }

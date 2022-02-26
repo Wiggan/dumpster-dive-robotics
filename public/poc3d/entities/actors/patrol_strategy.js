@@ -1,7 +1,5 @@
 'use strict'
 
-const patrol_tolerance = 0.3;
-
 class PatrolStrategy {
     constructor(parent) {
         this.parent = parent;
@@ -29,7 +27,7 @@ class PatrolStrategy {
     update(elapsed) {
         if (this.patrol_points.length > 0) {
             var dist = vec3.dist(this.patrol_points[this.position_index], this.parent.getWorldPosition());
-            if(dist < patrol_tolerance) {
+            if(dist < this.parent.stats.patrol_tolerance) {
                 this.index++;
                 this.position_index = this.getPositionIndex(this.index);
                 this.parent.look_at = this.patrol_points[this.position_index];

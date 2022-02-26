@@ -35,7 +35,7 @@ class BossStrategy {
                 this.state = BossStates.Attack;
                 this.attack_position = snapToGrid(player.getWorldPosition());
                 this.parent.look_at = this.attack_position;
-                this.parent.goto(this.attack_position);
+                this.parent.attack(this.attack_position);
             }
         }
         console.log(this.state);
@@ -47,14 +47,13 @@ class BossStrategy {
         } else if (this.state == BossStates.Patrol) {
             if (this.patrol_points.length > 0) {
                 var dist = vec3.dist(this.patrol_points[this.position_index], this.parent.getWorldPosition());
-                if(dist < patrol_tolerance) {
+                if(dist < this.parent.stats.patrol_tolerance) {
                     this.state = BossStates.Wait;
                     window.setTimeout(() => this.pickNewState(), 500);
                 }
             }
         } else if (this.state == BossStates.Attack) {
-            var dist = vec3.dist(this.attack_position, this.parent.getWorldPosition());
-            if(dist < patrol_tolerance) {
+            if (this.parent.attack_done) {
                 this.pickNewState();
             }
         }

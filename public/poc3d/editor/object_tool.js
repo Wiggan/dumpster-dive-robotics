@@ -4,11 +4,12 @@ class ObjectTool extends Tool {
     constructor() {
         super();
         this.objects = [
-            new LampBoss(null, [0, 0, 0]),
             new VacuumFan(null, [0, 0, 0]),
-            new Drone(null, [0, 0, 0]),
             new CameraAnchor(null, [0, 10, 0]),
+            new Light(null, [0, 0, 0]),
             new FlimmeringLight(null, [0, 0, 0]),
+            new LampBoss(null, [0, 0, 0]),
+            new PoolBoss(null, [0, 0, 0]),
         ];
         this.objects.forEach(object => object.material = materials.blue);
         this.object_index = 0;
