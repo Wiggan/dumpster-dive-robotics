@@ -6,14 +6,11 @@ class PoolBoss extends Actor {
         this.scene = parent;
         this.position = position;
         this.type = PickableType.Enemy;
-        this.base = new Drawable(this, [0, 0, 0], models.pool_boss.base);
-        this.local_transform.yaw(-90);
-        this.wheels = new Drawable(this, [0, 0, 0], models.pool_boss.wheels);
-        this.cleaner = new Drawable(this, [0, 0, 0], models.pool_boss.cleaner);
+        this.base = new Drawable(this, [-0.05, 0, 0.025], models.pool_boss.base);
+        this.wheels = new Drawable(this, [-0.216, 0, 0.025], models.pool_boss.wheels);
+        this.cleaner = new Drawable(this, [-0.4, 0, 0.2], models.pool_boss.cleaner);
         this.launcher = new Launcher(this);
-        this.launcher.local_transform.yaw(-90);
-        this.launcher.local_transform.roll(-90);
-        this.launcher.local_transform.scaleUniform(3);
+        this.launcher.model = models.pool_boss.launcher;
 
         this.base.material = materials.metall;
         this.wheels.material = materials.rubber;

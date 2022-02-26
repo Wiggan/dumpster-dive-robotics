@@ -108,7 +108,8 @@ async function load_all_models() {
     
     models.pool_boss = {
         wheels: await load_model('/models/pool_boss/part1.json'),
-        base: await load_model('/models/pool_boss/part3.json'),
-        cleaner: await load_model('/models/pool_boss/part4.json'),
+        base: await load_model('/models/pool_boss/part2.json'),
+        cleaner: await load_model('/models/pool_boss/part3.json'),
+        launcher: await load_model('/models/pool_boss/part4.json'),
     }
 }
