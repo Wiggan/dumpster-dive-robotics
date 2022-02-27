@@ -142,6 +142,7 @@ class EditorCamera extends Camera {
                 gui.player.add(constants, 'dash_timing', 50, 500, 10);
                 gui.player.add(constants, 'dash_duration', 100, 2000, 100);
                 gui.player.add(constants, 'dash_cooldown', 100, 2000, 100);
+                gui.player.add(player.base, 'frame_scaler', 10, 2000, 1);
                 gui.player.open();
     
                 game.paused = false;

@@ -46,8 +46,6 @@ class Player extends Actor {
         this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Player, 0.7, 0.9);
 
         this.stats = JSON.parse(JSON.stringify(original_stats));
-        this.last_right = 0;
-        this.last_left = 0;
         this.dash_on_cooldown = false;
         this.jump_on_cooldown = false;
         this.dmg_on_cooldown = false;
@@ -56,8 +54,8 @@ class Player extends Actor {
         this.blinking_drawables_on_damage = [this.body, this.head.head.drawable, this.base.base];
         
         this.onGround = false;
-        this.groundCollider = new Collider(this, [0, 0, 0.55 ], CollisionLayer.Player, 0.7, 0.1);
-        this.jumpHelperCollider = new Collider(this, [0, 0, -0.05 ], CollisionLayer.Player, 0.95, 0.8);
+        this.groundCollider = new Collider(this, [0, 0, 0.55 ], CollisionLayer.Sensor, 0.7, 0.1);
+        this.jumpHelperCollider = new Collider(this, [0, 0, -0.05 ], CollisionLayer.Sensor, 0.95, 0.8);
         this.force[2] = constants.gravity;
         this.last_grounded = Date.now();
     }
@@ -117,18 +115,34 @@ class Player extends Actor {
     right_click(point, object) {
     }
 
+    setJumpOnCooldown() {
+        this.jump_on_cooldown = true;
+        window.setTimeout(() => {
+            console.log("Jump cooldown ended!");
+            this.jump_on_cooldown = false;
+        }, constants.jump_cooldown);
+    }
+
     jump() {
-        // Forgiveness when jumping of edges
-        if (!this.jump_on_cooldown && (this.onGround || Date.now() - this.last_grounded < constants.jump_forgiveness)) {
-            this.velocity[2] = -this.stats.jump_speed;
-            this.jump_on_cooldown = true;
-            window.setTimeout(() => {
-                console.log("Jump cooldown ended!");
-                this.jump_on_cooldown = false;
-            }, constants.jump_cooldown);
-            
-            var position = [0, 0, 0.45];
-            new Dirt(this, position, [0, 0, -1], 10, 0.4);
+        if (!this.jump_on_cooldown) {
+            // Forgiveness when jumping off edges
+            if (this.onGround || Date.now() - this.last_grounded < constants.jump_forgiveness) {
+                this.velocity[2] = -this.stats.jump_speed;
+                this.setJumpOnCooldown();
+                
+                var position = [0, 0, 0.45];
+                new Dirt(this, position, [0, 0, -1], 10, 0.4);
+            } else if (this.base.suction_device && this.base.suction_device.onWall) {
+                this.velocity[2] = -this.stats.jump_speed;
+                if (this.force[0] > 0) {
+                    this.velocity[0] = -this.stats.jump_speed;
+                    //this.force[0] = -this.stats.acceleration;
+                } else {
+                    this.velocity[0] = this.stats.jump_speed;
+                    //this.force[0] = this.stats.acceleration;
+                }
+                this.base.suction_device.onWall = false;
+            }
         }
     }
 
@@ -157,11 +171,9 @@ class Player extends Actor {
         if (right) {
             // TODO play sound
             this.force[0] = this.stats.acceleration;
-            this.last_right = Date.now();
             position[0] = -0.4
         } else {
             this.force[0] = -this.stats.acceleration;
-            this.last_left = Date.now();
             direction[0] = 1;
             position[0] = 0.4
         }
@@ -169,6 +181,9 @@ class Player extends Actor {
             new Dirt(this, position, direction, 6);
         }
     }
+
+    startVerticalMovement(up) {}
+    endVerticalMovement(up) {}
 
     endMovement(right) {
         this.force[0] = right ? Math.min(0, this.force[0]) : Math.max(0, this.force[0]);
@@ -181,8 +196,19 @@ class Player extends Actor {
         if (Math.abs(this.force[0]) < 0.00001) {
             this.velocity[0] = 0;
         }
+        if (Math.abs(this.force[2]) < 0.00001) {
+            this.velocity[0] = 0;
+        }
 
-        this.force[2] = constants.gravity;
+        if (!this.base.suction_device || !this.base.suction_device.onWall) {
+            this.force[2] = constants.gravity;
+        } else {
+            if (this.up) {
+                this.force[2] = -this.stats.acceleration;
+            } else if (this.down) {
+                this.force[2] = this.stats.acceleration;
+            } 
+        }
         this.onGround = this.checkIfGrounded();
 
         // Accelerate
@@ -228,8 +254,11 @@ class Player extends Actor {
 
         // Limit velocities
         this.velocity[0] = Math.min(this.stats.movement_speed, Math.max(-this.stats.movement_speed, this.velocity[0]));
-        this.velocity[2] = Math.min(this.stats.jump_speed, Math.max(-this.stats.jump_speed, this.velocity[2]));
-        
+        if (!this.base.suction_device || !this.base.suction_device.onWall) {
+            this.velocity[2] = Math.min(this.stats.jump_speed, Math.max(-this.stats.jump_speed, this.velocity[2]));
+        } else {
+            this.velocity[2] = Math.min(this.stats.movement_speed, Math.max(-this.stats.movement_speed, this.velocity[2]));
+        }
         
         // Update direction based on pointer
         if (this.camera.pointing_at[0] < this.getWorldPosition()[0]) {
@@ -300,31 +329,30 @@ class HeadLamp extends PointLight {
     }
 }
 
-class Base extends Entity {
+class Base extends DynamicEntity {
     constructor(parent) {
-        super(parent, [0,0,0]);
+        super(parent, [0,0,-0.335]);
         this.frame_helper = 0;
-        this.frame_scaler = 20;
+        this.frame_scaler = 1500;
         this.frame_index = 0;
         this.tracks = new Drawable(this, [0,0,0], models.player.base.track_frames[this.frame_index]);
         this.base = new Drawable(this, [0,0,0], models.player.base.base_frames[this.frame_index]);
         this.tracks.material = materials.rubber;
         this.base.material = materials.player;
+        this.rotation_speed = 0.7;
         
-        this.dash_led = new Drawable(this, [0.1, 0, -0.20], models.box);
+        this.dash_led = new Drawable(this, [0.1, 0, 0.135], models.box);
         this.dash_led.material = materials.green_led;
         this.dash_led.local_transform.scale([0.015, 0.28, 0.015]);
-        this.jump_led = new Drawable(this, [-0.1, 0, -0.20], models.box);
+        this.jump_led = new Drawable(this, [-0.1, 0, 0.135], models.box);
         this.jump_led.material = materials.green_led;
         this.jump_led.local_transform.scale([0.015, 0.28, 0.015]);
     }
 
-
-    // TODO lampor som indikerar cooldown på hopp och dash
     update(elapsed, dirty) {
         // Animate
         const frames = models.player.base.base_frames.length;
-        this.frame_helper -= player.velocity[0] * elapsed;
+        this.frame_helper -= player.force[0] * elapsed;
         this.frame_index = Math.floor((this.frame_helper * this.frame_scaler) % frames);
         if (this.frame_index < 0) this.frame_index += frames;
         //console.log(this.frame_index);
@@ -351,6 +379,66 @@ class SuctionDevice extends Drawable {
     constructor(parent) {
         super(parent, [0, 0, 0], models.player.suction_device);
         this.material = materials.rubber;
+        player.rightCollider = new Collider(player, [0.01, 0, 0.15], CollisionLayer.Sensor, 0.7, 0.6);
+        player.leftCollider = new Collider(player, [-0.01, 0, 0.15], CollisionLayer.Sensor, 0.7, 0.6);
+        player.up = false;
+        player.down = false;
+
+        player.startVerticalMovement = function(up) {
+            if (up) {
+                this.up = true;
+            } else {
+                this.down = true;
+            }
+        }
+
+        player.endVerticalMovement = function(up) {
+            this.force[2] = up ? Math.max(0, this.force[2]) : Math.min(0, this.force[2]);
+            this.velocity[2] = up ? Math.max(0, this.velocity[2]) : Math.min(0, this.velocity[2]);
+            if (up) {
+                this.up = false;
+            } else {
+                this.down = false
+            }
+        }
+        this.onWall = false;
+    }
+
+    update(elapsed, dirty) {
+        super.update(elapsed, dirty);
+        console.log("OnWall: " + this.onWall + ", Force: " + player.force[0] + ", Right collisions: " +player.rightCollider.detectCollisions().length + ", Left collisions: " +player.leftCollider.detectCollisions().length)
+        if (player.force[0] > 0.00001 && player.rightCollider.detectCollisions().length > 0) {
+            var direction = player.base.getWorldPosition();
+            vec3.add(direction, direction, [0.1, 0, -1]);
+            player.base.look_at = direction;
+            if (!this.onWall) {
+                player.force[2] = 0;
+                player.velocity[2] = 0;
+            }
+            this.onWall = true;
+        } else if (player.force[0] < -0.00001 && player.leftCollider.detectCollisions().length > 0) { 
+            var direction = player.base.getWorldPosition();
+            vec3.add(direction, direction, [0.1, 0, 1]);
+            player.base.look_at = direction;
+            if (!this.onWall) {
+                player.force[2] = 0;
+                player.velocity[2] = 0;
+            }
+            this.onWall = true;
+        } else {
+            var direction = player.base.getWorldPosition();
+            vec3.add(direction, direction, [1, 0, 0]);
+            player.base.look_at = direction;
+            this.onWall = false;
+        }
+    }
+
+    draw(renderer) {
+        super.draw(renderer);
+        debug=true;
+        player.rightCollider.draw(renderer);
+        player.leftCollider.draw(renderer);
+        debug=false;
     }
 }
 

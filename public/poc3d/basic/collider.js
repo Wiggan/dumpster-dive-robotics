@@ -10,7 +10,8 @@ const CollisionLayer = {
     Enemy: 2,
     Projectile: 4,
     Trigger: 8,
-    Player: 16
+    Player: 16,
+    Sensor: 32
 };
 
 const collisionMap = new Map();
@@ -25,6 +26,11 @@ collisionMap.set(CollisionLayer.Enemy + CollisionLayer.Player, true);
 collisionMap.set(CollisionLayer.Projectile + CollisionLayer.Trigger, false);
 collisionMap.set(CollisionLayer.Projectile + CollisionLayer.Player, true);
 collisionMap.set(CollisionLayer.Trigger + CollisionLayer.Player, true);
+collisionMap.set(CollisionLayer.Sensor + CollisionLayer.Level, true);
+collisionMap.set(CollisionLayer.Sensor + CollisionLayer.Enemy, false);
+collisionMap.set(CollisionLayer.Sensor + CollisionLayer.Projectile, false);
+collisionMap.set(CollisionLayer.Sensor + CollisionLayer.Trigger, false);
+collisionMap.set(CollisionLayer.Sensor + CollisionLayer.Player, false);
 
 class Collider {
     constructor(parent, local_position, type, width, height) {
@@ -122,6 +128,8 @@ class Collider {
             if (this.type == CollisionLayer.Enemy) {
                 renderer.add_drawable(models.box, materials.red_led, this.world_transform);
             } else if (this.type == CollisionLayer.Trigger) {
+                renderer.add_drawable(models.box, materials.green_led, this.world_transform);
+            } else if (this.type == CollisionLayer.Sensor) {
                 renderer.add_drawable(models.box, materials.green_led, this.world_transform);
             } else {
                 renderer.add_drawable(models.box, materials.light, this.world_transform);
