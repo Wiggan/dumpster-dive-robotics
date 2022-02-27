@@ -35,6 +35,9 @@ class ParticleSystem extends Entity {
 
     update(elapsed, dirty) {
         super.update(elapsed, dirty);
+        if (!this.continuous && this.parent && this.children.length == 0) {
+            this.parent.children.splice(this.parent.children.indexOf(this), 1);
+        }
     }
 
     draw(renderer) {

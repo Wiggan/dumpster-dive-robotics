@@ -1,0 +1,2 @@
+original OBJ file: C:\Users\Fredrik\Documents\dumpster-dive-robotics\public\models\battery_powerup\battery_powerup.obj
+part1.json > alias: Cylinder_Cylinder_None

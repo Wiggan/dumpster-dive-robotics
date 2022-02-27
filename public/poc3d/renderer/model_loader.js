@@ -102,6 +102,8 @@ async function load_all_models() {
     models.powerups = {
         head_lamp: await load_model('/models/head_lamp_powerup/part1.json'),
         suction_device: await load_model('/models/suction_device_powerup/part1.json'),
+        battery: await load_model('/models/battery_powerup/part1.json'),
+        counter_pressurizer: await load_model('/models/counter_pressurizer_powerup/part1.json'),
     }
     models.light_sensor = await load_model('/models/light_sensor/part1.json');
     models.door = await load_model('/models/door/part1.json');

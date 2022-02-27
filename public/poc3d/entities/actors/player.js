@@ -4,7 +4,7 @@ const items = {
     lamp: {
         key: 'lamp',
         name: 'Lamp', 
-        description: 'Lamp attached to head'
+        description: 'Lamp attached to head providing light'
     },
     battery: {
         key: 'battery',
@@ -15,6 +15,11 @@ const items = {
             acceleration: 0.0005,
             jump_speed: 0.005,
         }
+    },
+    counter_pressurizer: {
+        key: 'counter_pressurizer',
+        name: 'Counter Pressurizer', 
+        description: 'Keeps robot safe in water'
     },
     suction_device: {
         key: 'suction_device',
@@ -132,7 +137,7 @@ class Player extends Actor {
                 
                 var position = [0, 0, 0.45];
                 new Dirt(this, position, [0, 0, -1], 10, 0.4);
-            } else if (this.base.suction_device && this.base.suction_device.onWall) {
+            } else if (this.base.suction_device && (this.base.suction_device.onWall || Date.now() - this.last_grounded < constants.jump_forgiveness)) {
                 this.velocity[2] = -this.stats.jump_speed;
                 if (this.force[0] > 0) {
                     this.velocity[0] = -this.stats.jump_speed;
@@ -393,8 +398,10 @@ class SuctionDevice extends Drawable {
         }
 
         player.endVerticalMovement = function(up) {
-            this.force[2] = up ? Math.max(0, this.force[2]) : Math.min(0, this.force[2]);
-            this.velocity[2] = up ? Math.max(0, this.velocity[2]) : Math.min(0, this.velocity[2]);
+            if (this.base.suction_device.onWall) {
+                this.force[2] = up ? Math.max(0, this.force[2]) : Math.min(0, this.force[2]);
+                this.velocity[2] = up ? Math.max(0, this.velocity[2]) : Math.min(0, this.velocity[2]);
+            }
             if (up) {
                 this.up = false;
             } else {
@@ -406,7 +413,7 @@ class SuctionDevice extends Drawable {
 
     update(elapsed, dirty) {
         super.update(elapsed, dirty);
-        console.log("OnWall: " + this.onWall + ", Force: " + player.force[0] + ", Right collisions: " +player.rightCollider.detectCollisions().length + ", Left collisions: " +player.leftCollider.detectCollisions().length)
+        //console.log("OnWall: " + this.onWall + ", Force: " + player.force[0] + ", Right collisions: " +player.rightCollider.detectCollisions().length + ", Left collisions: " +player.leftCollider.detectCollisions().length)
         if (player.force[0] > 0.00001 && player.rightCollider.detectCollisions().length > 0) {
             var direction = player.base.getWorldPosition();
             vec3.add(direction, direction, [0.1, 0, -1]);
@@ -416,6 +423,7 @@ class SuctionDevice extends Drawable {
                 player.velocity[2] = 0;
             }
             this.onWall = true;
+            player.last_grounded = Date.now();
         } else if (player.force[0] < -0.00001 && player.leftCollider.detectCollisions().length > 0) { 
             var direction = player.base.getWorldPosition();
             vec3.add(direction, direction, [0.1, 0, 1]);
@@ -425,6 +433,7 @@ class SuctionDevice extends Drawable {
                 player.velocity[2] = 0;
             }
             this.onWall = true;
+            player.last_grounded = Date.now();
         } else {
             var direction = player.base.getWorldPosition();
             vec3.add(direction, direction, [1, 0, 0]);
@@ -433,13 +442,13 @@ class SuctionDevice extends Drawable {
         }
     }
 
-    draw(renderer) {
+/*     draw(renderer) {
         super.draw(renderer);
         debug=true;
         player.rightCollider.draw(renderer);
         player.leftCollider.draw(renderer);
         debug=false;
-    }
+    } */
 }
 
 class Body extends Drawable {

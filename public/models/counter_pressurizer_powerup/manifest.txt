@@ -1,0 +1,2 @@
+original OBJ file: C:\Users\Fredrik\Documents\dumpster-dive-robotics\public\models\counter_pressurizer_powerup\counter_pressurizer_powerup.obj
+part1.json > alias: CounterPressurizer_Cylinder.004_None
