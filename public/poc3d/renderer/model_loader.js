@@ -83,6 +83,7 @@ async function load_all_models() {
         head: await load_model('/models/robot_tracks2/part17.json'),
         head_lamp: await load_model('/models/robot_tracks2/part19.json'),
         rocket_launcher: await load_model('/models/robot_tracks2/part18.json'),
+        suction_device: await load_model('/models/robot_tracks2/part20.json'),
     }
     models.vacuum_fan = {
         base: await load_model('/models/vacuum_fan/part1.json'),
@@ -100,6 +101,7 @@ async function load_all_models() {
     }
     models.powerups = {
         head_lamp: await load_model('/models/head_lamp_powerup/part1.json'),
+        suction_device: await load_model('/models/suction_device_powerup/part1.json'),
     }
     models.light_sensor = await load_model('/models/light_sensor/part1.json');
     models.door = await load_model('/models/door/part1.json');
@@ -111,5 +113,6 @@ async function load_all_models() {
         base: await load_model('/models/pool_boss/part2.json'),
         cleaner: await load_model('/models/pool_boss/part3.json'),
         launcher: await load_model('/models/pool_boss/part4.json'),
+        suction_device: await load_model('/models/pool_boss/part5.json'),
     }
 }

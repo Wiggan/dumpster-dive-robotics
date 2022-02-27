@@ -1,0 +1,2 @@
+original OBJ file: C:\Users\Fredrik\Documents\dumpster-dive-robotics\public\models\suction_device_powerup\suction_device_powerup.obj
+part1.json > alias: SuctionDevice_Cube.001_None

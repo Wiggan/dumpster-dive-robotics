@@ -9,14 +9,18 @@ class PoolBoss extends Actor {
         this.base = new Drawable(this, [-0.05, 0, 0.025], models.pool_boss.base);
         this.wheels = new Drawable(this, [-0.216, 0, 0.025], models.pool_boss.wheels);
         this.cleaner = new Drawable(this, [-0.4, 0, 0.2], models.pool_boss.cleaner);
+        this.suction_device = new Drawable(this, [-0.05, 0, 0.02], models.pool_boss.suction_device);
         this.launcher = new Launcher(this);
-        this.launcher.model = models.pool_boss.launcher;
+        this.launcher.drawable.model = models.pool_boss.launcher;
+        this.launcher.lamp.local_transform.setPosition([0.3, 0.3, 0]);
+        this.launcher.lamp.local_transform.scale([0.015, 0.18, 0.015]);
 
         this.base.material = materials.metall;
         this.wheels.material = materials.rubber;
         this.cleaner.material = materials.rubber;
+        this.suction_device.material = materials.rubber;
 
-        this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Enemy, 0.8, 0.4);
+        this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Enemy, 0.8, 0.8);
         this.stats = {
             movement_speed: 0.003,
             acceleration: 0.00001,
@@ -140,7 +144,7 @@ class PoolBoss extends Actor {
             portal.enable();
         });
         playMusic(music.in_game);
-        new HeadLampPowerUp(snapToGrid(this.getWorldPosition()));
+        new SuctionDevicePowerUp(snapToGrid(this.getWorldPosition()));
     }
 }
 

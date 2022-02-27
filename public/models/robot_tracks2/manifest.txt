@@ -18,3 +18,4 @@ part16.json > alias: HeadHolder_Cylinder.001_None
 part17.json > alias: Head_Cylinder.002_None
 part18.json > alias: RocketLauncher_Cylinder.003_None
 part19.json > alias: HeadLamp_Cylinder.005_None
+part20.json > alias: SuctionDevice_Cube_None

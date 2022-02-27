@@ -16,6 +16,11 @@ const items = {
             jump_speed: 0.005,
         }
     },
+    suction_device: {
+        key: 'suction_device',
+        name: 'Suction Device', 
+        description: 'Suction device providing vertical movement'
+    },
 }
 
 const original_stats = {
@@ -73,6 +78,11 @@ class Player extends Actor {
         if (this.inventory.includes(items.battery)) {
             for (const [key, value] of Object.entries(items.battery.modifiers)) {
                 this.stats[key] += value;
+            }
+        }
+        if (this.inventory.includes(items.suction_device)) {
+            if (!this.base.suction_device) {
+                this.base.suction_device = new SuctionDevice(this.base);
             }
         }
     }
@@ -334,6 +344,13 @@ class Base extends Entity {
         }
 
         super.update(elapsed, dirty);
+    }
+}
+
+class SuctionDevice extends Drawable {
+    constructor(parent) {
+        super(parent, [0, 0, 0], models.player.suction_device);
+        this.material = materials.rubber;
     }
 }
 

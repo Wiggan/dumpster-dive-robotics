@@ -3,3 +3,4 @@ part1.json > alias: Wheels_Cylinder_None
 part2.json > alias: Base_NurbsCurve.002_None
 part3.json > alias: Cleaner_Cylinder.002_None
 part4.json > alias: RocketLauncher_Cylinder.003_None
+part5.json > alias: SuctionDevice_Cube_None
