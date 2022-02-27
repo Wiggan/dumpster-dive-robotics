@@ -51,8 +51,8 @@ class Player extends Actor {
         this.blinking_drawables_on_damage = [this.body, this.head.head.drawable, this.base.base];
         
         this.onGround = false;
-        this.groundCollider = new Collider(this, [0, 0, 0.55 ], CollisionLayer.Player, 0.8, 0.1);
-        this.jumpHelperCollider = new Collider(this, [0, 0, -0.45 ], CollisionLayer.Player, 0.95, 0.1);
+        this.groundCollider = new Collider(this, [0, 0, 0.55 ], CollisionLayer.Player, 0.7, 0.1);
+        this.jumpHelperCollider = new Collider(this, [0, 0, -0.05 ], CollisionLayer.Player, 0.95, 0.8);
         this.force[2] = constants.gravity;
         this.last_grounded = Date.now();
     }
@@ -186,6 +186,8 @@ class Player extends Actor {
             var block_above = undefined;
             var block_above_left = undefined;
             var block_above_right = undefined;
+            var block_left = undefined;
+            var block_right = undefined;
             var player_position = snapToGrid(this.getWorldPosition());
             jump_collisions.forEach(collider => {
                 if (collider.getMidX() == player_position[0] && collider.getMidY() == player_position[2]-1) {
@@ -197,16 +199,23 @@ class Player extends Actor {
                 if (collider.getMidX() == player_position[0]+1 && collider.getMidY() == player_position[2]-1) {
                     block_above_right = collider;
                 }
+                if (collider.getMidX() == player_position[0]-1 && collider.getMidY() == player_position[2]) {
+                    block_left = collider;
+                }
+                if (collider.getMidX() == player_position[0]+1 && collider.getMidY() == player_position[2]) {
+                    block_right = collider;
+                }
             });
             if (!block_above) {
-                if (block_above_left && this.collider.getTop() < block_above_left.getBottom()) {
+                if (block_above_left && !block_left && this.collider.getTop() < block_above_left.getBottom()) {
                     this.velocity[0] += constants.jump_help_strength*elapsed;
-                } else if (block_above_right && this.collider.getTop() < block_above_right.getBottom()) {
+                } else if (block_above_right && !block_right  && this.collider.getTop() < block_above_right.getBottom()) {
                     this.velocity[0] -= constants.jump_help_strength*elapsed;
                 }
+                console.log("Jump help:" + (block_left ? "Block left! " : "") + (block_above_left ? "Block above left! " : "") + (block_above ? "Block above! " : "") + (block_above_right ? "Block above right! " : "") + (block_right ? "Block right! " : ""));
             }
-            console.log("Jump help:" + (block_above_left ? "Block above left! " : "") + (block_above ? "Block above! " : "") + (block_above_right ? "Block above right! " : ""));
         }
+
         // Limit velocities
         this.velocity[0] = Math.min(this.stats.movement_speed, Math.max(-this.stats.movement_speed, this.velocity[0]));
         this.velocity[2] = Math.min(this.stats.jump_speed, Math.max(-this.stats.jump_speed, this.velocity[2]));

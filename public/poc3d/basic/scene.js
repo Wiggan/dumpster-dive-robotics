@@ -63,7 +63,7 @@ class Scene extends Entity {
     }
 
     containsBoss() {
-        return this.getBoss().length > 0;
+        return this.getBoss() != undefined;
     }
 
     getBoss() {
