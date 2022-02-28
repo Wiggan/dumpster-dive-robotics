@@ -23,6 +23,7 @@ class SaveStation extends Pickable {
 
     interact() {
         player.health = player.max_health;
+        player.addLogEntry(9);
         game.save();
 
 

@@ -183,7 +183,9 @@ class Game {
             inventory: player.inventory.map((item) => item.key),
             position: player.getWorldPosition(),
             scene: game.scene.name,
-            slain_bosses: player.slain_bosses
+            slain_bosses: player.slain_bosses,
+            time_played: player.time_played,
+            entries: player.entries
         };
         this.saveCookie(cookie);
     }
@@ -196,6 +198,12 @@ class Game {
             if (cookie.persistent.slain_bosses) {
                 player.slain_bosses = cookie.persistent.slain_bosses;
             }
+            if (cookie.persistent.entries) {
+                player.entries = cookie.persistent.entries;
+            }
+            if (cookie.persistent.time_played) {
+                player.time_played = cookie.persistent.time_played;
+            }
             if (cookie.persistent.scene && cookie.persistent.position) {
                 this.loadLevels();
                 this.setScene(this.scenes[cookie.persistent.scene], cookie.persistent.position);
@@ -203,8 +211,9 @@ class Game {
             }
             if (cookie.persistent.inventory) {
                 cookie.persistent.inventory.forEach((item) => {
-                    player.pickUp(items[item]);
+                    player.inventory.push(items[item]);
                 });
+                player.updateStats();
             }
         }
     }

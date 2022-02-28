@@ -1,6 +1,14 @@
 'use strict'
 
 const items = {
+    disk: {
+        key: 'disk',
+        name: 'Persistent Memory', 
+        modifiers: {
+            movement_speed: 0.002,
+        },
+        logs: [2, 3]
+    },
     lamp: {
         key: 'lamp',
         name: 'Lamp', 
@@ -29,12 +37,14 @@ const items = {
 }
 
 const original_stats = {
-    movement_speed: 0.003,
+    movement_speed: 0.001,
     acceleration: 0.00005,
     jump_speed: 0.013683,
     pickup_range: 1,
     attack_range: 1
 };
+
+
 
 class Player extends Actor {
     constructor(local_position) {
@@ -47,6 +57,8 @@ class Player extends Actor {
         this.camera = new TrackingCamera(this, [0, 3, 30]);
         this.inventory = [];
         this.slain_bosses = [];
+        // Indices in the log_entries array
+        this.entries = [];
 
         this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Player, 0.7, 0.9);
 
@@ -63,6 +75,7 @@ class Player extends Actor {
         this.jumpHelperCollider = new Collider(this, [0, 0, -0.05 ], CollisionLayer.Sensor, 0.95, 0.8);
         this.force[2] = constants.gravity;
         this.last_grounded = Date.now();
+        this.time_played = 0;
     }
 
     toJSON(key) {
@@ -73,6 +86,11 @@ class Player extends Actor {
     
     updateStats() {
         this.stats = JSON.parse(JSON.stringify(original_stats));
+        if (this.inventory.includes(items.disk)) {
+            for (const [key, value] of Object.entries(items.disk.modifiers)) {
+                this.stats[key] += value;
+            }
+        }
         if (this.inventory.includes(items.lamp)) {
             if (!this.head.lamp) {
                 this.head.lamp = new HeadLamp(this.head, [0, 0, 0], game.scene);
@@ -92,6 +110,26 @@ class Player extends Actor {
 
     pickUp(item) {
         this.inventory.push(item);
+        switch(item) {
+        case items.disk: 
+            this.addLogEntry(2);
+            window.setTimeout(() => {
+                this.addLogEntry(3);
+            }, 1000);
+            break;
+        case items.lamp: 
+            this.addLogEntry(5);
+            break;
+        case items.battery: 
+            this.addLogEntry(6);
+            break;
+        case items.counter_pressurizer: 
+            this.addLogEntry(8);
+            break;
+        case items.suction_device: 
+            this.addLogEntry(7);
+            break;
+        }
         this.updateStats();
     }
 
@@ -112,7 +150,7 @@ class Player extends Actor {
     left_click(point, object) {
         if (object && object.type == PickableType.Default && vec3.dist(object.getWorldPosition(), this.getWorldPosition()) < constants.interaction_range) {
             object.interact();
-        } else {
+        } else if(this.inventory.includes(items.disk)) {
             this.launcher.fire();
         }
     }
@@ -129,7 +167,7 @@ class Player extends Actor {
     }
 
     jump() {
-        if (!this.jump_on_cooldown) {
+        if (!this.jump_on_cooldown && this.inventory.includes(items.disk)) {
             // Forgiveness when jumping off edges
             if (this.onGround || Date.now() - this.last_grounded < constants.jump_forgiveness) {
                 this.velocity[2] = -this.stats.jump_speed;
@@ -152,7 +190,7 @@ class Player extends Actor {
     }
 
     dash() {
-        if (!this.dash_on_cooldown) {
+        if (!this.dash_on_cooldown && this.inventory.includes(items.disk)) {
             console.log("Dashing!");
             new SFX(this, [0,0,0], sfx.player_dash);
             this.dash_on_cooldown = true;
@@ -195,8 +233,26 @@ class Player extends Actor {
         this.velocity[0] = right ? Math.min(0, this.velocity[0]) : Math.max(0, this.velocity[0]);
     }
 
-    update(elapsed, dirty) {
+    addLogEntry(index) {
+        this.entries.push(index);
+        // TODO play log sound!
+    }
 
+    checkLogs(elapsed) {
+        this.time_played += elapsed/1000;
+        if (this.time_played > 1 && !this.entries.includes(0)) {
+            this.addLogEntry(0);
+        }
+        if (this.time_played > 3 && !this.entries.includes(1)) {
+            this.addLogEntry(1);
+        }
+        if (this.time_played > 20 && !this.entries.includes(4) && player.inventory.includes(items.disk) && !player.inventory.includes(items.lamp) && game.scene.name != 'LampBossRoom') {
+            this.addLogEntry(4);
+        }
+    }
+
+    update(elapsed, dirty) {
+        this.checkLogs(elapsed);
         // Stop if no force is applied
         if (Math.abs(this.force[0]) < 0.00001) {
             this.velocity[0] = 0;

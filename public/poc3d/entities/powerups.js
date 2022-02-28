@@ -10,7 +10,6 @@ class PowerUp extends Pickable {
         this.particles = new PowerUpParticles(this, [0, 0 ,0]);
         this.item = item;
         this.label = this.item.name;
-        game.scene.entities.push(this);
         this.elapsed = 0;
     }
 
@@ -35,27 +34,46 @@ class PowerUp extends Pickable {
     }
 }
 
+class DiskPowerUp extends PowerUp {
+    constructor(parent, position) {
+        super(position, items.disk, models.box, materials.player);
+        this.drawable.local_transform.scale([0.1, 0.3, 0.3]);
+    }
+
+    toJSON(key) {
+        return {
+            class: 'DiskPowerUp',
+            local_position: this.position,
+        }
+    }
+}
+classes.DiskPowerUp = DiskPowerUp;
+
 class HeadLampPowerUp extends PowerUp {
     constructor(position) {
         super(position, items.lamp, models.powerups.head_lamp, materials.light_inactive);
+        game.scene.entities.push(this);
     }
 }
 
 class SuctionDevicePowerUp extends PowerUp {
     constructor(position) {
         super(position, items.suction_device, models.powerups.suction_device, materials.light_inactive);
+        game.scene.entities.push(this);
     }
 }
 
 class BatteryPowerUp extends PowerUp {
     constructor(position) {
         super(position, items.battery, models.powerups.battery, materials.blue);
+        game.scene.entities.push(this);
     }
 }
 
 class CounterPressurizerPowerUp extends PowerUp {
     constructor(position) {
         super(position, items.counter_pressurizer, models.powerups.counter_pressurizer, materials.player);
+        game.scene.entities.push(this);
     }
 }
 
