@@ -32,7 +32,6 @@ class Actor extends Entity {
                 mat4.copy(this.world_transform, this.local_transform.get());
                 this.collider.update(0, true);
                 this.collider.detectCollisions().forEach(other => {
-                    // Todo handle enemy collision...
                     if (other.type == CollisionLayer.Level) {
                         if (i == 0) {
                             this.resolveX(other, movement[i]);

@@ -142,7 +142,10 @@ class Player extends Actor {
         // Save last time when actor was grounded
         if (this.onGround && !grounded) {
             this.last_grounded = Date.now();
+        } else if (!this.onGround && grounded) {
+            new SFX(this, [0,0,0], sfx.land);
         }
+        
         return grounded;
     }
 
@@ -168,6 +171,7 @@ class Player extends Actor {
 
     jump() {
         if (!this.jump_on_cooldown && this.inventory.includes(items.disk)) {
+            new SFX(this, [0,0,0], sfx.jump);
             // Forgiveness when jumping off edges
             if (this.onGround || Date.now() - this.last_grounded < constants.jump_forgiveness) {
                 this.velocity[2] = -this.stats.jump_speed;
@@ -235,7 +239,7 @@ class Player extends Actor {
 
     addLogEntry(index) {
         this.entries.push(index);
-        // TODO play log sound!
+        new SFX(player, [0, 0, 0], sfx.log_entry);
     }
 
     checkLogs(elapsed) {

@@ -60,7 +60,6 @@ class Game {
 
     startNewGame() {
         playMusic(music.in_game);
-        // Todo
         player = new Player();
         this.loadLevels();
         this.scene = this.scenes['Downfall'];

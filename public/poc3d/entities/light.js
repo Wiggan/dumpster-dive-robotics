@@ -2,7 +2,9 @@
 
 class Light extends Drawable {
     constructor(parent, local_position) {
-        super(parent, local_position, models.box);
+        super(parent, local_position, models.light.light);
+        this.case = new Drawable(this, [0, 0, 0], models.light.case);
+        this.case.material = materials.metall;
         this.light = new PointLight(this, [0, 6, 0], parent);
         this.local_position = local_position;
         this.light.ambient = [0.0, 0.0, 0.0];
@@ -11,7 +13,6 @@ class Light extends Drawable {
         this.light.constant = 1.0;
         this.light.linear = 1.1;
         this.light.quadratic = 0.65;
-        this.local_transform.scaleUniform(0.3);
         this.material = materials.light;
     }
     

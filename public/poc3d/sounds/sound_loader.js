@@ -21,6 +21,31 @@ function load_all_sounds() {
             new Howl({ src: ['/sfx/ddr_sfx - 02 - rocket_flying.ogg']}),
             new Howl({ src: ['/sfx/ddr_sfx - 03 - rocket_flying.ogg']}),
         ],
+        splash: [
+            new Howl({ src: ['/sfx/ddr_sfx - 01 Start - splash.ogg']}),
+            new Howl({ src: ['/sfx/ddr_sfx - 02 - splash.ogg']}),
+            new Howl({ src: ['/sfx/ddr_sfx - 03 - splash.ogg']}),
+        ],
+        log_entry: [
+            new Howl({ src: ['/sfx/ddr_sfx - 01 Start - log_entry.ogg']}),
+            new Howl({ src: ['/sfx/ddr_sfx - 02 - log_entry.ogg']}),
+            new Howl({ src: ['/sfx/ddr_sfx - 03 - log_entry.ogg']}),
+        ],
+        save_game: [
+            new Howl({ src: ['/sfx/ddr_sfx - 01 Start - save_game.ogg']}),
+            new Howl({ src: ['/sfx/ddr_sfx - 02 - save_game.ogg']}),
+            new Howl({ src: ['/sfx/ddr_sfx - 03 - save_game.ogg']}),
+        ],
+        land: [
+            new Howl({ src: ['/sfx/ddr_sfx - 01 Start - land.ogg']}),
+            new Howl({ src: ['/sfx/ddr_sfx - 02 - land.ogg']}),
+            new Howl({ src: ['/sfx/ddr_sfx - 03 - land.ogg']}),
+        ],
+        jump: [
+            new Howl({ src: ['/sfx/ddr_sfx - 01 Start - jump.ogg']}),
+            new Howl({ src: ['/sfx/ddr_sfx - 02 - jump.ogg']}),
+            new Howl({ src: ['/sfx/ddr_sfx - 03 - jump.ogg']}),
+        ],
         player_moving: [new Howl({ src: ['/sfx/ddr_sfx - 01 Start - moving.ogg'], loop: true})],
         player_dash: [new Howl({ src: ['/sfx/ddr_sfx - 01 Start - dash.ogg']})],
         
