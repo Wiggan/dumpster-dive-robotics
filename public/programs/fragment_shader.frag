@@ -53,14 +53,15 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir) {
 
     // growth
     vec3 norm = normalize(vNormal);
-    float angle = acos(dot(norm, vec3(0.0, 1.0, 0.0)));
+    float angle = acos(dot(norm, vec3(0.0, 0.0, -1.0)));
 
     vec3 diffuse_material = uMaterial.diffuse;
     vec3 ambient_material = uMaterial.ambient;
 
     if (uMaterial.growth) {
-        diffuse_material = mix(uMaterial.diffuse, vec3(0.2, 0.3, 0.0), min(0.9, max(0.0, 0.1 / (0.1 + angle))));
-        ambient_material = mix(uMaterial.ambient, vec3(0.2, 0.3, 0.0), min(0.9, max(0.0, 0.1 / (0.1 + angle))));
+        float alpha = min(0.9, max(0.0, 0.5 / (0.5 + angle)));
+        diffuse_material = mix(uMaterial.diffuse, vec3(0.2, 0.3, 0.0), alpha);
+        ambient_material = mix(uMaterial.ambient, vec3(0.2, 0.3, 0.0), alpha);
     }
 
     // combine results

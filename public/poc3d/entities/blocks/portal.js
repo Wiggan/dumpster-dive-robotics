@@ -6,7 +6,7 @@ class Portal extends Pickable {
         this.local_position = position;
         this.scene = scene;
         this.box = new Background(this, [0, 0, 0]);
-        this.box.material = materials.black;
+        this.box.background.material = materials.black;
         this.particle_socket = new Entity(this, [0, 0, 0]);
         this.particles = new Blue(this.particle_socket, [0, 1, -0.5]);
         this.rotation_speed = 1;

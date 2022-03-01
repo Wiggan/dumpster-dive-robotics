@@ -342,7 +342,7 @@ class Renderer {
             mat4.multiply(modelViewMatrix, modelViewMatrix, drawable.world_transform);
     
             var normalMatrix = mat4.create();
-            mat4.copy(normalMatrix, modelViewMatrix);
+            mat4.copy(normalMatrix, drawable.world_transform);
             mat4.invert(normalMatrix, normalMatrix);
             mat4.transpose(normalMatrix, normalMatrix);
     

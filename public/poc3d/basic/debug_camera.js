@@ -29,6 +29,11 @@ class DebugCamera extends Camera {
         }
     }
 
+    activate() {
+        this.local_transform.setPosition(active_camera.getWorldPosition());
+        super.activate();
+    }
+
     deactivate() {
         document.exitPointerLock();
         document.removeEventListener("mousemove", active_camera.updatePosition, false);
@@ -108,7 +113,7 @@ class DebugCamera extends Camera {
         vec3.add(translation, forward, right);
         ////console.log(this.vel);
         this.local_transform.translate(translation);
-        dirty = true;
-        super.update(elapsed, dirty);
+        console.log(this.getWorldPosition());
+        super.update(elapsed, true);
     }
 }

@@ -4,8 +4,8 @@ class Door extends Entity {
     constructor(parent, local_position) {
         super(parent, local_position);
         this.local_position = local_position;
-        this.background = new Background(this, [0, -2 + Math.random()*0.3, 0], models.box);
-        this.background2 = new Background(this, [0, -2 + Math.random()*0.3, -1], models.box);
+        this.background = new Background(this, [0, 0, 0]);
+        this.background2 = new Background(this, [0, 0, -1]);
         this.door = new Drawable(this, [0, 0, 0], models.door);
         this.door.collider = new Collider(this.door, [0, 0, 0], CollisionLayer.Level, 0.5, 2);
         this.door.collider2 = new Collider(this.door, [0, 0, 1.1], CollisionLayer.Level, 0.45, 0.1);

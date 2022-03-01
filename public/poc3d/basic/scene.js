@@ -21,6 +21,7 @@ class Scene extends Entity {
             }
         })
         this.entities = this.entities.filter((entity => entity))
+        this.entities.forEach(entity => entity.init(this));
         this.entities_to_draw = [];
     }
 

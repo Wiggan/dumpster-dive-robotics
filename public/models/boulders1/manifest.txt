@@ -1,0 +1,2 @@
+original OBJ file: C:\Users\Fredrik\Documents\dumpster-dive-robotics\public\models\boulders1\boulders1.obj
+part1.json > alias: Blouders_Icosphere_None

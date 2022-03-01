@@ -19,6 +19,9 @@ class Entity {
         this.uuid = uuid();
     }
 
+    // Called after construction for another pass, where neighbors are known
+    init(scene) {}
+
     addChild(child) {
         child.parent = this;
         this.children.push(child);
