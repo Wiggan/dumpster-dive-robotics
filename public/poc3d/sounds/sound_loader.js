@@ -76,6 +76,11 @@ class SFX extends Entity {
         this.sound = getRandomElement(sound);
         this.id = this.sound.play();
         this.setPosition(parent.getWorldPosition());
+        this.sound.on('end', () => {
+            if (!this.sound._loop) {
+                this.remove();
+            }
+        }, this.id);
     }
 
     setPosition(pos) {

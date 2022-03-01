@@ -164,7 +164,7 @@ class Player extends Actor {
     setJumpOnCooldown() {
         this.jump_on_cooldown = true;
         window.setTimeout(() => {
-            console.log("Jump cooldown ended!");
+            //console.log("Jump cooldown ended!");
             this.jump_on_cooldown = false;
         }, constants.jump_cooldown);
     }
@@ -195,17 +195,17 @@ class Player extends Actor {
 
     dash() {
         if (!this.dash_on_cooldown && this.inventory.includes(items.disk)) {
-            console.log("Dashing!");
+            //console.log("Dashing!");
             new SFX(this, [0,0,0], sfx.player_dash);
             this.dash_on_cooldown = true;
             this.stats.movement_speed *= 2;
             this.stats.acceleration *= 2;
             window.setTimeout(() => {
-                console.log("Stopped dashing!");
+                //console.log("Stopped dashing!");
                 this.updateStats();
             }, constants.dash_duration);
             window.setTimeout(() => {
-                console.log("Dash cooldown ended!");
+                //console.log("Dash cooldown ended!");
                 this.dash_on_cooldown = false;
             }, constants.dash_cooldown);
         }
@@ -313,7 +313,7 @@ class Player extends Actor {
                 } else if (block_above_right && !block_right  && this.collider.getTop() < block_above_right.getBottom()) {
                     this.velocity[0] -= constants.jump_help_strength*elapsed;
                 }
-                console.log("Jump help:" + (block_left ? "Block left! " : "") + (block_above_left ? "Block above left! " : "") + (block_above ? "Block above! " : "") + (block_above_right ? "Block above right! " : "") + (block_right ? "Block right! " : ""));
+                //console.log("Jump help:" + (block_left ? "Block left! " : "") + (block_above_left ? "Block above left! " : "") + (block_above ? "Block above! " : "") + (block_above_right ? "Block above right! " : "") + (block_right ? "Block right! " : ""));
             }
         }
 

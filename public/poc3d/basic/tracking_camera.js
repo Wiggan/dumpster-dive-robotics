@@ -47,6 +47,8 @@ class TrackingCamera extends Camera {
             player.jump();
         } else if (e.key == 'Escape') {
             toggleMenuVisible();
+        } else if (e.key == 'm') {
+            player.pickUp(items.disk);
         } else if (e.key == 'l') {
             player.pickUp(items.lamp);
         } else if (e.key == 'b') {
