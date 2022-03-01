@@ -21,6 +21,7 @@ struct Material {
     vec3 specular;
     float shininess;
     bool isLight;
+    bool growth;
 };
 
 uniform vec3 uCameraPos;
@@ -48,10 +49,23 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir) {
     // attenuation
     float distance    = length(light.position - fragPos);
     float attenuation = 1.0 / (light.constant + light.linear * distance + 
-  			     light.quadratic * (distance * distance));    
+  			     light.quadratic * (distance * distance));
+
+    // growth
+    vec3 norm = normalize(vNormal);
+    float angle = acos(dot(norm, vec3(0.0, 1.0, 0.0)));
+
+    vec3 diffuse_material = uMaterial.diffuse;
+    vec3 ambient_material = uMaterial.ambient;
+
+    if (uMaterial.growth) {
+        diffuse_material = mix(uMaterial.diffuse, vec3(0.2, 0.3, 0.0), min(0.9, max(0.0, 0.1 / (0.1 + angle))));
+        ambient_material = mix(uMaterial.ambient, vec3(0.2, 0.3, 0.0), min(0.9, max(0.0, 0.1 / (0.1 + angle))));
+    }
+
     // combine results
-    vec3 ambient  = light.ambient  * uMaterial.ambient;
-    vec3 diffuse  = light.diffuse  * diff * uMaterial.diffuse;
+    vec3 ambient  = light.ambient  * ambient_material;
+    vec3 diffuse  = light.diffuse  * diff * diffuse_material;
     vec3 specular = light.specular * spec * uMaterial.specular;
     ambient  *= attenuation;
     diffuse  *= attenuation;
@@ -91,6 +105,7 @@ void main() {
             alpha = min(max(depth, 0.0), 0.5);
             result = mix(result, vec3(0.0, 0.1, 0.2), alpha);
         }
+
         fragColor = vec4(result, 1.0);
         
     }

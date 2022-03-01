@@ -16,7 +16,8 @@
             0.8136744281045752
         ],
         "shininess": 19.900000000000002,
-        "isLight": false
+        "isLight": false,
+        "growth": true
     },
     "metall": {
         "diffuse": [
@@ -35,7 +36,8 @@
             1
         ],
         "shininess": 1,
-        "isLight": false
+        "isLight": false,
+        "growth": false
     },
     "blue": {
         "diffuse": [
@@ -54,7 +56,8 @@
             0.9998612312572087
         ],
         "shininess": 33,
-        "isLight": false
+        "isLight": false,
+        "growth": false
     },
     "black": {
         "diffuse": [
@@ -73,7 +76,8 @@
             0
         ],
         "shininess": 33,
-        "isLight": true
+        "isLight": true,
+        "growth": false
     },
     "water": {
         "diffuse": [
@@ -92,7 +96,8 @@
             0.696078431372549
         ],
         "shininess": 40,
-        "isLight": true
+        "isLight": true,
+        "growth": false
     },
     "dirt": {
         "diffuse": [
@@ -111,7 +116,8 @@
             0.39986123125720874
         ],
         "shininess": 33,
-        "isLight": false
+        "isLight": false,
+        "growth": true
     },
     "player": {
         "diffuse": [
@@ -130,7 +136,8 @@
             0.8044982698961938
         ],
         "shininess": 26.3,
-        "isLight": false
+        "isLight": false,
+        "growth": false
     },
     "rubber": {
         "diffuse": [
@@ -149,7 +156,8 @@
             0.1470588235294118
         ],
         "shininess": 8.700000000000001,
-        "isLight": false
+        "isLight": false,
+        "growth": false
     },
     "light": {
         "diffuse": [
@@ -168,7 +176,8 @@
             0.8
         ],
         "shininess": 13.600000000000001,
-        "isLight": true
+        "isLight": true,
+        "growth": false
     },
     "light_inactive": {
         "diffuse": [
@@ -187,7 +196,8 @@
             0.8
         ],
         "shininess": 24,
-        "isLight": false
+        "isLight": false,
+        "growth": false
     },
     "red_led": {
         "diffuse": [
@@ -206,7 +216,8 @@
             0.1
         ],
         "shininess": 4,
-        "isLight": true
+        "isLight": true,
+        "growth": false
     },
     "green_led": {
         "diffuse": [
@@ -225,6 +236,7 @@
             0.1
         ],
         "shininess": 4,
-        "isLight": true
+        "isLight": true,
+        "growth": false
     }
 }

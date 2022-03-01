@@ -164,6 +164,7 @@ function initGui() {
         });
         material.add(value, 'shininess', 1, 50, 0.1);
         material.add(value, 'isLight');
+        material.add(value, 'growth');
     }
 
     var renderer_folder = gui.addFolder('Renderer');

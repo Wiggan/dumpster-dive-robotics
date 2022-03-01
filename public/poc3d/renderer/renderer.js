@@ -289,6 +289,7 @@ class Renderer {
     setMaterial(program, material) {
         gl.uniform3fv(program['uMaterial.diffuse'], material.diffuse);
         gl.uniform1i(program['uMaterial.isLight'], material.isLight);
+        gl.uniform1i(program['uMaterial.growth'], material.growth || false );
         gl.uniform3fv(program['uMaterial.ambient'], material.ambient); 
         gl.uniform3fv(program['uMaterial.specular'], material.specular); 
         gl.uniform1f(program['uMaterial.shininess'], material.shininess);
@@ -330,6 +331,7 @@ class Renderer {
             console.log(active_camera.getWorldPosition());
         }
         gl.uniformMatrix4fv(program.uViewMatrix, false, view_matrix);
+        var previous_material = undefined;
         this.drawables.forEach((drawable) => {
             gl.uniformMatrix4fv(program.uModelMatrix, false, drawable.world_transform);
             //gl.uniform4fv(program.uIdColor, [0, 1, 2, 3]);
@@ -347,8 +349,10 @@ class Renderer {
             gl.uniformMatrix4fv(program.uModelViewMatrix, false, modelViewMatrix);
             gl.uniformMatrix4fv(program.uNormalMatrix, false, normalMatrix);
             
-            this.setMaterial(program, drawable.material);
-
+            if (drawable.material != previous_material) {
+                this.setMaterial(program, drawable.material);
+            }
+            previous_material = drawable.material;
 
         
             // Use the buffers we've constructed
