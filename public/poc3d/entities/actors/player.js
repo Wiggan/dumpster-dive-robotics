@@ -348,6 +348,7 @@ class Player extends Actor {
 
     takeDamage(amount, instigator, collider) {
         if (!this.dmg_on_cooldown) {
+            new SFX(this, [0, 0, 0], sfx.take_damage);
             super.takeDamage(amount, instigator, collider);
             if (collider.type == CollisionLayer.Enemy) {
                 if (this.getWorldPosition()[0] < instigator.getWorldPosition()[0]) {

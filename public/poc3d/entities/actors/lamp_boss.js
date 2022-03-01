@@ -85,6 +85,7 @@ class LampBoss extends Actor {
     attack(position) {
         this.goto(position);
         this.attack_done = false;
+        new SFX(this, [0, 0, 0], sfx.attack);
     }
 
     gridToWorld(point2d) {

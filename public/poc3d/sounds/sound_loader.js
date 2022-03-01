@@ -7,9 +7,9 @@ var music;
 function load_all_sounds() {
     sfx = {
         launch: [
-            new Howl({ src: ['/sfx/ddr_sfx - 01 Start - rocket_launching.ogg']}),
-            new Howl({ src: ['/sfx/ddr_sfx - 02 - rocket_launching.ogg']}),
-            new Howl({ src: ['/sfx/ddr_sfx - 03 - rocket_launching.ogg']}),
+            new Howl({ src: ['/sfx/ddr_sfx - 01 Start - rocket_launching2.ogg']}),
+            new Howl({ src: ['/sfx/ddr_sfx - 02 - rocket_launching2.ogg']}),
+            new Howl({ src: ['/sfx/ddr_sfx - 03 - rocket_launching2.ogg']}),
         ],
         rocket_exploding: [
             new Howl({ src: ['/sfx/ddr_sfx - 01 Start - rocket_exploding.ogg']}),
@@ -45,6 +45,16 @@ function load_all_sounds() {
             new Howl({ src: ['/sfx/ddr_sfx - 01 Start - jump.ogg']}),
             new Howl({ src: ['/sfx/ddr_sfx - 02 - jump.ogg']}),
             new Howl({ src: ['/sfx/ddr_sfx - 03 - jump.ogg']}),
+        ],
+        attack: [
+            new Howl({ src: ['/sfx/ddr_sfx - 01 Start - attack.ogg']}),
+            new Howl({ src: ['/sfx/ddr_sfx - 02 - attack.ogg']}),
+            new Howl({ src: ['/sfx/ddr_sfx - 03 - attack.ogg']}),
+        ],
+        take_damage: [
+            new Howl({ src: ['/sfx/ddr_sfx - 01 Start - take_damage.ogg']}),
+            new Howl({ src: ['/sfx/ddr_sfx - 02 - take_damage.ogg']}),
+            new Howl({ src: ['/sfx/ddr_sfx - 03 - take_damage.ogg']}),
         ],
         player_moving: [new Howl({ src: ['/sfx/ddr_sfx - 01 Start - moving.ogg'], loop: true})],
         player_dash: [new Howl({ src: ['/sfx/ddr_sfx - 01 Start - dash.ogg']})],

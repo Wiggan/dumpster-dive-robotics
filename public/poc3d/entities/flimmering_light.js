@@ -6,6 +6,7 @@ class FlimmeringLight extends Light {
     constructor(parent, local_position) {
         super(parent, local_position);
         this.timeout_index = 0;
+        this.light.local_transform.setPosition([0, 1, 0]);
         this.toggle();
     }
     
