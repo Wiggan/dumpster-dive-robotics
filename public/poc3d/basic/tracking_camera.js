@@ -55,6 +55,8 @@ class TrackingCamera extends Camera {
             player.pickUp(items.battery);
         } else if (e.key == 'u') {
             player.pickUp(items.suction_device);
+        } else if (e.key == 'p') {
+            player.pickUp(items.counter_pressurizer);
         }
     }
 

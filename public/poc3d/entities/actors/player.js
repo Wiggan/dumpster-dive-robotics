@@ -101,6 +101,12 @@ class Player extends Actor {
                 this.stats[key] += value;
             }
         }
+        if (this.inventory.includes(items.lamp)) {
+            if (!this.body.counter_pressurizer) {
+                this.body.counter_pressurizer = new Drawable(this.body, [0, 0, -0.4], models.player.counter_pressurizer);
+                this.body.counter_pressurizer.material = materials.player;
+            }
+        }
         if (this.inventory.includes(items.suction_device)) {
             if (!this.base.suction_device) {
                 this.base.suction_device = new SuctionDevice(this.base);

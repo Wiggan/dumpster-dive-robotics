@@ -89,6 +89,7 @@ async function load_all_models() {
         head_lamp: await load_model('/models/robot_tracks2/part19.json'),
         rocket_launcher: await load_model('/models/robot_tracks2/part18.json'),
         suction_device: await load_model('/models/robot_tracks2/part20.json'),
+        counter_pressurizer: await load_model('/models/robot_tracks2/part21.json'),
     }
     models.vacuum_fan = {
         base: await load_model('/models/vacuum_fan/part1.json'),
