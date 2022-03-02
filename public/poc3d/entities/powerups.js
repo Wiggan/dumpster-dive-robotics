@@ -43,11 +43,27 @@ class DiskPowerUp extends PowerUp {
     toJSON(key) {
         return {
             class: 'DiskPowerUp',
+            uuid: this.uuid,
             local_position: this.position,
         }
     }
 }
 classes.DiskPowerUp = DiskPowerUp;
+
+class PlatePowerUp extends PowerUp {
+    constructor(parent, position) {
+        super(position, items.plate, models.powerups.plate, materials.player);
+    }
+
+    toJSON(key) {
+        return {
+            class: 'PlatePowerUp',
+            uuid: this.uuid,
+            local_position: this.position,
+        }
+    }
+}
+classes.PlatePowerUp = PlatePowerUp;
 
 class HeadLampPowerUp extends PowerUp {
     constructor(position) {
@@ -77,4 +93,31 @@ class CounterPressurizerPowerUp extends PowerUp {
     }
 }
 
+class GoldNugget extends Pickable {
+    constructor(parent, position) {
+        super(null, position);
+        this.position = position;
+        this.drawable = new Drawable(this, [0, 0, 0],  models.gold_nugget1);
+        this.drawable.material = materials.gold;
+        this.drawable = new Drawable(this, [0, 0, 0],  models.gold_nugget2);
+        this.drawable.material = materials.gold_light;
+        this.drawable.id = this.id;
+        this.item = items.gold_nugget;
+        this.label = this.item.name;
+    }
+
+    interact() {
+        player.pickUp(this.item);
+        game.scene.remove(this);
+    }
+
+    toJSON(key) {
+        return {
+            class: 'GoldNugget',
+            uuid: this.uuid,
+            local_position: this.position,
+        }
+    }
+}
+classes.GoldNugget = GoldNugget;
 

@@ -1,0 +1,3 @@
+original OBJ file: C:\Users\Fredrik\Documents\dumpster-dive-robotics\public\models\gold_nugget\gold_nugget.obj
+part1.json > alias: Gold1_Icosphere_None
+part2.json > alias: Gold2_Icosphere.001_None

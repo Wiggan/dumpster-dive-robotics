@@ -106,6 +106,7 @@ async function load_all_models() {
 
     }
     models.powerups = {
+        plate: await load_model('/models/plate_powerup/part1.json'),
         head_lamp: await load_model('/models/head_lamp_powerup/part1.json'),
         suction_device: await load_model('/models/suction_device_powerup/part1.json'),
         battery: await load_model('/models/battery_powerup/part1.json'),
@@ -115,6 +116,8 @@ async function load_all_models() {
     models.door = await load_model('/models/door/part1.json');
     models.ball = await load_model('/models/ball/part1.json');
     models.ceiling_cannon = await load_model('/models/ceiling_cannon/part1.json');
+    models.gold_nugget1 = await load_model('/models/gold_nugget/part1.json');
+    models.gold_nugget2 = await load_model('/models/gold_nugget/part2.json');
     
     models.pool_boss = {
         wheels: await load_model('/models/pool_boss/part1.json'),

@@ -1,0 +1,2 @@
+original OBJ file: C:\Users\Fredrik\Documents\dumpster-dive-robotics\public\models\plate_powerup\plate_powerup.obj
+part1.json > alias: Cube_Cube_Material

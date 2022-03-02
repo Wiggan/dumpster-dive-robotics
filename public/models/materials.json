@@ -39,6 +39,46 @@
         "isLight": false,
         "growth": false
     },
+    "gold_light": {
+        "diffuse": [
+            0.5686274509803921,
+            0.5686274509803921,
+            0.16166858900422912
+        ],
+        "ambient": [
+            0.6274509803921569,
+            0.6274509803921569,
+            0
+        ],
+        "specular": [
+            0.6176470588235294,
+            0.6176470588235294,
+            0.15138408304498271
+        ],
+        "shininess": 1,
+        "isLight": true,
+        "growth": false
+    },
+    "gold": {
+        "diffuse": [
+            1,
+            1,
+            0
+        ],
+        "ambient": [
+            1,
+            1,
+            0
+        ],
+        "specular": [
+            1,
+            1,
+            0
+        ],
+        "shininess": 3.2,
+        "isLight": false,
+        "growth": false
+    },
     "blue": {
         "diffuse": [
             0.4509803921568627,

@@ -8,6 +8,8 @@ class ObjectTool extends Tool {
             new CameraAnchor(null, [0, 10, 0]),
             new Light(null, [0, 0, 0]),
             new DiskPowerUp(null, [0, 0, 0]),
+            new PlatePowerUp(null, [0, 0, 0]),
+            new GoldNugget(null, [0, 0, 0]),
             new FlimmeringLight(null, [0, 0, 0]),
             new LampBoss(null, [0, 0, 0]),
             new PoolBoss(null, [0, 0, 0]),

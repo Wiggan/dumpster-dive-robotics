@@ -11,10 +11,10 @@ class Actor extends Entity {
             acceleration: 0.00005,
             jump_speed: 0.02,
             pickup_range: 1,
-            attack_range: 1
+            attack_range: 1,
+            max_health: 2
         };
-        this.max_health = 2;
-        this.health = 2;
+        this.health = this.stats.max_health;
         this.blinking_drawables_on_damage = [];
     }
 

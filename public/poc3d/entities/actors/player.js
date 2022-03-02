@@ -34,6 +34,20 @@ const items = {
         name: 'Suction Device', 
         description: 'Suction device providing vertical movement'
     },
+    plate: {
+        key: 'plate',
+        name: 'Extra Plating',
+        modifiers: {
+            max_health: 1,
+        }
+    },
+    gold_nugget: {
+        key: 'gold_nugget',
+        name: 'Gold Nugget',
+        modifiers: {
+            score: 1,
+        }
+    }
 }
 
 const original_stats = {
@@ -41,7 +55,9 @@ const original_stats = {
     acceleration: 0.00005,
     jump_speed: 0.013683,
     pickup_range: 1,
-    attack_range: 1
+    attack_range: 1,
+    max_health: 3,
+    score: 0
 };
 
 
@@ -66,8 +82,7 @@ class Player extends Actor {
         this.dash_on_cooldown = false;
         this.jump_on_cooldown = false;
         this.dmg_on_cooldown = false;
-        this.max_health = 3;
-        this.health = 3;
+        this.health = this.stats.max_health;
         this.blinking_drawables_on_damage = [this.body, this.head.head.drawable, this.base.base];
         
         this.onGround = false;
@@ -110,6 +125,16 @@ class Player extends Actor {
         if (this.inventory.includes(items.suction_device)) {
             if (!this.base.suction_device) {
                 this.base.suction_device = new SuctionDevice(this.base);
+            }
+        }
+        for (var i = 0; i < this.inventory.filter(item => item == items.plate).length; i++) {
+            for (const [key, value] of Object.entries(items.plate.modifiers)) {
+                this.stats[key] += value;
+            }
+        }
+        for (var i = 0; i < this.inventory.filter(item => item == items.gold_nugget).length; i++) {
+            for (const [key, value] of Object.entries(items.gold_nugget.modifiers)) {
+                this.stats[key] += value;
             }
         }
     }
@@ -527,6 +552,33 @@ class Body extends Drawable {
     }
 }
 
+class LifeLED extends Drawable {
+    constructor(parent, local_position, index) {
+        super(parent, local_position, models.box);
+        this.local_transform.scale([0.01, 0.05, 0.04]);
+        this.index = index;
+        this.visible = false;
+    }
+
+    update(elapsed, dirty) {
+        if (player.stats.max_health > this.index) {
+            this.visible = true;
+        }
+        if (player.health > this.index) {
+            this.material =  materials.green_led;
+        } else {
+            this.material =  materials.red_led;
+        }
+        super.update(elapsed, dirty);
+    }
+
+    draw(renderer) {
+        if (this.visible) {
+            super.draw(renderer);
+        }
+    }
+}
+
 class Head extends DynamicEntity {
     constructor(parent) {
         super(parent, [0,0,0]);
@@ -537,6 +589,10 @@ class Head extends DynamicEntity {
         this.head.drawable = new Drawable(this.head, [0,0,0], models.player.head);
         this.head.drawable.material = materials.player;
         this.lamp = undefined; //new HeadLamp(this);
+        this.lifeLeds = [];
+        for(var i = 0; i < 6; i++) {
+            this.lifeLeds.push(new LifeLED(this.head, [i * 0.02 - 0.06, 0.15, 0], i));
+        }
     }
 
     update(elapsed, dirty) {
