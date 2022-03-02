@@ -122,8 +122,11 @@ function initControls() {
     });
     window.addEventListener('keydown', (e) => {
         if (e.target.localName != "input") {
-            if (e.key == 's' && e.ctrlKey) {
+            if (e.key == 'm' && e.ctrlKey) {
                 download('materials.json', JSON.stringify(materials, null, 4));
+                e.preventDefault();
+            }
+            if (e.key == 'l' && e.ctrlKey) {
                 download('levels.json', JSON.stringify(game.serialize(), null, 4));
                 e.preventDefault();
             }

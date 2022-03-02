@@ -1,10 +1,5 @@
 'use strict'
 
-const log_width = 500;
-const log_height = 300;
-const padding = 5;
-const spacing = 10;
-
 
 const log_entries = {
     0: 'Booting... No persistent memory detected...',
@@ -20,10 +15,16 @@ const log_entries = {
 };
 
 function drawLog(entries) {
+    
     var focused = active_camera.x < 100 && active_camera.y > d2.canvas.height - 100;
+    const log_width = focused ? 500 : 100;
+    const log_height = focused ? 500 : 100;
+    const padding = focused ? 5 : 1;
+    const spacing = focused ? 10 : 2;
+    
     d2.save();
-    d2.font = "10px Courier New";
-    d2.globalAlpha = focused ? 0.8 : 0.0;
+    d2.font = focused ? "10px Courier New" : "2px Courier New" ;
+    d2.globalAlpha = focused ? 0.8 : 0.1;
     d2.fillStyle = "black";
     d2.fillRect(0, d2.canvas.height - log_height, log_width, log_height);
     

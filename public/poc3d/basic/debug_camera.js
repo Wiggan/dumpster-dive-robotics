@@ -113,7 +113,7 @@ class DebugCamera extends Camera {
         vec3.add(translation, forward, right);
         ////console.log(this.vel);
         this.local_transform.translate(translation);
-        console.log(this.getWorldPosition());
+        //console.log(this.getWorldPosition());
         super.update(elapsed, true);
     }
 }

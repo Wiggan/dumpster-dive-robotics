@@ -18,7 +18,12 @@ class WaterSurface extends Trigger {
 
     onTrigger() {
         console.log("Water triggered");
-        new WaterSplash(player, [0, 0, 0.45]);
+        var pos = player.getWorldPosition();
+        new WaterSplash(this, [pos[0], 0, 0]);
+        new SFX(this, [0, 0, 0], sfx.splash);
+        if (!player.inventory.includes(items.counter_pressurizer)) {
+            player.takeDamage(10000, this, this.collider);
+        }
     }
 
     toJSON(key) {
