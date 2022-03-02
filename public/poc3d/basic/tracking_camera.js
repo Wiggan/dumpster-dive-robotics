@@ -48,15 +48,15 @@ class TrackingCamera extends Camera {
         } else if (e.key == 'Escape') {
             toggleMenuVisible();
         } else if (e.key == 'm') {
-            player.pickUp(items.disk);
+            player.pickUp({item: items.disk});
         } else if (e.key == 'l') {
-            player.pickUp(items.lamp);
+            player.pickUp({item: items.lamp});
         } else if (e.key == 'b') {
-            player.pickUp(items.battery);
+            player.pickUp({item: items.battery});
         } else if (e.key == 'u') {
-            player.pickUp(items.suction_device);
+            player.pickUp({item: items.suction_device});
         } else if (e.key == 'p') {
-            player.pickUp(items.counter_pressurizer);
+            player.pickUp({item: items.counter_pressurizer});
         }
     }
 

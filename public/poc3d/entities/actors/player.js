@@ -75,6 +75,7 @@ class Player extends Actor {
         this.slain_bosses = [];
         // Indices in the log_entries array
         this.entries = [];
+        this.pickups = [];
 
         this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Player, 0.7, 0.9);
 
@@ -140,9 +141,10 @@ class Player extends Actor {
     }
 
     pickUp(item) {
-        this.inventory.push(item);
-        switch(item) {
+        this.inventory.push(item.item);
+        switch(item.item) {
         case items.disk: 
+            this.pickups.push(item.uuid);
             this.addLogEntry(2);
             window.setTimeout(() => {
                 this.addLogEntry(3);
@@ -159,6 +161,14 @@ class Player extends Actor {
             break;
         case items.suction_device: 
             this.addLogEntry(7);
+            break;
+        case items.plate: 
+            this.addLogEntry(7);
+            this.pickups.push(item.uuid);
+            break;
+        case items.gold_nugget: 
+            this.addLogEntry(7);
+            this.pickups.push(item.uuid);
             break;
         }
         this.updateStats();

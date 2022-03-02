@@ -14,7 +14,7 @@ class PowerUp extends Pickable {
     }
 
     interact() {
-        player.pickUp(this.item);
+        player.pickUp(this);
         game.scene.remove(this);
     }
 
@@ -107,7 +107,7 @@ class GoldNugget extends Pickable {
     }
 
     interact() {
-        player.pickUp(this.item);
+        player.pickUp(this);
         game.scene.remove(this);
     }
 

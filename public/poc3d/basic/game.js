@@ -180,11 +180,13 @@ class Game {
         var cookie = this.getCookie() || {};
         cookie.persistent = {
             inventory: player.inventory.map((item) => item.key),
+            pickups: player.pickups,
             position: player.getWorldPosition(),
             scene: game.scene.name,
             slain_bosses: player.slain_bosses,
             time_played: player.time_played,
-            entries: player.entries
+            entries: player.entries,
+            health: player.health
         };
         this.saveCookie(cookie);
     }
@@ -202,6 +204,12 @@ class Game {
             }
             if (cookie.persistent.time_played) {
                 player.time_played = cookie.persistent.time_played;
+            }
+            if (cookie.persistent.health) {
+                player.health = cookie.persistent.health;
+            }
+            if (cookie.persistent.pickups) {
+                player.pickups = cookie.persistent.pickups;
             }
             if (cookie.persistent.scene && cookie.persistent.position) {
                 this.loadLevels();
