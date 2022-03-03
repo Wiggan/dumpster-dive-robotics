@@ -92,6 +92,7 @@ class Player extends Actor {
         this.force[2] = constants.gravity;
         this.last_grounded = Date.now();
         this.time_played = 0;
+        window.setInterval(this.checkLogs.bind(this), 1000, 1);
     }
 
     toJSON(key) {
@@ -286,8 +287,8 @@ class Player extends Actor {
         new SFX(player, [0, 0, 0], sfx.log_entry);
     }
 
-    checkLogs(elapsed) {
-        this.time_played += elapsed/1000;
+    checkLogs(elapsed_s) {
+        this.time_played += elapsed_s;
         if (this.time_played > 1 && !this.entries.includes(0)) {
             this.addLogEntry(0);
         }
@@ -300,7 +301,6 @@ class Player extends Actor {
     }
 
     update(elapsed, dirty) {
-        this.checkLogs(elapsed);
         // Stop if no force is applied
         if (Math.abs(this.force[0]) < 0.00001) {
             this.velocity[0] = 0;

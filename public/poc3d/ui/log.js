@@ -12,6 +12,9 @@ const log_entries = {
     7: 'Suction device installed. Vertical movement enabled.',
     8: 'Counter pressurizer installed. Underwater operation enabled.',
     9: 'Saving progress. Structural integrity restored.',
+    10: 'Additional plating installed, structural integrity improved.',
+    11: 'Gold! Owner will be satisfied upon return.',
+
 };
 
 function drawLog(entries) {
@@ -35,7 +38,9 @@ function drawLog(entries) {
         d2.fillText('[INFO] ' + log_entries[entry], padding, padding);
         d2.translate(0, stride);
     });
-    d2.fillText('[STATS] ' + "HP: " + player.health + "/" + player.stats.max_health + " GOLD: " + player.stats.score, padding, padding);
+    d2.fillText('[STATS] ' + "HP: " + player.health + "/" + player.stats.max_health + 
+        (player.stats.score > 0 ? (" GOLD: " + player.stats.score) : ""), padding, padding);
     d2.translate(0, stride);
     d2.restore();
 }
+
