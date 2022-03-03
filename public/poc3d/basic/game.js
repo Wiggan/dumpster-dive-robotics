@@ -62,9 +62,39 @@ class Game {
         playMusic(music.in_game);
         player = new Player();
         this.loadLevels();
-        this.scene = this.scenes['Downfall'];
-        this.placePlayer([16,0,-9]);
+        this.scene = this.scenes['Intro'];
+        this.placePlayer([3,0,-41]);
         player.camera.activate();
+        player.stats.movement_speed = 0.006;
+        player.transition = new Transition(player, [
+            {
+                time: 400,
+                to: { force: [0.5, 0.0, player.force[2]]},
+                callback: () => { new Dirt(player, [0, 0, 0], [-1, 0, 0], 20);}
+            },
+            {
+                time: 400,
+                to: { force: [-0.5, 0.0, player.force[2]]},
+                callback: () => { new Dirt(player, [0, 0, 0], [1, 0, 0], 20);}
+            },
+            {
+                time: 400,
+                to: {force: [0.5, 0.0, player.force[2]]},
+                callback: () => { new Dirt(player, [0, 0, 0], [-1, 0, 0], 20);}
+            },
+            {
+                time: 400,
+                to: { force: [-0.5, 0.0, player.force[2]]},
+                callback: () => { 
+                    new Dirt(player, [0, 0, 0], [1, 0, 0], 20);
+                    this.changeScene(this.scenes.Downfall, [16,0,-9]);
+                    window.setTimeout(() => {
+                        player.updateStats();
+                        player.force = [0, 0, 0];
+                    }, 300);
+                }
+            },
+        ]);
     }
 
     changeScene(scene, player_position) {

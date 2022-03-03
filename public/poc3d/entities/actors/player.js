@@ -92,7 +92,7 @@ class Player extends Actor {
         this.force[2] = constants.gravity;
         this.last_grounded = Date.now();
         this.time_played = 0;
-        if (!EditorCamera) {
+        if  (typeof editor_camera !== 'undefined') {
             window.setInterval(this.checkLogs.bind(this), 1000, 1);
         }
     }
