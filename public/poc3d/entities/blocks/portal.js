@@ -24,7 +24,7 @@ class Portal extends Pickable {
         };
     }
 
-    interact() {
+    getDestinationPortal() {
         var destination_portal;
         
         for (const [key, value] of Object.entries(game.scenes)) {
@@ -33,7 +33,12 @@ class Portal extends Pickable {
                 break;
             }    
         }
+        return destination_portal;
+    }
+
+    interact() {
         if (this.active) {
+            var destination_portal = this.getDestinationPortal();
             game.changeScene(destination_portal.scene, destination_portal.getWorldPosition());
         }
     }

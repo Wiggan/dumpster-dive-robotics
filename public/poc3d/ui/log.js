@@ -14,7 +14,6 @@ const log_entries = {
     9: 'Saving progress. Structural integrity restored.',
     10: 'Additional plating installed, structural integrity improved.',
     11: 'Gold! Owner will be satisfied upon return.',
-
 };
 
 function drawLog(entries) {

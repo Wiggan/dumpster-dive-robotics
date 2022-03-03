@@ -82,6 +82,7 @@ class Game {
                         this.scene.getAllOfClass('Portal').forEach(portal => {
                             portal.disable();
                         });
+                        player.hint = undefined;
                         playMusic(music.boss_intro);
                         // Zoom in on boss
                         player.camera.position = player.camera.getWorldPosition();
@@ -186,7 +187,8 @@ class Game {
             slain_bosses: player.slain_bosses,
             time_played: player.time_played,
             entries: player.entries,
-            health: player.health
+            health: player.health,
+            hint: player.hint,
         };
         this.saveCookie(cookie);
     }
@@ -211,6 +213,7 @@ class Game {
             if (cookie.persistent.pickups) {
                 player.pickups = cookie.persistent.pickups;
             }
+            player.hint = cookie.persistent.hint;
             if (cookie.persistent.scene && cookie.persistent.position) {
                 this.loadLevels();
                 this.setScene(this.scenes[cookie.persistent.scene], cookie.persistent.position);

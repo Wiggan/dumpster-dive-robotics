@@ -164,11 +164,11 @@ class Player extends Actor {
             this.addLogEntry(7);
             break;
         case items.plate: 
-            this.addLogEntry(7);
+            this.addLogEntry(10);
             this.pickups.push(item.uuid);
             break;
         case items.gold_nugget: 
-            this.addLogEntry(7);
+            this.addLogEntry(11);
             this.pickups.push(item.uuid);
             break;
         }
@@ -295,8 +295,21 @@ class Player extends Actor {
         if (this.time_played > 3 && !this.entries.includes(1)) {
             this.addLogEntry(1);
         }
-        if (this.time_played > 20 && !this.entries.includes(4) && player.inventory.includes(items.disk) && !player.inventory.includes(items.lamp) && game.scene.name != 'LampBossRoom') {
+        if (this.time_played > 10 && !this.hint && player.inventory.includes(items.disk) && !player.inventory.includes(items.lamp) && game.scene.name == 'Downfall') {
             this.addLogEntry(4);
+            this.hint = game.scene.getAllOfClass('Portal').filter(portal => portal.getDestinationPortal().scene.name == 'LampBossRoom')[0].getWorldPosition();
+        }
+        if (this.time_played > 11 && !this.hint && player.inventory.includes(items.lamp) && !player.inventory.includes(items.battery) && game.scene.name == 'Downfall') {
+            this.addLogEntry(4);
+            this.hint = game.scene.getAllOfClass('Portal').filter(portal => portal.getDestinationPortal().scene.name == 'BatteryBossRoom')[0].getWorldPosition();
+        }
+        if (this.time_played > 12 && !this.hint && player.inventory.includes(items.battery) && !player.inventory.includes(items.counter_pressurizer) && game.scene.name == 'Downfall') {
+            this.addLogEntry(4);
+            this.hint = game.scene.getAllOfClass('Portal').filter(portal => portal.getDestinationPortal().scene.name == 'PressurizerBossRoom')[0].getWorldPosition();
+        }
+        if (this.time_played > 13 && !this.hint && player.inventory.includes(items.counter_pressurizer) && !player.inventory.includes(items.suction_device) && game.scene.name == 'Downfall') {
+            this.addLogEntry(4);
+            this.hint = game.scene.getAllOfClass('Portal').filter(portal => portal.getDestinationPortal().scene.name == 'PoolBossRoom')[0].getWorldPosition();
         }
     }
 
@@ -609,7 +622,11 @@ class Head extends DynamicEntity {
     }
 
     update(elapsed, dirty) {
-        this.head.look_at = player.camera.pointing_at;
+        if (player.hint) {
+            this.head.look_at = player.hint;
+        } else {
+            this.head.look_at = player.camera.pointing_at;
+        }
         super.update(elapsed, dirty);
     }
 }
