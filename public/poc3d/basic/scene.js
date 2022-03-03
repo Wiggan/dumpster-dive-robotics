@@ -18,6 +18,8 @@ class Scene extends Entity {
                     e.strategy = Object.assign(new classes[entity.strategy.class](e), entity.strategy);
                 }
                 return e;
+            } else {
+                console.log("Skipped creating object: " + entity);
             }
         })
         this.entities = this.entities.filter((entity => entity))
@@ -78,7 +80,10 @@ class Scene extends Entity {
 /*         object.getColliders().forEach(collider => {
             this.colliders.splice(game.scene.colliders.lastIndexOf(collider), 1);
         }); */
-        this.entities.splice(game.scene.entities.lastIndexOf(object), 1);
+        var index = this.entities.lastIndexOf(object);
+        if (index >= 0) {
+            this.entities.splice(index, 1);
+        }
     }
 
     removeLight(light) {

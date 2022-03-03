@@ -92,7 +92,9 @@ class Player extends Actor {
         this.force[2] = constants.gravity;
         this.last_grounded = Date.now();
         this.time_played = 0;
-        window.setInterval(this.checkLogs.bind(this), 1000, 1);
+        if (!EditorCamera) {
+            window.setInterval(this.checkLogs.bind(this), 1000, 1);
+        }
     }
 
     toJSON(key) {

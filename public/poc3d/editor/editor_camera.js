@@ -83,24 +83,34 @@ class EditorCamera extends Camera {
             e.preventDefault();
         } else if (e.key == 'w' || e.key == 'W') {
             this.velocity[2] = -0.005;
+            e.preventDefault();
         } else if ((e.key == 's' || e.key == 'S') && !e.ctrlKey) {
             this.velocity[2] = 0.005;
+            e.preventDefault();
         } else if ((e.key == 'a' || e.key == 'A') && !e.shiftKey) {
             this.velocity[0] = -0.005;
+            e.preventDefault();
         } else if (e.key == 'd' || e.key == 'D') {
             this.velocity[0] = 0.005;
+            e.preventDefault();
         } else if (e.key == ' ') {
             this.local_transform.setPosition(this.original_position);
+            e.preventDefault();
         } else if (e.key == '1') {
             this.active_tool = this.tools[0];
+            e.preventDefault();
         } else if (e.key == '2') {
             this.active_tool = this.tools[1];
+            e.preventDefault();
         } else if (e.key == '3') {
             this.active_tool = this.tools[2];
+            e.preventDefault();
         } else if (e.key == 'l' || e.key == 'L') {
             new HeadLampPowerUp(this.active_tool.getWorldPosition());
+            e.preventDefault();
         } else if (e.key == 'z' && e.ctrlKey) {
             this.undo();
+            e.preventDefault();
         } else if (e.key == 'p' || e.key == 'P') {
             if (e.shiftKey) {
                 game.scene.particles = new ParticleSystem(null, this.active_tool.getWorldPosition());
@@ -128,7 +138,7 @@ class EditorCamera extends Camera {
                     });
                 });
                 game.paused = false;
-
+                
             } else {
                 player = new Player();
                 game.placePlayer(this.active_tool.getWorldPosition());
@@ -144,10 +154,11 @@ class EditorCamera extends Camera {
                 gui.player.add(constants, 'dash_cooldown', 100, 2000, 100);
                 gui.player.add(player.base, 'frame_scaler', 10, 2000, 1);
                 gui.player.open();
-    
+                
                 game.paused = false;
-
+                
             }
+            e.preventDefault();
             
         }
         var original_json = JSON.stringify(game.scene);
@@ -164,12 +175,16 @@ class EditorCamera extends Camera {
             e.preventDefault();
         } else if (e.key == 'w' || e.key == 'W') {
             this.velocity[2] = 0;
+            e.preventDefault();
         } else if ((e.key == 's' || e.key == 'S') && !e.ctrlKey) {
             this.velocity[2] = 0;
+            e.preventDefault();
         } else if (e.key == 'a' || e.key == 'A') {
             this.velocity[0] = 0;
+            e.preventDefault();
         } else if (e.key == 'd' || e.key == 'D') {
             this.velocity[0] = 0;
+            e.preventDefault();
         }
         var original_json = JSON.stringify(game.scene);
         this.active_tool.onKeyUp(e);
