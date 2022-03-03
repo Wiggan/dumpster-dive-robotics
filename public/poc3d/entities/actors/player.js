@@ -285,6 +285,15 @@ class Player extends Actor {
             this.entries.shift();
         }
         new SFX(player, [0, 0, 0], sfx.log_entry);
+        var toggle = false;
+        var interval = window.setInterval(() => {
+            toggle = !toggle;
+            line_alpha = toggle ? 1.0 : 0.1;
+        },100);
+        window.setTimeout(() => {
+            window.clearInterval(interval);
+            line_alpha = 0.1;
+        }, 1000);
     }
 
     checkLogs(elapsed_s) {
