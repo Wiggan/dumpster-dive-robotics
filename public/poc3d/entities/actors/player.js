@@ -280,6 +280,9 @@ class Player extends Actor {
 
     addLogEntry(index) {
         this.entries.push(index);
+        if (this.entries.length > 47) {
+            this.entries.shift();
+        }
         new SFX(player, [0, 0, 0], sfx.log_entry);
     }
 

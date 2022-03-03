@@ -20,7 +20,7 @@ function drawLog(entries) {
     const log_width = focused ? 500 : 100;
     const log_height = focused ? 500 : 100;
     const padding = focused ? 5 : 1;
-    const spacing = focused ? 10 : 2;
+    const stride = focused ? 10 : 2;
     
     d2.save();
     d2.font = focused ? "10px Courier New" : "2px Courier New" ;
@@ -30,10 +30,12 @@ function drawLog(entries) {
     
     d2.globalAlpha = focused ? 1.0 : 0.6;
     d2.fillStyle = "green";
-    d2.translate(0, d2.canvas.height - spacing * entries.length - padding);
+    d2.translate(0, d2.canvas.height - stride * (entries.length+1) - padding);
     entries.forEach(entry => {
         d2.fillText('[INFO] ' + log_entries[entry], padding, padding);
-        d2.translate(0, spacing);
+        d2.translate(0, stride);
     });
+    d2.fillText('[STATS] ' + "HP: " + player.health + "/" + player.stats.max_health + " GOLD: " + player.stats.score, padding, padding);
+    d2.translate(0, stride);
     d2.restore();
 }
