@@ -5,6 +5,7 @@ var game;
 var classes = {};
 var settings = {};
 
+
 const constants = {
     gravity: 0.000048,
     dash_timing: 150,
@@ -23,6 +24,7 @@ class Game {
         this.paused = true;
         this.overlay = [0.0, 0.0, 0.0, 0.0];
         this.transition;
+        this.time_scaler = 1;
         try {
             this.loadSettings();
         } catch {
@@ -48,6 +50,7 @@ class Game {
     }
     
     update(elapsed) {
+        elapsed *= this.time_scaler;
         if (!this.paused) {
             this.scene.update(elapsed);
         } else {
@@ -65,33 +68,72 @@ class Game {
         this.scene = this.scenes['Intro'];
         this.placePlayer([3,0,-41]);
         player.camera.activate();
-        player.stats.movement_speed = 0.006;
+        player.stats.movement_speed = 0.01;
+        materials.green_led.isLight = false; 
+        this.time_scaler = 0.6;
         player.transition = new Transition(player, [
             {
-                time: 400,
-                to: { force: [0.5, 0.0, player.force[2]]},
-                callback: () => { new Dirt(player, [0, 0, 0], [-1, 0, 0], 20);}
-            },
-            {
-                time: 400,
-                to: { force: [-0.5, 0.0, player.force[2]]},
-                callback: () => { new Dirt(player, [0, 0, 0], [1, 0, 0], 20);}
-            },
-            {
-                time: 400,
-                to: {force: [0.5, 0.0, player.force[2]]},
-                callback: () => { new Dirt(player, [0, 0, 0], [-1, 0, 0], 20);}
-            },
-            {
-                time: 400,
-                to: { force: [-0.5, 0.0, player.force[2]]},
+                time: 310,
+                to: { force: [0.7, 0.0, player.force[2]]},
                 callback: () => { 
-                    new Dirt(player, [0, 0, 0], [1, 0, 0], 20);
-                    this.changeScene(this.scenes.Downfall, [16,0,-9]);
-                    window.setTimeout(() => {
-                        player.updateStats();
-                        player.force = [0, 0, 0];
-                    }, 300);
+                    new Dirt(player, [0.4, 0, 0.45], [-1, 0, 0], 40);
+                    player.force[0] = -0.7;
+                }
+            },
+            {
+                time: 630,
+                to: { force: [-0.7, 0.0, player.force[2]]},
+                callback: () => { 
+                    new Dirt(player, [-0.4, 0, 0.45], [1, 0, 0], 40);
+                    player.force[0] = 0.7;
+                }
+            },
+            {
+                time: 510,
+                to: {force: [0.7, 0.0, player.force[2]]},
+                callback: () => { 
+                    new Dirt(player, [0.4, 0, 0.45], [-1, 0, 0], 40);
+                    player.force[0] = -0.7;
+                }
+            },
+            {
+                time: 400,
+                to: { force: [-0.7, 0.0, player.force[2]]},
+                callback: () => { 
+                    this.transition = new Transition(this, [
+                        {
+                            time: 300,
+                            to: { overlay: [0.0, 0.0, 0.0, 1.0]},
+                            callback: () => {
+                                intro = true;
+                                this.setScene(this.scenes.Downfall, [16,0,-9]);
+                                player.updateStats();
+                                player.force = [0, 0, 0];
+                                this.time_scaler = 1;
+                                player.addLogEntry(0);
+                            }
+                        },
+                        {
+                            time: 1000,
+                            to: {},
+                            callback: () => {
+                                player.addLogEntry(1);
+                            }
+                        },
+                        {
+                            time: 1000,
+                            to: {}
+                        },
+                        {
+                            time: 2000,
+                            to: { overlay: [0.0, 0.0, 0.0, 0.0], transition: null },
+                            callback: () => {
+                                intro = false;
+                                materials.green_led.isLight = true; 
+                                game.paused = false;
+                            }
+                        }
+                    ]);
                 }
             },
         ]);

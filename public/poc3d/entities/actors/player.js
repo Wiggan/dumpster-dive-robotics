@@ -92,7 +92,8 @@ class Player extends Actor {
         this.force[2] = constants.gravity;
         this.last_grounded = Date.now();
         this.time_played = 0;
-        if  (typeof editor_camera !== 'undefined') {
+        // This stinks...
+        if  (typeof editor_camera === 'undefined') {
             window.setInterval(this.checkLogs.bind(this), 1000, 1);
         }
     }
@@ -300,10 +301,10 @@ class Player extends Actor {
 
     checkLogs(elapsed_s) {
         this.time_played += elapsed_s;
-        if (this.time_played > 1 && !this.entries.includes(0)) {
+        if (this.time_played > 7 && !this.entries.includes(0)) {
             this.addLogEntry(0);
         }
-        if (this.time_played > 3 && !this.entries.includes(1)) {
+        if (this.time_played > 8 && !this.entries.includes(1)) {
             this.addLogEntry(1);
         }
         if (this.time_played > 10 && !this.hint && player.inventory.includes(items.disk) && !player.inventory.includes(items.lamp) && game.scene.name == 'Downfall') {

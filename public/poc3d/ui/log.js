@@ -17,11 +17,12 @@ const log_entries = {
 };
 
 var line_alpha = 0.1;
+var intro = false;
 
 function drawLog(entries) {
     
 
-    var focused = active_camera.x < 100 && active_camera.y > d2.canvas.height - 100;
+    var focused = intro || active_camera.x < 100 && active_camera.y > d2.canvas.height - 100;
     const log_width = focused ? 500 : 100;
     const log_height = focused ? 500 : 100;
     const padding = focused ? 5 : 1;
