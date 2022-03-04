@@ -101,8 +101,8 @@ void main() {
         result = mix(result, vec3(0.2, 0.2, 0.1), alpha);
 
         // Fog-style water
-        if (vFragPos.y < 0.9) {
-            depth = (vFragPos.z + 0.45) * 0.03;
+        if (vFragPos.y < 0.9 && vFragPos.z > 0.0) {
+            depth = (vFragPos.z + 3.0) * 0.03;
             alpha = min(max(depth, 0.0), 0.5);
             result = mix(result, vec3(0.0, 0.1, 0.2), alpha);
         }
