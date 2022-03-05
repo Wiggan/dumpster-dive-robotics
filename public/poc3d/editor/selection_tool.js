@@ -34,6 +34,7 @@ class SelectionTool extends Tool {
                     }
                     entity.local_transform.translate(snapToGrid(translation));
                     entity.local_position = new_position;
+                    entity.update(0, true);
                 });
             }
         } else if (e.key == 'Delete') {

@@ -1,0 +1,4 @@
+original OBJ file: C:\Users\Fredrik\Documents\dumpster-dive-robotics\public\models\water_boss\water_boss.obj
+part1.json > alias: RocketLauncher_Cylinder.003_None
+part2.json > alias: Propeller_Cylinder.004_None
+part3.json > alias: Base_Cube.002_None

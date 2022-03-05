@@ -13,6 +13,7 @@ class ObjectTool extends Tool {
             new FlimmeringLight(null, [0, 0, 0]),
             new LampBoss(null, [0, 0, 0]),
             new PoolBoss(null, [0, 0, 0]),
+            new WaterBoss(null, [0, 0, 0]),
         ];
         this.objects.forEach(object => object.material = materials.blue);
         this.object_index = 0;

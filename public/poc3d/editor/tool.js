@@ -23,12 +23,14 @@ class Tool extends Entity {
             } else if (this.selected_tool == 2) {
                 this.changeDynamic(1);
             }
+            e.preventDefault();
         } else if (e.key == 'ArrowDown') {
             if (this.selected_tool == 1) {
                 this.changeBlock(-1);
             } else if (this.selected_tool == 2) {
                 this.changeDynamic(-1);
             }
+            e.preventDefault();
         }
     }
 

@@ -60,7 +60,7 @@ async function init() {
     //game.startNewGame();
     player = new Player();
     game.loadLevels();
-    game.setScene(game.scenes['PoolBossRoom'], [1600, 0, -6]);
+    game.setScene(game.scenes['PressurizerBossRoom'], [1600, 0, -6]);
     game.scene.lights.push(editor_camera.light);
     
     for (const [key, value] of Object.entries(game.scenes)) {

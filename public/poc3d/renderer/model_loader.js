@@ -103,7 +103,11 @@ async function load_all_models() {
         led_list: await load_model('/models/lamp_boss/part3.json'),
         motors: await load_model('/models/lamp_boss/part4.json'),
         head_lamp: await load_model('/models/lamp_boss/part5.json'),
-
+    }
+    models.water_boss = {
+        launcher: await load_model('/models/water_boss/part1.json'),
+        propeller: await load_model('/models/water_boss/part2.json'),
+        base: await load_model('/models/water_boss/part3.json'),
     }
     models.powerups = {
         plate: await load_model('/models/plate_powerup/part1.json'),
