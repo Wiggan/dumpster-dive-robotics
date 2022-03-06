@@ -9,9 +9,13 @@ class CeilingCannon extends Entity {
         this.launcher.drawable.model = models.ceiling_cannon;
         this.launcher.drawable.local_transform.yaw(90);
         this.launcher.local_transform.yaw(-90);
+        this.launcher.launch_point.local_transform.setPosition([0.3, 0, 0]);
         this.launcher.lamp.local_transform.scale([0.015, 0.45, 0.015]);
         this.launcher.lamp.local_transform.setPosition([0, 0, 0]);
         this.launcher.stats.cooldown = 2000;
+        this.stats = {
+            dmg: 1
+        }
     }
 
     stop_triggering() {

@@ -12,7 +12,7 @@ class TrackingCamera extends Camera {
         var upp = up(this.getWorldTransform());
         Howler.orientation(fwd[0], fwd[1], fwd[2], upp[0], upp[1], upp[2]);
         this.independent = true;
-        this.local_position = undefined;
+        this.position = undefined;
     }
 
     activate() {
@@ -89,9 +89,9 @@ class TrackingCamera extends Camera {
     }
 
     update(elapsed, dirty) {
-        if (this.local_position) {
+        if (this.position) {
             // Scripting / override normal behavior
-            this.local_transform.setPosition(this.local_position);
+            this.local_transform.setPosition(this.position);
         } else {
             var new_pos = this.parent.getWorldPosition();
             new_pos[1] += 16;
