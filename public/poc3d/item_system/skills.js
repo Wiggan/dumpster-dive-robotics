@@ -1,6 +1,6 @@
 class Skill {
     constructor({x, y, name, description, effect, amount}) {
-        this.position = {x, y};
+        this.local_position = {x, y};
         this.name = name;
         this.description = description;
         this.effect = effect;
@@ -19,8 +19,8 @@ class Projectile extends Drawable {
     
     update(elapsed) {
         super.update(elapsed);
-        this.position.x += this.speed * elapsed * this.direction.x;
-        this.position.y += this.speed * elapsed * this.direction.y;
+        this.local_position.x += this.speed * elapsed * this.direction.x;
+        this.local_position.y += this.speed * elapsed * this.direction.y;
     }
     
 

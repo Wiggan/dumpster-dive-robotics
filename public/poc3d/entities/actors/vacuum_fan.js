@@ -3,7 +3,7 @@
 class VacuumFan extends Actor {
     constructor(parent, position) {
         super(null, position);
-        this.position = position;
+        this.local_position = position;
         this.type = PickableType.Enemy;
         this.base = new Drawable(this, [0, 0, 0.45], models.vacuum_fan.base);
         this.wheels = new Drawable(this, [-0.2, 0, 0.45], models.vacuum_fan.wheels);
@@ -29,7 +29,7 @@ class VacuumFan extends Actor {
         return {
             class: 'VacuumFan',
             strategy: this.strategy,
-            local_position: this.position,
+            local_position: this.local_position,
         }
     }
 

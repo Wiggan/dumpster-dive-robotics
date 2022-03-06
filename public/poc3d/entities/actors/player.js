@@ -57,6 +57,7 @@ const original_stats = {
     pickup_range: 1,
     attack_range: 1,
     max_health: 3,
+    dmg: 1,
     score: 0
 };
 

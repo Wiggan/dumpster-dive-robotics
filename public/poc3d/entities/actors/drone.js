@@ -3,7 +3,7 @@
 class Drone extends Actor {
     constructor(parent, position) {
         super(null, position);
-        this.position = position;
+        this.local_position = position;
         this.type = PickableType.Enemy;
         this.body = new Drawable(this, [0, 0, 0], models.box);
         this.lamp = new Drawable(this, [0, 0, 0], models.box);
@@ -25,7 +25,7 @@ class Drone extends Actor {
         return {
             class: 'Drone',
             strategy: this.strategy,
-            local_position: this.position,
+            local_position: this.local_position,
         }
     }
 

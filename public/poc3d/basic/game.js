@@ -41,6 +41,7 @@ class Game {
     
     placePlayer(position) {       
         player.local_transform.setPosition(position); 
+        player.update(0, true); 
         this.scene.entities.push(player);
         this.scene.colliders.push(...player.getColliders());
     }
@@ -218,6 +219,7 @@ class Game {
         }
         game.scene.colliders.push(...player.getColliders());
         player.local_transform.setPosition(player_position);
+        player.update(0, true); 
         game.scene.update(0);
     }
 

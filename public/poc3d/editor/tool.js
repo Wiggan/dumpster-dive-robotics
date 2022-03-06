@@ -100,6 +100,7 @@ class Tool extends Entity {
                             newPos[Number(k)] = v;
                             selected_entities[0].local_transform.setPosition(newPos);
                             selected_entities[0].local_position = newPos;
+                            selected_entities[0].update(0, true);
                         });
                     });
                     posFolder.open();

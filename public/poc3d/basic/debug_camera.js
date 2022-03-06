@@ -31,6 +31,7 @@ class DebugCamera extends Camera {
 
     activate() {
         this.local_transform.setPosition(active_camera.getWorldPosition());
+        this.update(0, true);
         super.activate();
     }
 
@@ -100,6 +101,7 @@ class DebugCamera extends Camera {
 
 
     update(elapsed, dirty) {
+        elapsed = 16;
         const viewMatrix = this.getViewMatrix();
         //var translation = vec3.fromValues(this.vel[0]*elapsed, 0.0, this.vel[1]*elapsed);
         //this.local_transform.translate(translation);

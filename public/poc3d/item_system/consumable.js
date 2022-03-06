@@ -1,7 +1,7 @@
 
 class Consumable {
     constructor({x, y, name, description, effect, amount}) {
-        this.position = {x, y};
+        this.local_position = {x, y};
         this.name = name;
         this.description = description;
         this.effect = effect;

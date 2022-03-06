@@ -4,7 +4,7 @@ class LampBoss extends Actor {
     constructor(parent, position) {
         super(null, position);
         this.scene = parent;
-        this.position = position;
+        this.local_position = position;
         this.type = PickableType.Enemy;
         this.body = new Drawable(this, [0, 0, 0], models.lamp_boss.body);
         this.led_list = new Drawable(this, [0, 0, 0], models.lamp_boss.led_list);
@@ -49,7 +49,7 @@ class LampBoss extends Actor {
         return {
             class: 'LampBoss',
             strategy: this.strategy,
-            local_position: this.position,
+            local_position: this.local_position,
         }
     }
 

@@ -4,12 +4,13 @@ class WaterBoss extends Actor {
     constructor(parent, position) {
         super(null, position);
         this.scene = parent;
-        this.position = position;
+        this.local_position = position;
         this.type = PickableType.Enemy;
-        this.base = new Drawable(this, [0, 0, 0], models.water_boss.base);
-        this.propeller = new Drawable(this, [0, 0, 0], models.water_boss.propeller);
+        this.base = new Drawable(this, [0, 0, 0.505], models.water_boss.base);
+        this.propeller = new Drawable(this.base, [0, 0, 0], models.water_boss.propeller);
         
         this.launcher = new Launcher(this);
+        this.launcher.launch_point.local_transform.setPosition([0.33, 0, 0]);
         this.launcher.drawable.model = models.water_boss.launcher;
         this.launcher.lamp.local_transform.setPosition([0.3, 0.3, 0]);
         this.launcher.lamp.local_transform.scale([0.015, 0.18, 0.015]);
@@ -17,15 +18,16 @@ class WaterBoss extends Actor {
         this.propeller.material = materials.rubber;
         this.base.material = materials.metall;
         
-        this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Enemy, 0.6, 0.8);
+        this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Enemy, 0.6, 0.6);
         this.stats = {
-            movement_speed: 0.004,
-            acceleration: 0.0001,
-            dmg: 1,
+            jump_speed: 0.02,
+            movement_speed: 0.0005,
+            acceleration: 0.00001,
+            dmg: 0,
             dmg_cooldown: 3000,
-            patrol_tolerance: 0.1
+            patrol_tolerance: 0.04
         };
-        this.strategy = new BossStrategy(this);
+        this.strategy = new BossStrategy(this, [0, 0]);
         this.blinking_drawables_on_damage = [this.base, this.propeller, this.launcher];
         this.attack_done = true;
     }
@@ -34,11 +36,12 @@ class WaterBoss extends Actor {
         return {
             class: 'WaterBoss',
             strategy: this.strategy,
-            local_position: this.position,
+            local_position: this.local_position,
         }
     }
 
     goto(position) {
+        console.log("Patroling");
         if (vec3.dist(position, this.getWorldPosition() < 1)) {
             return;
         }
@@ -71,8 +74,9 @@ class WaterBoss extends Actor {
     }
 
     attack(position) {
+        console.log("Attacking");
         this.attack_done = false;
-        this.velocity[2] = -0.02 - Math.random()*0.01;
+        this.velocity[2] = -this.stats.jump_speed * (1 - Math.random()*0.4);
         
         var position = [0, 0, 0.45];
         new Dirt(this, position, [0, 0, -1], 10, 0.4);
@@ -91,12 +95,7 @@ class WaterBoss extends Actor {
 
     update(elapsed, dirty) {
 
-        if (!this.attack_done && this.velocity[2] < 0.00001) {
-            this.launcher.lookAtInstantly(player.getWorldPosition());
-            this.launcher.fire();
-        }
-
-        this.propeller.local_transform.pitch(elapsed * this.velocity * 1000);
+        this.propeller.local_transform.roll(elapsed * vec3.length(this.velocity) * 1000);
 
         var direction = this.base.getWorldPosition();
         if (this.velocity[0] > 0.00001) {
@@ -118,13 +117,14 @@ class WaterBoss extends Actor {
             vec3.normalize(direction, direction);
             vec3.scale(this.force, direction, this.stats.acceleration);
         }
-        if (this.getWorldPosition()[2] > 0) {
-            this.force[2] = constants.gravity * 0.5;
-        } else if (this.getWorldPosition()[2] < -1) {
+        if (this.getWorldPosition()[2] < 0) {
             this.force[2] = constants.gravity;
-        } else {
+        } else if (1 > this.getWorldPosition()[2] && this.getWorldPosition()[2] > 0) {
+            this.force[2] = constants.gravity * 0.5;
+        } else if (!this.attack_done) {
             this.force[2] = 0;
             this.attack_done = true;
+            console.log("Attacking done");
         }
 
         // Accelerate
@@ -134,10 +134,17 @@ class WaterBoss extends Actor {
 
         // Limit velocities
         this.velocity[0] = Math.min(this.stats.movement_speed, Math.max(-this.stats.movement_speed, this.velocity[0]));
-        this.velocity[2] = Math.min(this.stats.movement_speed, Math.max(-this.stats.movement_speed, this.velocity[2]));
+        this.velocity[2] = Math.min(this.stats.jump_speed, Math.max(-this.stats.jump_speed, this.velocity[2]));
+
+
+        if (!this.attack_done && this.velocity[2] > 0.00001) {
+            this.launcher.lookAtInstantly(player.getWorldPosition());
+            this.launcher.fire();
+        }
 
         if (this.path) {
-            if (vec3.dist(this.world_target_position, this.getWorldPosition()) < this.stats.patrol_tolerance) {
+            var dist = vec3.dist(this.world_target_position, this.getWorldPosition());
+            if (dist < this.stats.patrol_tolerance) {
                 this.path_index++;
                 if (!this.path[this.path_index]) {
                     console.log("Reached end of path");
@@ -145,6 +152,8 @@ class WaterBoss extends Actor {
                 } else {
                     this.setTargetPoint(this.path[this.path_index]);
                 }
+            } else if (dist < 1) {
+                this.velocity[2] *= 0.3;
             }
         }
         dirty |= this.strategy.update(elapsed);

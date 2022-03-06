@@ -32,7 +32,7 @@ class FloatingLightBulb extends PointLight {
         this.linear = LanternLight.Linear;
         this.quadratic = LanternLight.Quadratic;
         this.prism = new Prism(this, [0, 0, 0]);
-        this.position = [0, 1.5, 0];
+        this.local_position = [0, 1.5, 0];
         this.state = States.Inactive;
         this.elapsed = 0;
     }
@@ -42,18 +42,18 @@ class FloatingLightBulb extends PointLight {
             case States.Active:
                 this.elapsed += elapsed;
                 var pos = vec3.create();
-                vec3.add(pos, this.position, [0, Math.sin(this.elapsed*0.005)*0.1, 0]);
+                vec3.add(pos, this.local_position, [0, Math.sin(this.elapsed*0.005)*0.1, 0]);
                 this.local_transform.setPosition(pos);
                 this.local_transform.yaw(elapsed * 0.05);
                 dirty = true;
                 break;
             case States.Inactive:
-                this.local_transform.setPosition(this.position);
+                this.local_transform.setPosition(this.local_position);
                 this.elapsed = 0;
                 break;
             case States.FiringUp:
             case States.ShuttingDown:
-                this.local_transform.setPosition(this.position);
+                this.local_transform.setPosition(this.local_position);
                 this.local_transform.yaw(elapsed * 0.05);
                 break;
         }

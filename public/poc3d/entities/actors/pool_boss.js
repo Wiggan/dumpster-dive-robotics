@@ -4,13 +4,14 @@ class PoolBoss extends Actor {
     constructor(parent, position) {
         super(null, position); 
         this.scene = parent;
-        this.position = position;
+        this.local_position = position;
         this.type = PickableType.Enemy;
         this.base = new Drawable(this, [-0.05, 0, 0.025], models.pool_boss.base);
         this.wheels = new Drawable(this, [-0.216, 0, 0.025], models.pool_boss.wheels);
         this.cleaner = new Drawable(this, [-0.4, 0, 0.2], models.pool_boss.cleaner);
         this.suction_device = new Drawable(this, [-0.05, 0, 0.02], models.pool_boss.suction_device);
         this.launcher = new Launcher(this);
+        this.launcher.launch_point.local_transform.setPosition([0.33, 0, 0.18]);
         this.launcher.drawable.model = models.pool_boss.launcher;
         this.launcher.lamp.local_transform.setPosition([0.3, 0.3, 0]);
         this.launcher.lamp.local_transform.scale([0.015, 0.18, 0.015]);
@@ -37,7 +38,7 @@ class PoolBoss extends Actor {
         return {
             class: 'PoolBoss',
             strategy: this.strategy,
-            local_position: this.position,
+            local_position: this.local_position,
         }
     }
 

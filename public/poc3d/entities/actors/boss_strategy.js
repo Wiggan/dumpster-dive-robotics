@@ -7,8 +7,9 @@ const BossStates = {
 };
 
 class BossStrategy {
-    constructor(parent) {
+    constructor(parent, probabilities) {
         this.parent = parent;
+        this.probabilities = probabilities || [0.3, 0.5];
         this.patrol_points = [];
         this.position_index = 0;
         this.state;
@@ -22,10 +23,10 @@ class BossStrategy {
     }
 
     pickNewState() {
-        if (Math.random() < 0.3) {
+        if (Math.random() < this.probabilities[0]) {
             this.state = BossStates.Wait;
             window.setTimeout(() => this.pickNewState(), 500 + Math.random() * 1000);
-        } else if (Math.random() < 0.5) {
+        } else if (Math.random() < this.probabilities[1]) {
             this.state = BossStates.Patrol;
             this.position_index = Math.floor(this.patrol_points.length * Math.random());
             this.parent.look_at =  this.patrol_points[this.position_index];

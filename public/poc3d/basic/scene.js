@@ -11,11 +11,15 @@ class Scene extends Entity {
         this.entities = entities.map((entity) => {
             if (entity.class && entity.class != 'Player' && !player.slain_bosses.includes(entity.class) && !player.pickups.includes(entity.uuid)) {
                 var e = new classes[entity.class](this, entity.local_position);
+                var prop;
+                if (e.strategy) {
+                    prop = e.strategy.probabilities;
+                }
                 e = Object.assign(e, entity);
                 this.entity_uuid_map.set(e.uuid, e);
                 this.colliders.push(...e.getColliders());
                 if (e.strategy) {
-                    e.strategy = Object.assign(new classes[entity.strategy.class](e), entity.strategy);
+                    e.strategy = Object.assign(new classes[entity.strategy.class](e, prop), entity.strategy);
                 }
                 return e;
             } else {

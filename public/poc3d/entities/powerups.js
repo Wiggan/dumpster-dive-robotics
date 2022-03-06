@@ -3,7 +3,7 @@
 class PowerUp extends Pickable {
     constructor(position, item, model, material) {
         super(null, position);
-        this.position = position;
+        this.local_position = position;
         this.drawable = new Drawable(this, [0, 0, 0], model);
         this.drawable.material = material;
         this.drawable.id = this.id;
@@ -26,7 +26,7 @@ class PowerUp extends Pickable {
     update(elapsed, dirty) {
         this.elapsed += elapsed;
         var pos = vec3.create();
-        vec3.add(pos, this.position, [0, 0, Math.sin(this.elapsed*0.008)*0.05]);
+        vec3.add(pos, this.local_position, [0, 0, Math.sin(this.elapsed*0.008)*0.05]);
         this.local_transform.setPosition(pos);
         this.local_transform.roll(elapsed * 0.08);
         dirty = true;
@@ -44,7 +44,7 @@ class DiskPowerUp extends PowerUp {
         return {
             class: 'DiskPowerUp',
             uuid: this.uuid,
-            local_position: this.position,
+            local_position: this.local_position,
         }
     }
 }
@@ -59,7 +59,7 @@ class PlatePowerUp extends PowerUp {
         return {
             class: 'PlatePowerUp',
             uuid: this.uuid,
-            local_position: this.position,
+            local_position: this.local_position,
         }
     }
 }
@@ -96,7 +96,7 @@ class CounterPressurizerPowerUp extends PowerUp {
 class GoldNugget extends Pickable {
     constructor(parent, position) {
         super(null, position);
-        this.position = position;
+        this.local_position = position;
         this.drawable = new Drawable(this, [0, 0, 0],  models.gold_nugget1);
         this.drawable.material = materials.gold;
         this.drawable = new Drawable(this, [0, 0, 0],  models.gold_nugget2);
@@ -115,7 +115,7 @@ class GoldNugget extends Pickable {
         return {
             class: 'GoldNugget',
             uuid: this.uuid,
-            local_position: this.position,
+            local_position: this.local_position,
         }
     }
 }

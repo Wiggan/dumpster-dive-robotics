@@ -95,7 +95,9 @@ class SFX extends Entity {
     }
 
     remove() {
-        this.parent.removeChild(this);
+        if (this.parent) {
+            this.parent.removeChild(this);
+        }
     }
 
     setRate(rate) {
