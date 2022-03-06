@@ -417,7 +417,7 @@ class Player extends Actor {
     }
 
     takeDamage(amount, instigator, collider) {
-        if (!this.dmg_on_cooldown) {
+        if (!this.dmg_on_cooldown || instigator.class == 'WaterSurface') {
             new SFX(this, [0, 0, 0], sfx.take_damage);
             super.takeDamage(amount, instigator, collider);
             if (collider.type == CollisionLayer.Enemy) {

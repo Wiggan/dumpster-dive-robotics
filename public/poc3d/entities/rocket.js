@@ -3,6 +3,7 @@
 class Rocket extends DynamicEntity {
     constructor(position, forward, speed, instigator) {
         super(null, position);
+        console.log("Rocket!");
         this.drawable = new Drawable(this, [0, 0, 0], models.ball);
         this.drawable.material = materials.metall;
         

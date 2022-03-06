@@ -21,14 +21,14 @@ class WaterBoss extends Actor {
         this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Enemy, 0.6, 0.6);
         this.stats = {
             jump_speed: 0.02,
-            movement_speed: 0.0005,
-            acceleration: 0.00001,
+            movement_speed: 0.004,
+            acceleration: 0.000012,
             dmg: 0,
             dmg_cooldown: 3000,
-            patrol_tolerance: 0.04
+            patrol_tolerance: 0.1
         };
-        this.strategy = new BossStrategy(this, [0, 0]);
-        this.blinking_drawables_on_damage = [this.base, this.propeller, this.launcher];
+        this.strategy = new BossStrategy(this, [0.3, 0.3]);
+        this.blinking_drawables_on_damage = [this.base, this.propeller, this.launcher.drawable];
         this.attack_done = true;
     }
     
@@ -42,9 +42,9 @@ class WaterBoss extends Actor {
 
     goto(position) {
         console.log("Patroling");
-        if (vec3.dist(position, this.getWorldPosition() < 1)) {
+/*         if (vec3.dist(position, this.getWorldPosition() < 1)) {
             return;
-        }
+        } */
         // Lazy load  
         if (!this.collisionGrid) {
             this.collisionGrid = this.scene.getCollisionGrid();
@@ -76,11 +76,26 @@ class WaterBoss extends Actor {
     attack(position) {
         console.log("Attacking");
         this.attack_done = false;
-        this.velocity[2] = -this.stats.jump_speed * (1 - Math.random()*0.4);
-        
-        var position = [0, 0, 0.45];
-        new Dirt(this, position, [0, 0, -1], 10, 0.4);
         new SFX(this, [0, 0, 0], sfx.attack);
+        if (Math.random() < 0.5) {
+            this.velocity[2] = -this.stats.jump_speed * (1 - Math.random()*0.4);
+            var position = [0, 0, 0.45];
+            new Dirt(this, position, [0, 0, -1], 10, 0.4);
+            window.setTimeout(() => {
+                this.attack_done = true;
+                console.log("Attacking done");
+            }, 1000);
+        } else {
+            var up = this.getWorldPosition();
+            up[2] -= 1;
+            this.launcher.lookAtInstantly(up);
+            new HomingRocket(this.launcher.launch_point.getWorldPosition(), this, player);
+            new HomingRocket(this.launcher.launch_point.getWorldPosition(), this, player);
+            window.setTimeout(() => {
+                this.attack_done = true;
+                console.log("Attacking done");
+            }, 500);
+        }
     }
 
     gridToWorld(point2d) {
@@ -109,8 +124,6 @@ class WaterBoss extends Actor {
             this.base.look_at = direction;
         }
 
-
-
         if (this.world_target_position) {
             var direction = vec3.create();
             vec3.subtract(direction, this.world_target_position, this.getWorldPosition());
@@ -121,10 +134,9 @@ class WaterBoss extends Actor {
             this.force[2] = constants.gravity;
         } else if (1 > this.getWorldPosition()[2] && this.getWorldPosition()[2] > 0) {
             this.force[2] = constants.gravity * 0.5;
-        } else if (!this.attack_done) {
+        } else {
             this.force[2] = 0;
-            this.attack_done = true;
-            console.log("Attacking done");
+            this.local_transform.setPosition([this.getWorldPosition()[0], 0, 1]);
         }
 
         // Accelerate
@@ -149,21 +161,15 @@ class WaterBoss extends Actor {
                 if (!this.path[this.path_index]) {
                     console.log("Reached end of path");
                     this.path = undefined;
+                    this.world_target_position = undefined;
+                    this.force = [0, 0, 0];
+                    this.velocity = [0, 0, 0];
                 } else {
                     this.setTargetPoint(this.path[this.path_index]);
                 }
-            } else if (dist < 1) {
-                this.velocity[2] *= 0.3;
             }
         }
         dirty |= this.strategy.update(elapsed);
-
-        if (this.strategy.state == BossStates.Attack) {
-            var dist = vec3.dist(this.strategy.attack_position, this.getWorldPosition());
-            if(dist < this.stats.patrol_tolerance) {
-                this.attack_done = true;
-            }
-        }
 
         super.update(elapsed, dirty);
     }

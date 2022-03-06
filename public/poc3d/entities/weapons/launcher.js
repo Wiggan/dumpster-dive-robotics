@@ -20,9 +20,6 @@ class Launcher extends DynamicEntity {
         if (this.cooldown == 0) {
             var pos = this.launch_point.getWorldPosition();
             var f = right(this.getWorldTransform());
-            /*vec3.scale(f, f, 0.3);
-            vec3.add(pos, pos, f);
-            vec3.add(pos, pos, [0, 0, -0.5]); */
 
             new Rocket(pos, f, 0.01, this.instigator);
             this.cooldown = this.stats.cooldown;
