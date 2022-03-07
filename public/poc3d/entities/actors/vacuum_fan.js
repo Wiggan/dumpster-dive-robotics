@@ -16,13 +16,14 @@ class VacuumFan extends Actor {
         this.fan.material = materials.metall;
         this.wheels.material = materials.rubber;
         this.third_wheel.material = materials.rubber;
-        this.collider = new Collider(this, [0, 0, 0.25], CollisionLayer.Enemy, 0.4, 0.4);
+        this.collider = new Collider(this, [0, 0, 0.25], CollisionLayer.Enemy, 0.3, 0.4);
         this.stats = {
             movement_speed: 0.0005,
             dmg: 1,
             patrol_tolerance: 0.3
         };
         this.strategy = new PatrolStrategy(this);
+        this.update(0, true);
     }
     
     toJSON(key) {

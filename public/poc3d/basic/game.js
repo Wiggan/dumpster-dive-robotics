@@ -107,7 +107,7 @@ class Game {
                             to: { overlay: [0.0, 0.0, 0.0, 1.0]},
                             callback: () => {
                                 intro = true;
-                                this.setScene(this.scenes.Downfall, [16,0,-9]);
+                                this.setScene(this.scenes.Downfall, [18,0,-10]);
                                 player.updateStats();
                                 player.force = [0, 0, 0];
                                 this.time_scaler = 1;

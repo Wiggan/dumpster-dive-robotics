@@ -9,7 +9,6 @@ class Background extends Entity {
         this.background.local_transform.yaw(Math.floor(Math.random()*4)*90);
         this.background.local_transform.roll(Math.floor(Math.random()*4)*90);
         this.background.local_transform.pitch(Math.floor(Math.random()*4)*90);
-        this.background.local_transform.scale([1, 1, 1]);
     }
 
     init(scene) {

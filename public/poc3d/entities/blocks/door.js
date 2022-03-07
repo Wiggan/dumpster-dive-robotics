@@ -6,10 +6,10 @@ class Door extends Entity {
         this.local_position = local_position;
         this.background = new Background(this, [0, 0, 0]);
         this.background2 = new Background(this, [0, 0, -1]);
-        this.door = new Drawable(this, [0, 0, 0], models.door);
+        this.door = new Drawable(this, [0, -0.1, -0.5], models.door);
         this.door.collider = new Collider(this.door, [0, 0, 0], CollisionLayer.Level, 0.5, 2);
         this.door.collider2 = new Collider(this.door, [0, 0, 1.1], CollisionLayer.Level, 0.45, 0.1);
-        this.door.position =  [0, 0, 0];
+        this.door.position =  [0, -0.1, -0.5];
         this.door.local_position =  [0, -0.1, -0.5];
         this.stats = {
             dmg: 1000
