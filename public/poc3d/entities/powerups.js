@@ -4,6 +4,7 @@ class PowerUp extends Pickable {
     constructor(position, item, model, material) {
         super(null, position);
         this.local_position = position;
+        this.original_position = vec3.clone(position);
         this.drawable = new Drawable(this, [0, 0, 0], model);
         this.drawable.material = material;
         this.drawable.id = this.id;
@@ -11,6 +12,8 @@ class PowerUp extends Pickable {
         this.item = item;
         this.label = this.item.name;
         this.elapsed = 0;
+        this.move_towards_player = false;
+        this.player_position = vec3.clone(player.getWorldPosition());
     }
 
     interact() {
@@ -26,7 +29,16 @@ class PowerUp extends Pickable {
     update(elapsed, dirty) {
         this.elapsed += elapsed;
         var pos = vec3.create();
-        vec3.add(pos, this.local_position, [0, 0, Math.sin(this.elapsed*0.008)*0.05]);
+        if (this.move_towards_player && vec3.dist(this.getWorldPosition(), this.player_position) > 0.1) {
+            vec3.lerp(pos, this.original_position, this.player_position, Math.min(0.8, this.elapsed/10000));
+        } else if (this.move_towards_player) {
+            this.local_position = this.getWorldPosition();
+            this.move_towards_player = false;
+        } else {
+            vec3.copy(pos, this.local_position);
+        }
+
+        vec3.add(pos, pos, [0, 0, Math.sin(this.elapsed*0.008)*0.05]);
         this.local_transform.setPosition(pos);
         this.local_transform.roll(elapsed * 0.08);
         dirty = true;
@@ -54,7 +66,7 @@ class PlatePowerUp extends PowerUp {
     constructor(parent, position) {
         super(position, items.plate, models.powerups.plate, materials.player);
     }
-
+    
     toJSON(key) {
         return {
             class: 'PlatePowerUp',
@@ -68,6 +80,7 @@ classes.PlatePowerUp = PlatePowerUp;
 class HeadLampPowerUp extends PowerUp {
     constructor(position) {
         super(position, items.lamp, models.powerups.head_lamp, materials.light_inactive);
+        this.move_towards_player = true;
         game.scene.entities.push(this);
     }
 }
@@ -75,6 +88,7 @@ class HeadLampPowerUp extends PowerUp {
 class SuctionDevicePowerUp extends PowerUp {
     constructor(position) {
         super(position, items.suction_device, models.powerups.suction_device, materials.light_inactive);
+        this.move_towards_player = true;
         game.scene.entities.push(this);
     }
 }
@@ -82,6 +96,7 @@ class SuctionDevicePowerUp extends PowerUp {
 class BatteryPowerUp extends PowerUp {
     constructor(position) {
         super(position, items.battery, models.powerups.battery, materials.blue);
+        this.move_towards_player = true;
         game.scene.entities.push(this);
     }
 }
@@ -89,6 +104,7 @@ class BatteryPowerUp extends PowerUp {
 class CounterPressurizerPowerUp extends PowerUp {
     constructor(position) {
         super(position, items.counter_pressurizer, models.powerups.counter_pressurizer, materials.player);
+        this.move_towards_player = true;
         game.scene.entities.push(this);
     }
 }
