@@ -29,11 +29,17 @@ class SelectionTool extends Tool {
                     vec3.add(new_position, entity.getWorldPosition(), translation);
                     new_position = snapToGrid(new_position);
                     var blockInPosition = this.getBlockInPosition(new_position);
-                    if (blockInPosition && !selected_entities.includes(blockInPosition)) {
+                    if (blockInPosition && !selected_entities.includes(blockInPosition) && 
+                        !['VacuumFan', 'CameraAnchor', 'Light', 'DiskPowerUp', 'PlatePowerUp', 'GoldNugget', 'FlimmeringLight'].includes(entity.class)) {
                         game.scene.remove(blockInPosition);
                     }
                     entity.local_transform.translate(snapToGrid(translation));
                     entity.local_position = new_position;
+                    if (entity.strategy) {
+                        entity.strategy.patrol_points.forEach(point => {
+                            vec3.add(point, point, snapToGrid(translation));
+                        });
+                    }
                     entity.update(0, true);
                 });
             }
