@@ -163,7 +163,7 @@ class LampBoss extends Actor {
             portal.enable();
         });
         playMusic(music.in_game);
-        new HeadLampPowerUp(snapToGrid(this.getWorldPosition()));
+        (new HeadLampPowerUp(snapToGrid(this.getWorldPosition()))).player_position = vec3.clone(player.getWorldPosition());
     }
 }
 

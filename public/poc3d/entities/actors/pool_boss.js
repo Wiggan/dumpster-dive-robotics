@@ -145,7 +145,7 @@ class PoolBoss extends Actor {
             portal.enable();
         });
         playMusic(music.in_game);
-        new SuctionDevicePowerUp(snapToGrid(this.getWorldPosition()));
+        (new SuctionDevicePowerUp(snapToGrid(this.getWorldPosition()))).player_position = vec3.clone(player.getWorldPosition());
     }
 }
 

@@ -67,6 +67,7 @@ class Particle extends Drawable {
         } else {
             this.elapsed = 0;
         }
+        this.update(0, true);
     }
     
     reset() {

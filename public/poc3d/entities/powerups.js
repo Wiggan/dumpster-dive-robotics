@@ -13,7 +13,6 @@ class PowerUp extends Pickable {
         this.label = this.item.name;
         this.elapsed = 0;
         this.move_towards_player = false;
-        this.player_position = vec3.clone(player.getWorldPosition());
     }
 
     interact() {
