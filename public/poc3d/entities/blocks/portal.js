@@ -11,7 +11,7 @@ class Portal extends Pickable {
         this.particles = new Blue(this.particle_socket, [0, 1, -0.5]);
         this.rotation_speed = 1;
         this.active = true;
-        this.label = "Portal";
+        this.label = "Tunnel";
         this.destination_uuid = '';
     }
 
@@ -44,11 +44,11 @@ class Portal extends Pickable {
     }
     
     enable() {
-        this.label = "Portal";
+        this.label = "Tunnel";
         this.active = true;
     }
     disable() {
-        this.label = "Inactive Portal";
+        this.label = "Blocked Tunnel";
         this.active = false;
     }
     update(elapsed, dirty) {

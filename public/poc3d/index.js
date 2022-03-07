@@ -35,6 +35,7 @@ function render() {
 
 async function loadAssets() {
     renderer = new Renderer();
+    document.getElementById('outer-container').style.height=gl.canvas.height + 'px';
     await initProgram();
     await load_all_models();
     load_all_sounds();

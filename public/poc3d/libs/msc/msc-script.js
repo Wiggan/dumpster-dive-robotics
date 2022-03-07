@@ -101,6 +101,8 @@
         dialog.appendChild(content);
         document.body.appendChild(dialog);
         dialog.style.display = 'block';
+        dialog.style.height = gl.canvas.height + 'px';
+        overlay.style.height = gl.canvas.height + 'px';
         content.classList.add('msc-confirm--animate');
         if(type === "prompt") {
             input.setAttribute("type", "text");
