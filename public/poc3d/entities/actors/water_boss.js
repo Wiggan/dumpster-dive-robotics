@@ -6,8 +6,10 @@ class WaterBoss extends Actor {
         this.scene = parent;
         this.local_position = position;
         this.type = PickableType.Enemy;
-        this.base = new Drawable(this, [0, 0, 0.505], models.water_boss.base);
-        this.propeller = new Drawable(this.base, [0, 0, 0], models.water_boss.propeller);
+        this.base = new DynamicEntity(this, [0, 0, 0]);
+        this.base.drawable = new Drawable(this.base, [0, 0, 0.505], models.water_boss.base);
+        this.propeller = new Drawable(this.base, [0, 0, 0.505], models.water_boss.propeller);
+        this.base.local_transform.scaleUniform(0.5);
         
         this.launcher = new Launcher(this);
         this.launcher.launch_point.local_transform.setPosition([0.33, 0, 0]);
@@ -16,7 +18,7 @@ class WaterBoss extends Actor {
         this.launcher.lamp.local_transform.scale([0.015, 0.18, 0.015]);
         
         this.propeller.material = materials.rubber;
-        this.base.material = materials.metall;
+        this.base.drawable.material = materials.metall;
         
         this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Enemy, 0.6, 0.6);
         this.stats = {
@@ -114,10 +116,10 @@ class WaterBoss extends Actor {
 
         var direction = this.base.getWorldPosition();
         if (this.velocity[0] > 0.00001) {
-            vec3.add(direction, direction, [0.1, 0, -1]);
+            vec3.add(direction, direction, [0.01, 0, 1]);
             this.base.look_at = direction;
         } else if (this.velocity[0] < -0.00001) {
-            vec3.add(direction, direction, [0.1, 0, 1]);
+            vec3.add(direction, direction, [0.01, 0, -1]);
             this.base.look_at = direction;
         } else {
             vec3.add(direction, direction, [1, 0, 0]);

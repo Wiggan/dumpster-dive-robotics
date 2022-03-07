@@ -21,7 +21,7 @@ collisionMap.set(CollisionLayer.Level + CollisionLayer.Trigger, false);
 collisionMap.set(CollisionLayer.Level + CollisionLayer.Player, true);
 collisionMap.set(CollisionLayer.Level + CollisionLayer.Enemy, true);
 collisionMap.set(CollisionLayer.Enemy + CollisionLayer.Projectile, true);
-collisionMap.set(CollisionLayer.Enemy + CollisionLayer.Trigger, false);
+collisionMap.set(CollisionLayer.Enemy + CollisionLayer.Trigger, true);
 collisionMap.set(CollisionLayer.Enemy + CollisionLayer.Player, true);
 collisionMap.set(CollisionLayer.Projectile + CollisionLayer.Trigger, false);
 collisionMap.set(CollisionLayer.Projectile + CollisionLayer.Player, true);
@@ -116,6 +116,9 @@ class Collider {
             if (other && this.isColliding(other)) {
                 if (this.parent == player && other.type == CollisionLayer.Trigger) {
                     console.log("player and trigger");
+                }
+                if (this.type == CollisionLayer.Enemy && other.type == CollisionLayer.Trigger) {
+                    console.log("Enemy and trigger");
                 }
                 collisions.push(other);
             }

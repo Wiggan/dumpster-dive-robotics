@@ -15,10 +15,12 @@ class Trigger extends Entity {
 
     update(elapsed, dirty) {
         super.update(elapsed, dirty);
-        var  triggered = false;
+        var triggered = false;
+        var triggerer;
         this.collider.detectCollisions().forEach(other => {
-            if (other.type == CollisionLayer.Player) {
+            if (other.type == CollisionLayer.Player || other.type == CollisionLayer.Enemy) {
                 triggered = true;
+                triggerer = other;
             } 
         });
         if (triggered && !this.triggered) {
@@ -31,7 +33,7 @@ class Trigger extends Entity {
                     }
                 });
             }
-            this.onTrigger();
+            this.onTrigger(triggerer);
         } else if (!triggered && this.triggered) {
             this.triggered = false;
             if (this.triggees) {
