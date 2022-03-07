@@ -30,7 +30,7 @@ class SelectionTool extends Tool {
                     new_position = snapToGrid(new_position);
                     var blockInPosition = this.getBlockInPosition(new_position);
                     if (blockInPosition && !selected_entities.includes(blockInPosition) && 
-                        !['VacuumFan', 'CameraAnchor', 'Light', 'DiskPowerUp', 'PlatePowerUp', 'GoldNugget', 'FlimmeringLight'].includes(entity.class)) {
+                        !['VacuumFan', 'VacuumTableFan', 'CameraAnchor', 'Light', 'DiskPowerUp', 'PlatePowerUp', 'GoldNugget', 'FlimmeringLight'].includes(entity.class)) {
                         game.scene.remove(blockInPosition);
                     }
                     entity.local_transform.translate(snapToGrid(translation));

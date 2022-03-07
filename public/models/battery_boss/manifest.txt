@@ -1,0 +1,4 @@
+original OBJ file: C:\Users\Fredrik\Documents\dumpster-dive-robotics\public\models\battery_boss\battery_boss.obj
+part1.json > alias: Base_Cylinder_None
+part2.json > alias: Charger_Cylinder.001_None
+part3.json > alias: Battery_Cylinder.002_None

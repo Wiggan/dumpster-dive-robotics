@@ -96,6 +96,9 @@ async function load_all_models() {
         wheels: await load_model('/models/vacuum_fan/part2.json'),
         third_wheel: await load_model('/models/vacuum_fan/part3.json'),
         fan: await load_model('/models/vacuum_fan/part4.json'),
+        toaster: await load_model('/models/vacuum_fan/part5.json'),
+        table_fan_base: await load_model('/models/vacuum_fan/part6.json'),
+        table_fan_blade: await load_model('/models/vacuum_fan/part7.json'),
     }
     models.lamp_boss = {
         fan: await load_model('/models/lamp_boss/part1.json'),

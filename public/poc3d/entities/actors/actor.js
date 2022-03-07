@@ -100,24 +100,26 @@ class Actor extends Entity {
     }
     
     takeDamage(amount, instigator, collider) {
-        this.health = Math.max(0, this.health - amount);
-        if (this.health == 0) {
-            this.onDeath();
-        }
-        this.dmg_on_cooldown = true;
-        this.damage_blink = 0;
-        this.setRedMaterials(this.blinking_drawables_on_damage);
-        this.damage_interval = window.setInterval(() => {
-            if (this.damage_blink++ % 2 == 0) {
-                this.restoreMaterials(this.blinking_drawables_on_damage);
-            } else {
-                this.setRedMaterials(this.blinking_drawables_on_damage);
+        if (!this.dmg_on_cooldown) {
+            this.health = Math.max(0, this.health - amount);
+            if (this.health == 0) {
+                this.onDeath();
             }
-        }, 100);
-        window.setTimeout(() => {
-            this.dmg_on_cooldown = false;
-            window.clearInterval(this.damage_interval);
-            this.restoreMaterials(this.blinking_drawables_on_damage);
-        }, constants.dmg_cooldown);
+            this.dmg_on_cooldown = true;
+            this.damage_blink = 0;
+            this.setRedMaterials(this.blinking_drawables_on_damage);
+            this.damage_interval = window.setInterval(() => {
+                if (this.damage_blink++ % 2 == 0) {
+                    this.restoreMaterials(this.blinking_drawables_on_damage);
+                } else {
+                    this.setRedMaterials(this.blinking_drawables_on_damage);
+                }
+            }, 100);
+            window.setTimeout(() => {
+                this.dmg_on_cooldown = false;
+                window.clearInterval(this.damage_interval);
+                this.restoreMaterials(this.blinking_drawables_on_damage);
+            }, constants.dmg_cooldown);
+        }
     }
 }

@@ -3,3 +3,6 @@ part1.json > alias: Base_Cylinder_None
 part2.json > alias: Wheels_Cylinder.001_None
 part3.json > alias: ThirdWheel_Icosphere_None
 part4.json > alias: Fan_Cylinder.002_None
+part5.json > alias: Toaster_Cube_None
+part6.json > alias: TableFanBase_Cylinder.003_None
+part7.json > alias: TableFanBlade_Cylinder.004_None

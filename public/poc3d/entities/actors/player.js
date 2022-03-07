@@ -265,10 +265,12 @@ class Player extends Actor {
             // TODO play sound
             this.force[0] = this.stats.acceleration;
             position[0] = -0.4
+            this.right = true;
         } else {
             this.force[0] = -this.stats.acceleration;
             direction[0] = 1;
             position[0] = 0.4
+            this.left = true;
         }
         if (this.onGround) {
             new Dirt(this, position, direction, 6);
@@ -279,8 +281,11 @@ class Player extends Actor {
     endVerticalMovement(up) {}
 
     endMovement(right) {
-        this.force[0] = right ? Math.min(0, this.force[0]) : Math.max(0, this.force[0]);
-        this.velocity[0] = right ? Math.min(0, this.velocity[0]) : Math.max(0, this.velocity[0]);
+        if (right) {
+            this.right = false;
+        } else {
+            this.left = false;
+        }
     }
 
     addLogEntry(index) {
@@ -327,6 +332,14 @@ class Player extends Actor {
     }
 
     update(elapsed, dirty) {
+        console.log("force: " + this.force[0] + ", velocity: " + this.velocity[0]);
+        // force is weird because of table fan guy...
+        if (this.right) {
+            this.force[0] += this.stats.acceleration;
+        }
+        if (this.left) {
+            this.force[0] -= this.stats.acceleration;
+        }
         // Stop if no force is applied
         if (Math.abs(this.force[0]) < 0.00001) {
             this.velocity[0] = 0;
@@ -401,7 +414,6 @@ class Player extends Actor {
         } else {
             this.launcher.local_transform.setRoll(0);
         }
-
         super.update(elapsed, dirty);
         if (Math.abs(this.velocity[0]) < 0.001) {
             if (this.moving_sound) {
@@ -414,6 +426,13 @@ class Player extends Actor {
         if (this.moving_sound) {
             this.moving_sound.setRate(Math.abs(this.velocity[0])/original_stats.movement_speed);
         }
+        /* if (!this.right) {
+            this.force[0] = Math.min(0, this.force[0]);
+        }
+        if (!this.left) {
+            this.force[0] = Math.max(0, this.force[0]);
+        } */
+        this.force[0] = 0;
     }
 
     takeDamage(amount, instigator, collider) {

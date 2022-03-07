@@ -23,7 +23,7 @@ class Scene extends Entity {
                 }
                 return e;
             } else {
-                console.log("Skipped creating object: " + entity);
+                console.log("Skipped creating object: " + JSON.stringify(entity));
             }
         })
         this.entities = this.entities.filter((entity => entity))

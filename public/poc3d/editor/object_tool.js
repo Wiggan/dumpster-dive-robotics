@@ -5,6 +5,7 @@ class ObjectTool extends Tool {
         super();
         this.objects = [
             new VacuumFan(null, [0, 0, 0]),
+            new VacuumTableFan(null, [0, 0, 0]),
             new CameraAnchor(null, [0, 10, 0]),
             new Light(null, [0, 0, 0]),
             new DiskPowerUp(null, [0, 0, 0]),
