@@ -37,26 +37,37 @@ class TrackingCamera extends Camera {
             player.dash();
         } else if (e.key == 'w' || e.key == 'W') {
             player.startVerticalMovement(true);
+            e.preventDefault();
         } else if (e.key == 's' || e.key == 'S') {
             player.startVerticalMovement(false);
+            e.preventDefault();
         } else if ((e.key == 'a' || e.key == 'A') && !e.repeat) {
             player.startMovement(false);
+            e.preventDefault();
         } else if ((e.key == 'd' || e.key == 'D') && !e.repeat) {
             player.startMovement(true);
+            e.preventDefault();
         } else if (e.key == ' ' && !e.repeat) {
             player.jump();
+            e.preventDefault();
         } else if (e.key == 'Escape') {
             toggleMenuVisible();
+            e.preventDefault();
         } else if (e.key == 'm') {
             player.pickUp({item: items.disk});
+            e.preventDefault();
         } else if (e.key == 'l') {
             player.pickUp({item: items.lamp});
+            e.preventDefault();
         } else if (e.key == 'b') {
             player.pickUp({item: items.battery});
+            e.preventDefault();
         } else if (e.key == 'u') {
             player.pickUp({item: items.suction_device});
+            e.preventDefault();
         } else if (e.key == 'p') {
             player.pickUp({item: items.counter_pressurizer});
+            e.preventDefault();
         }
     }
 

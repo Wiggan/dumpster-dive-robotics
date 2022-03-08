@@ -133,4 +133,10 @@ async function load_all_models() {
         launcher: await load_model('/models/pool_boss/part4.json'),
         suction_device: await load_model('/models/pool_boss/part5.json'),
     }
+
+    models.cracking_block = [];
+    for (var i = 1; i < 16; i++) {
+        models.cracking_block.push(await load_model('/models/cracked_block/part' + i +'.json'));
+    }
+
 }

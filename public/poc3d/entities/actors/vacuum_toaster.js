@@ -44,7 +44,7 @@ class Toaster extends DynamicEntity {
             this.lamp.material = materials.green_led;
             window.setTimeout(() => {
                 this.fire();
-            }, 500);
+            }, 1500);
         }
         super.update(elapsed, dirty);
     }
