@@ -332,7 +332,7 @@ class Player extends Actor {
     }
 
     update(elapsed, dirty) {
-        console.log("force: " + this.force[0] + ", velocity: " + this.velocity[0]);
+        //console.log("force: " + this.force[0] + ", velocity: " + this.velocity[0]);
         // force is weird because of table fan guy...
         if (this.right) {
             this.force[0] += this.stats.acceleration;
@@ -516,12 +516,12 @@ class Base extends DynamicEntity {
 
         // Update leds
         if (player.dash_on_cooldown) {
-            this.dash_led.material = materials.red_led;
+            this.dash_led.material = materials.yellow_led;
         } else {
             this.dash_led.material = materials.green_led;
         }
         if (player.jump_on_cooldown) {
-            this.jump_led.material = materials.red_led;
+            this.jump_led.material = materials.yellow_led;
         } else {
             this.jump_led.material = materials.green_led;
         }

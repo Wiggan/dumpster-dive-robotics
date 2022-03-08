@@ -9,7 +9,7 @@ class VacuumTableFan extends Actor {
         this.wheels = new Drawable(this, [-0.2, 0, 0.45], models.vacuum_fan.wheels);
         this.third_wheel = new Drawable(this, [0.2, 0, 0.45], models.vacuum_fan.third_wheel);
         this.fan_base = new Drawable(this, [0, 0, 0.45], models.vacuum_fan.table_fan_base);
-        this.fan_blade = new Drawable(this, [0.157, 0, -0.0211], models.vacuum_fan.table_fan_blade);
+        this.fan_blade = new Drawable(this, [0.177, 0, -0.0211], models.vacuum_fan.table_fan_blade);
         this.lamp = new Drawable(this, [-0.095, 0, 0.23], models.box);
         this.lamp.local_transform.scale([0.02, 0.16, 0.015]);
         this.lamp.material = materials.red_led;
@@ -57,10 +57,12 @@ class VacuumTableFan extends Actor {
         
         if (this.look_at) {
             var target_vector = vec3.create();
-            vec3.sub(target_vector, this.look_at, position(this.getWorldTransform()));
+            vec3.sub(target_vector, this.look_at, this.getWorldPosition());
             var forward_vector = down(this.getWorldTransform());
             target_vector[1] = 0;
             forward_vector[1] = 0;
+            target_vector[2] = 0;
+            forward_vector[2] = 0;
             var angle = rad2deg(vec3.angle(target_vector, forward_vector));
 
             if (Math.abs(angle) > 0.005) {

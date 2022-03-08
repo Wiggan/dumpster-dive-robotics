@@ -278,5 +278,25 @@
         "shininess": 4,
         "isLight": true,
         "growth": false
+    },
+    "yellow_led": {
+        "diffuse": [
+            1,
+            0.7058823529411765,
+            0
+        ],
+        "ambient": [
+            0.6,
+            0.6,
+            0.4
+        ],
+        "specular": [
+            0.1,
+            0.1,
+            0.1
+        ],
+        "shininess": 4,
+        "isLight": true,
+        "growth": false
     }
 }

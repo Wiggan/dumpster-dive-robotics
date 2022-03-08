@@ -26,11 +26,21 @@ class Rocket extends DynamicEntity {
         this.sound = new SFX(this, [0,0,0], sfx.rocket_flying);
     }
 
+    
+    toJSON(key) {
+        return "";
+    }
+
     update(elapsed, dirty) {
         if (this.elapsed > this.stats.life_time) {
             this.explode();
         }
         this.elapsed += elapsed;
+        if (this.force) {
+            var at = vec3.create();
+            vec3.scale(at, this.force, elapsed);
+            vec3.add(this.velocity, this.velocity, at);
+        }
         super.update(elapsed, true);
     }
 
