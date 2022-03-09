@@ -7,14 +7,18 @@ class CrackingBlock extends Entity {
         this.background = new Background(this, [0, 0, 0]);
         this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Level, 1, 1);
         this.cell_holder = new Entity(this, [0, 0, 0]);
-        this.cell_holder.local_transform.yaw(Math.floor(Math.random()*4)*90);
-        this.cell_holder.local_transform.roll(Math.floor(Math.random()*4)*90);
-        this.cell_holder.local_transform.pitch(Math.floor(Math.random()*4)*90);
+        var yaw = Math.floor(Math.random()*4)*90;
+        var roll = Math.floor(Math.random()*4)*90;
+        var pitch = Math.floor(Math.random()*4)*90;
+
         this.cells = [];
         models.cracking_block.forEach(cell => {
             var cell = new Drawable(this.cell_holder, [0, 0, 0], cell);
             cell.material = materials.wall;
             cell.time_offset = Math.random() * 2000;
+            cell.local_transform.yaw(yaw);
+            cell.local_transform.roll(roll);
+            cell.local_transform.pitch(pitch);
             this.cells.push(cell);
         });
         this.elapsed = 0;
