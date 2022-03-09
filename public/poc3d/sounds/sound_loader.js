@@ -56,6 +56,16 @@ function load_all_sounds() {
             new Howl({ src: ['/sfx/ddr_sfx - 02 - take_damage.ogg']}),
             new Howl({ src: ['/sfx/ddr_sfx - 03 - take_damage.ogg']}),
         ],
+        pickup: [
+            new Howl({ src: ['/sfx/ddr_sfx - 01 Start - pickup2.ogg']}),
+            new Howl({ src: ['/sfx/ddr_sfx - 02 - pickup2.ogg']}),
+            new Howl({ src: ['/sfx/ddr_sfx - 03 - pickup2.ogg']}),
+        ],
+        toast: [
+            new Howl({ src: ['/sfx/ddr_sfx - 01 Start - toast.ogg']}),
+            new Howl({ src: ['/sfx/ddr_sfx - 02 - toast.ogg']}),
+            new Howl({ src: ['/sfx/ddr_sfx - 03 - toast.ogg']}),
+        ],
         player_moving: [new Howl({ src: ['/sfx/ddr_sfx - 01 Start - moving.ogg'], loop: true})],
         player_dash: [new Howl({ src: ['/sfx/ddr_sfx - 01 Start - dash.ogg']})],
         

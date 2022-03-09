@@ -17,6 +17,7 @@ class PowerUp extends Pickable {
 
     interact() {
         player.pickUp(this);
+        new SFX(this, [0, 0, 0], sfx.pickup);
         game.scene.remove(this);
     }
 

@@ -33,7 +33,7 @@ class Toaster extends DynamicEntity {
 
             this.cooldown = this.stats.cooldown;
             this.lamp.material = materials.yellow_led;
-            this.sound = new SFX(this, [0,0,0], sfx.launch);
+            this.sound = new SFX(this, [0,0,0], sfx.toast);
         }
     }
 

@@ -12,7 +12,7 @@ class VacuumTableFan extends VacuumBase {
         this.stats.push = 0.00007;
         this.blinking_drawables_on_damage.push(this.fan_base);
         this.blinking_drawables_on_damage.push(this.fan_blade);
-
+        this.fan_blade.dust = new DustContinuous(this.fan_blade, [0.2, 0.2, 0], [1, 0, 0], 15, 0.1);
     }
     
     toJSON(key) {
