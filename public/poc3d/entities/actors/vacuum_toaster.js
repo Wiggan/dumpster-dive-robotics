@@ -5,9 +5,9 @@ class Toaster extends DynamicEntity {
         super(parent, position);
         this.drawable = new Drawable(this, [0,0,0], models.vacuum_fan.toaster);
         this.drawable.material = materials.player;
-        this.lamp = new Drawable(this, [0, 0, -0.50], models.box);
+        this.lamp = new Drawable(this, [0.1, 0, -0.30], models.box);
         this.lamp.material = materials.yellow_led;
-        this.lamp.local_transform.scale([0.015, 0.38, 0.015]);
+        this.lamp.local_transform.scale([0.015, 0.18, 0.015]);
         this.stats = {
             cooldown: 500
         }

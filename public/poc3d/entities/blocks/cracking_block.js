@@ -11,11 +11,12 @@ class CrackingBlock extends Entity {
         var roll = Math.floor(Math.random()*4)*90;
         var pitch = Math.floor(Math.random()*4)*90;
 
+        this.duration = 2000;
         this.cells = [];
         models.cracking_block.forEach(cell => {
             var cell = new Drawable(this.cell_holder, [0, 0, 0], cell);
             cell.material = materials.wall;
-            cell.time_offset = Math.random() * 2000;
+            cell.time_offset = Math.random() * this.duration;
             cell.local_transform.yaw(yaw);
             cell.local_transform.roll(roll);
             cell.local_transform.pitch(pitch);
@@ -23,7 +24,6 @@ class CrackingBlock extends Entity {
         });
         this.elapsed = 0;
         this.target_position = [0, -0.1, 2];
-        this.duration = 3000;
     }
 
     start_triggering() {

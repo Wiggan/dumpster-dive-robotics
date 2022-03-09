@@ -84,7 +84,7 @@ function showStartScreen() {
     game.overlay = [0.0, 0.0, 0.0, 0.0];
     player = new Player();
     game.loadLevels();
-    game.setScene(game.scenes['Downfall'], [1600, 0, -6]);
+    game.setScene(game.scenes[game.scene.name], [1600, 0, -6]);
     game.scene.lights.push(editor_camera.light);
     editor_camera.activate();
 }

@@ -87,7 +87,7 @@ class HeadLampPowerUp extends PowerUp {
 
 class SuctionDevicePowerUp extends PowerUp {
     constructor(position) {
-        super(position, items.suction_device, models.powerups.suction_device, materials.light_inactive);
+        super(position, items.suction_device, models.powerups.suction_device, materials.player);
         this.move_towards_player = true;
         game.scene.entities.push(this);
     }
@@ -95,7 +95,7 @@ class SuctionDevicePowerUp extends PowerUp {
 
 class BatteryPowerUp extends PowerUp {
     constructor(position) {
-        super(position, items.battery, models.powerups.battery, materials.blue);
+        super(position, items.battery, models.powerups.battery, materials.player);
         this.move_towards_player = true;
         game.scene.entities.push(this);
     }

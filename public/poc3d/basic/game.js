@@ -70,14 +70,16 @@ class Game {
         this.placePlayer([3,0,-41]);
         player.camera.activate();
         player.stats.movement_speed = 0.01;
+        player.scripting = true;
         materials.green_led.isLight = false; 
-        this.time_scaler = 0.6;
+        this.time_scaler = 0.5;
         player.transition = new Transition(player, [
             {
                 time: 310,
                 to: { force: [0.7, 0.0, player.force[2]]},
                 callback: () => { 
                     new Dirt(player, [0.4, 0, 0.45], [-1, 0, 0], 40);
+                    new HeadLampPowerUp(player.getWorldPosition()).player_position = vec3.clone(player.getWorldPosition());
                     player.force[0] = -0.7;
                 }
             },
@@ -86,6 +88,7 @@ class Game {
                 to: { force: [-0.7, 0.0, player.force[2]]},
                 callback: () => { 
                     new Dirt(player, [-0.4, 0, 0.45], [1, 0, 0], 40);
+                    new SuctionDevicePowerUp(player.getWorldPosition()).player_position = vec3.clone(player.getWorldPosition());
                     player.force[0] = 0.7;
                 }
             },
@@ -94,6 +97,7 @@ class Game {
                 to: {force: [0.7, 0.0, player.force[2]]},
                 callback: () => { 
                     new Dirt(player, [0.4, 0, 0.45], [-1, 0, 0], 40);
+                    new CounterPressurizerPowerUp(player.getWorldPosition()).player_position = vec3.clone(player.getWorldPosition());
                     player.force[0] = -0.7;
                 }
             },
@@ -131,6 +135,7 @@ class Game {
                             callback: () => {
                                 intro = false;
                                 materials.green_led.isLight = true; 
+                                player.scripting = false;
                                 game.paused = false;
                             }
                         }

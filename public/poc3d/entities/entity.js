@@ -95,7 +95,13 @@ class Entity {
         this.id = getNextPickableId();
         this.type = PickableType.Default;
         pickable_map.set(this.id, this);
-        this.children.forEach(child => child.id = this.id);
+        var make_pickable = (entity, id) => {
+            entity.id = id;
+            if (entity.children) {
+                entity.children.forEach(child => make_pickable(child, id));
+            }
+        };
+        make_pickable(this, this.id);
     }
 
     getLocalTransform() {

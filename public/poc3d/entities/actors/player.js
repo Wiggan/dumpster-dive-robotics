@@ -93,6 +93,7 @@ class Player extends Actor {
         this.force[2] = constants.gravity;
         this.last_grounded = Date.now();
         this.time_played = 0;
+        this.scripting = false;
         // This stinks...
         if  (typeof editor_camera === 'undefined') {
             window.setInterval(this.checkLogs.bind(this), 1000, 1);
@@ -432,7 +433,9 @@ class Player extends Actor {
         if (!this.left) {
             this.force[0] = Math.max(0, this.force[0]);
         } */
-        this.force[0] = 0;
+        if (!this.scripting) {
+            this.force[0] = 0;
+        }
     }
 
     takeDamage(amount, instigator, collider) {
@@ -654,10 +657,12 @@ class Head extends DynamicEntity {
     }
 
     update(elapsed, dirty) {
-        if (player.hint) {
-            this.head.look_at = player.hint;
-        } else {
-            this.head.look_at = player.camera.pointing_at;
+        if (!this.scripting) {
+            if (player.hint) {
+                this.head.look_at = player.hint;
+            } else {
+                this.head.look_at = player.camera.pointing_at;
+            }
         }
         super.update(elapsed, dirty);
     }
