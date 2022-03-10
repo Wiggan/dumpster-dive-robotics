@@ -1,5 +1,5 @@
 class Smoke extends ParticleSystem {
-    constructor(parent, local_position, direction) {
+    constructor(parent, local_position, direction, count) {
         super(parent, local_position);
         this.direction = direction || [0, 1, 0];
         this.continuous = false;
@@ -11,6 +11,6 @@ class Smoke extends ParticleSystem {
         this.ended_callback = undefined;
         this.start = {color: normalizeColor([23, 23, 23]), scale: 0.2};
         this.stop = {color: [0.0, 0.0, 0.0], scale: 0};
-        this.setParticleCount(22);
+        this.setParticleCount(count || 22);
     }
 }

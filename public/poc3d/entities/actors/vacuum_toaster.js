@@ -1,5 +1,29 @@
 'use strict'
 
+class Toast extends ProjectileBase {
+    constructor(position, forward, instigator) {
+        super(position, instigator, sfx.rocket_flying);
+        this.drawable = new Drawable(this, [0, 0, 0], models.box);
+        this.drawable.material = materials.red_led; 
+        
+        this.drawable.local_transform.scale([0.2, 0.05, 0.2]);
+        this.force = [0, 0, constants.gravity];
+
+        this.stats.speed = 0.01;
+        this.velocity = forward;
+        vec3.normalize(this.velocity, this.velocity);
+        vec3.scale(this.velocity, this.velocity, this.stats.speed);
+    }
+
+    explode() {
+        var direction = vec3.clone(this.velocity);
+        vec3.scale(direction, direction, -1);
+        vec3.normalize(direction, direction);
+        game.scene.entities.push(new Smoke(null, this.getWorldPosition(), direction, 10));
+        super.explode();
+    }
+}
+
 class Toaster extends DynamicEntity {
     constructor(parent, position) {
         super(parent, position);
@@ -11,7 +35,7 @@ class Toaster extends DynamicEntity {
         this.stats = {
             cooldown: 500
         }
-        this.cooldown = this.stats.cooldown;
+        this.cooldown = this.stats.cooldown + Math.random()*1500;
         this.instigator = parent;
         this.launch_points = [new Entity(this, [0.3, 0.1, -0.5]), new Entity(this, [0.3, -0.1, -0.5])];
         this.launch_points[0].local_transform.yaw(20);
@@ -19,16 +43,14 @@ class Toaster extends DynamicEntity {
     }
 
     fire() {
-        if (this.cooldown == 0) {
+        if (this.cooldown == 0 && this.parent.health > 0) {
             this.launch_points.forEach(launch_point => {
                 var pos = launch_point.getWorldPosition();
                 var f = right(launch_point.getWorldTransform());
+                f[1] = 0;
+                vec3.normalize(f, f);
     
-                var toast = new Rocket(pos, f, 0.01, this.instigator);
-                toast.drawable.model = models.box;
-                toast.drawable.local_transform.scale([0.2, 0.05, 0.2]);
-                toast.force = [0, 0, constants.gravity];
-                toast.drawable.material = materials.red_led;
+                new Toast(pos, f, this.instigator);
             })
 
             this.cooldown = this.stats.cooldown;

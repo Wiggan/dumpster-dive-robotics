@@ -16,6 +16,7 @@ class ObjectTool extends Tool {
             new LampBoss(null, [0, 0, 0]),
             new PoolBoss(null, [0, 0, 0]),
             new WaterBoss(null, [0, 0, 0]),
+            new BatteryBoss(null, [0, 0, 0]),
         ];
         this.objects.forEach(object => object.material = materials.blue);
         this.object_index = 0;

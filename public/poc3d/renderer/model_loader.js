@@ -133,6 +133,11 @@ async function load_all_models() {
         launcher: await load_model('/models/pool_boss/part4.json'),
         suction_device: await load_model('/models/pool_boss/part5.json'),
     }
+    models.battery_boss = {
+        base: await load_model('/models/battery_boss/part1.json'),
+        battery: await load_model('/models/battery_boss/part2.json'),
+        charger: await load_model('/models/battery_boss/part3.json'),
+    }
 
     models.cracking_block = [];
     for (var i = 1; i < 16; i++) {

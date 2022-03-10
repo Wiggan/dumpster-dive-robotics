@@ -410,10 +410,13 @@ class Player extends Actor {
         }
         
         // Update direction based on pointer
-        if (this.camera.pointing_at[0] < this.getWorldPosition()[0]) {
-            this.launcher.local_transform.setRoll(180);
-        } else {
-            this.launcher.local_transform.setRoll(0);
+        
+        if (!player.scripting) {
+            if (this.camera.pointing_at[0] < this.getWorldPosition()[0]) {
+                this.launcher.local_transform.setRoll(180);
+            } else {
+                this.launcher.local_transform.setRoll(0);
+            }
         }
         super.update(elapsed, dirty);
         if (Math.abs(this.velocity[0]) < 0.001) {
@@ -657,12 +660,14 @@ class Head extends DynamicEntity {
     }
 
     update(elapsed, dirty) {
-        if (!this.scripting) {
+        if (!player.scripting) {
             if (player.hint) {
                 this.head.look_at = player.hint;
             } else {
                 this.head.look_at = player.camera.pointing_at;
             }
+        } else {
+            this.head.look_at = undefined;
         }
         super.update(elapsed, dirty);
     }

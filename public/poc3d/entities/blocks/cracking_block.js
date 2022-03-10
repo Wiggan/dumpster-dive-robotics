@@ -11,7 +11,7 @@ class CrackingBlock extends Entity {
         var roll = Math.floor(Math.random()*4)*90;
         var pitch = Math.floor(Math.random()*4)*90;
 
-        this.duration = 2000;
+        this.duration = 2200;
         this.cells = [];
         models.cracking_block.forEach(cell => {
             var cell = new Drawable(this.cell_holder, [0, 0, 0], cell);
@@ -45,7 +45,12 @@ class CrackingBlock extends Entity {
             this.cells.forEach(cell => {
                 var pos = vec3.create();
                 var t = Math.min(1.0, Math.max(0, this.elapsed - cell.time_offset)/this.duration)**4;
-                vec3.lerp(pos, [0, 0, 0], this.target_position, t);
+                if (t > 0) {
+                    vec3.lerp(pos, [0, 0, 0], this.target_position, t);
+                } else {
+                    pos[0] = (Math.random()-0.5)*0.05;
+                    pos[1] = (Math.random()-0.5)*0.05;
+                }
                 cell.local_transform.setPosition(pos);
             });
             if (this.elapsed > this.duration) {

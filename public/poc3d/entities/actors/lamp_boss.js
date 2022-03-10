@@ -62,8 +62,6 @@ class LampBoss extends Actor {
             this.pathFinder.setGrid(this.collisionGrid.grid);
             this.pathFinder.setAcceptableTiles([undefined]);
             this.pathFinder.enableSync();
-            //this.pathFinder.enableDiagonals();
-            this.target_position;
         }
         var x1 = snapToGrid(this.getWorldPosition())[0] - this.collisionGrid.offsetX;
         var x2 = snapToGrid(position)[0] - this.collisionGrid.offsetX;
@@ -73,29 +71,20 @@ class LampBoss extends Actor {
             if (path === null || path.length == 0) {
                 console.log("No path to position")
             } else {
-                this.path = path;
+                this.path = path.map(point2d => {
+                    return [point2d.x + this.collisionGrid.offsetX, 0, point2d.y + this.collisionGrid.offsetY];
+                });
                 this.path_index = 0;
-                this.setTargetPoint(path[0]);
+                this.world_target_position = this.path[this.path_index];
             }
         }));
         this.pathFinder.calculate();
-
     }
 
     attack(position) {
         this.goto(position);
         this.attack_done = false;
         new SFX(this, [0, 0, 0], sfx.attack);
-    }
-
-    gridToWorld(point2d) {
-        return [point2d.x + this.collisionGrid.offsetX, 0, point2d.y + this.collisionGrid.offsetY];
-    }
-
-    setTargetPoint(point2d) {
-        this.target_position = point2d;
-        this.world_target_position = [point2d.x + this.collisionGrid.offsetX, 0, point2d.y + this.collisionGrid.offsetY];
-        
     }
 
     update(elapsed, dirty) {
@@ -123,7 +112,7 @@ class LampBoss extends Actor {
                     console.log("Reached end of path");
                     this.path = undefined;
                 } else {
-                    this.setTargetPoint(this.path[this.path_index]);
+                    this.world_target_position = this.path[this.path_index];
                 }
             }
         }
@@ -145,7 +134,7 @@ class LampBoss extends Actor {
     draw(renderer) {
         if(debug && this.path) {
             this.path.forEach(point => {
-                debugDraw(renderer, this.gridToWorld(point));
+                debugDraw(renderer, point);
             });
         }
         super.draw(renderer);
