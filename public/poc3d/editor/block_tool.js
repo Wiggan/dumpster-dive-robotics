@@ -7,13 +7,13 @@ class BlockTool extends Tool {
                        new Background(null, [0,0,0]),
                        new WaterSurface(null, [0,0,0]),
                        new Portal(null, [0,0,0]),
-                       new Lantern(null, [0,0,0]),
-                       new FloorButton(null, [0,0,0]),
                        new Door(null, [0,0,0]),
                        new LightSensor(null, [0,0,0]),
+                       new ChargeTrigger(null, [0,0,0]),
                        new CeilingCannon(null, [0,0,0]),
                        new SaveStation(null, [0,0,0]),
                        new CrackingBlock(null, [0,0,0]),
+                       new FlameThrower(null, [0,0,0]),
                     ];
         this.blocks.forEach(block => block.material = materials.blue);
         this.block_index = 0;

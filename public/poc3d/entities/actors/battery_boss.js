@@ -5,15 +5,15 @@ class LightningParticles extends ParticleSystem {
         super(parent, local_position);
         this.direction = direction || [0, 1, 0];
         this.continuous = true;
-        this.spread = 0.04;
-        this.min_speed = 0.0002;
-        this.max_speed = 0.0052;
+        this.spread = 1;
+        this.min_speed = 0.001;
+        this.max_speed = 0.004;
         this.particle_life_time = 100;
         this.start_randomly = true;
         this.ended_callback = undefined;
         this.start = {color: [1.0, 1.0, 1.0], scale: 0.04};
-        this.stop = {color: [0.7, 0.7, 1.0], scale: 0.01};
-        this.setParticleCount(count || 102);
+        this.stop = {color: [0.2, 0.3, 1.0], scale: 0.01};
+        this.setParticleCount(count || 100);
     }
 }
 
@@ -22,12 +22,17 @@ class LightnintBolt extends ProjectileBase {
         super(position, instigator, sfx.rocket_flying);
 /*         this.drawable = new Drawable(this, [0, 0, 0], models.ball);
         this.drawable.material = materials.green_led; */
-        this.path = JSON.parse(JSON.stringify(path));
+        this.path = path;
         this.path_index = 0;
         this.world_target_position = this.path[this.path_index];
-        this.stats.speed = 0.02;
+        this.stats.speed = 0.01;
         this.stats.patrol_tolerance = 0.2;
         this.lightning = new LightningParticles(this, [0, 0, 0]);
+    }
+
+    explode() {
+        super.explode();
+        //game.scene.entities.push(this.lightning);
     }
 
     update(elapsed, dirty) {
@@ -72,18 +77,20 @@ class LightnintBolt extends ProjectileBase {
 class BatteryBoss extends BossBase {
     constructor(parent, position) {
         super(parent, position, BatteryPowerUp); 
-        this.base = new Drawable(this, [0, 0, 0], models.battery_boss.base);
-        this.battery = new Drawable(this, [0, 0, 0], models.battery_boss.battery);
-        this.charger = new Drawable(this, [0, 0, 0], models.battery_boss.charger);
+        this.base = new Drawable(this, [0, 0, 0.25], models.battery_boss.base);
+        this.battery = new Drawable(this.base, [0, 0, 0], models.battery_boss.battery);
+        this.charger = new Drawable(this.base, [0, 0, 0], models.battery_boss.charger);
 
         this.base.material = materials.blue;
         this.battery.material = materials.metall;
         this.charger.material = materials.metall;
 
+        this.stats.patrol_tolerance = 0.1;
+
         this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Enemy, 0.8, 0.8);
 
         this.blinking_drawables_on_damage = [this.base, this.charger, this.battery];
-        this.strategy = new BossStrategy(this, [0.2, 0]);
+        this.strategy = new BossStrategy(this, [0.1, 0.6]);
     }
     
     toJSON(key) {
@@ -98,12 +105,18 @@ class BatteryBoss extends BossBase {
         new SFX(this, [0, 0, 0], sfx.attack);
         this.attack_done = false;
         this.goto(position);
-        new LightnintBolt(this.getWorldPosition(), this, this.path);
+        var path = JSON.parse(JSON.stringify(this.path));
+        var source_location = [-0.08, 0, -0.5];
+        this.lightning = new LightningParticles(this.base, source_location);
         this.path = undefined;
         this.world_target_position = undefined;
         window.setTimeout(() => {
+            var world_source_location = vec3.create();
+            vec3.add(world_source_location, this.getWorldPosition(), source_location);
+            new LightnintBolt(world_source_location, this, path);
+            this.base.removeChild(this.lightning);
             this.attack_done = true;
-        }, 500);
+        }, 800);
     }
 
 }

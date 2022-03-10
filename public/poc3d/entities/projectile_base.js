@@ -21,7 +21,7 @@ class ProjectileBase extends DynamicEntity {
     }
 
     update(elapsed, dirty) {
-        var step_length = 2;
+        var step_length = 1;
         if (this.elapsed > this.stats.life_time) {
             this.explode();
         }
