@@ -23,17 +23,17 @@ function drawLog(entries) {
     
 
     var focused = intro || active_camera.x < 100 && active_camera.y > d2.canvas.height - 100;
-    const log_width = focused ? 500 : 100;
-    const log_height = focused ? 500 : 100;
+    const log_width = focused ? gl.canvas.width : 100;
+    const log_height = focused ? gl.canvas.height : 100;
     const padding = focused ? 5 : 1;
-    const stride = focused ? 10 : 2;
+    const stride = focused ? 20 : 2;
     
     d2.save();
-    d2.font = focused ? "10px Courier New" : "2px Courier New" ;
+    d2.font = focused ? "20px Courier New" : "2px Courier New" ;
     d2.strokeStyle = "green";
     d2.globalAlpha = line_alpha;
     d2.strokeRect(0, d2.canvas.height - log_height, log_width, log_height);
-    d2.globalAlpha = focused ? 0.8 : 0.1;
+    d2.globalAlpha = focused ? 0.7 : 0.1;
     d2.fillStyle = "black";
     d2.fillRect(0, d2.canvas.height - log_height, log_width, log_height);
     

@@ -206,6 +206,7 @@ class Player extends Actor {
     }
 
     right_click(point, object) {
+        this.jump();
     }
 
     setJumpOnCooldown() {
