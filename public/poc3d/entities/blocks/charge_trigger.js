@@ -5,10 +5,10 @@ class ChargeTrigger extends Entity {
         super(parent, local_position);
         this.local_position = local_position;
         this.block = new Block(this, [0, 0, 0]);
-        this.sensor1 = new Drawable(this, [-0.4, 0, 0.1], models.box);
-        this.sensor2 = new Drawable(this, [-0.4, 0, 0.2], models.box);
-        this.sensor1.local_transform.scale(0.3, 0.9, 0.05);
-        this.sensor2.local_transform.scale(0.3, 0.9, 0.05);
+        this.sensor1 = new Drawable(this, [-0.4, 0, 0.23], models.box);
+        this.sensor2 = new Drawable(this, [-0.4, 0, 0.4], models.box);
+        this.sensor1.local_transform.scale([0.3, 0.9, 0.1]);
+        this.sensor2.local_transform.scale([0.3, 0.9, 0.1]);
         this.sensor1.material = materials.metall;
         this.sensor2.material = materials.metall;
         this.triggees = [];
