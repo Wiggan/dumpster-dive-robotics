@@ -19,7 +19,7 @@ class Toast extends ProjectileBase {
         var direction = vec3.clone(this.velocity);
         vec3.scale(direction, direction, -1);
         vec3.normalize(direction, direction);
-        game.scene.entities.push(new Smoke(null, this.getWorldPosition(), direction, 10));
+        game.scene.entities.push(new Smoke(null, this.getWorldPosition(), direction, 5));
         super.explode();
     }
 }

@@ -23,14 +23,6 @@ class Drone extends Actor {
             fan.material = materials.rubber;
         });
         
-        this.lamp = new PointLight(this, [0, 0, 0], parent);
-        this.lamp.constant = LanternLight.Constant;
-        this.lamp.linear = LanternLight.Linear;
-        this.lamp.quadratic = LanternLight.Quadratic;
-        this.lamp.active = true;
-        
-        this.lamp.drawable = new Drawable(this, [0, 0, 0], models.lamp_boss.head_lamp);
-        this.lamp.drawable.material = materials.light;
         this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Enemy, 0.6, 0.5);
         this.stats = {
             movement_speed: 0.002,
@@ -43,7 +35,6 @@ class Drone extends Actor {
         this.health = this.stats.max_health;
         this.strategy = new PatrolStrategy(this);
         this.blinking_drawables_on_damage = [this.body, this.motors];
-        this.attack_done = false;
     }
     
     toJSON(key) {
@@ -56,10 +47,7 @@ class Drone extends Actor {
 
     update(elapsed, dirty) {
         dirty |= this.strategy.update(elapsed);
-        this.lamp.local_transform.roll(1.5*elapsed);
-
         super.update(elapsed, dirty);
-        
     }
 
     draw(renderer) {
@@ -69,11 +57,6 @@ class Drone extends Actor {
             });
         }
         super.draw(renderer);
-    }
-
-    onDeath() {
-        this.lamp.inactivate();
-        super.onDeath();
     }
 
 }

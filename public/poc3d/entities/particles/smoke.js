@@ -4,9 +4,9 @@ class Smoke extends ParticleSystem {
         this.direction = direction || [0, 1, 0];
         this.continuous = false;
         this.spread = 0.24;
-        this.min_speed = 0.0004;
-        this.max_speed = 0.0032;
-        this.particle_life_time = 1200;
+        this.min_speed = 0.0003;
+        this.max_speed = 0.0022;
+        this.particle_life_time = 1000;
         this.start_randomly = true;
         this.ended_callback = undefined;
         this.start = {color: normalizeColor([23, 23, 23]), scale: 0.2};

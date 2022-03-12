@@ -8,6 +8,8 @@ class ObjectTool extends Tool {
             new VacuumTableFan(null, [0, 0, 0]),
             new VacuumToaster(null, [0, 0, 0]),
             new Drone(null, [0, 0, 0]),
+            new DroneLamp(null, [0, 0, 0]),
+            new DroneToaster(null, [0, 0, 0]),
             new CameraAnchor(null, [0, 10, 0]),
             new Light(null, [0, 0, 0]),
             new DiskPowerUp(null, [0, 0, 0]),

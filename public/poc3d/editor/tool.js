@@ -92,7 +92,8 @@ class Tool extends Entity {
                         });
                     });
                 } else if (key == 'class') {
-                    selected_gui.add(persistent, key).onChange((v) => selected_entities[0][key] = v);
+                    //selected_gui.add(persistent, key).onChange((v) => selected_entities[0][key] = v);
+                    selected_gui.add(selected_entities[0], key);
                 } else if (key == 'local_position') {
                     var local_position = Object.assign({}, selected_entities[0].getWorldPosition());
                     var posFolder = selected_gui.addFolder(key);
