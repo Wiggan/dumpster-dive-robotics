@@ -14,6 +14,7 @@ class ProjectileBase extends DynamicEntity {
         this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Projectile, 0.1, 0.1);
         game.scene.entities.push(this);
         this.sound = new SFX(this, [0,0,0], sound);
+        this.hasExploded = false;
     }
 
     toJSON(key) {
@@ -45,6 +46,7 @@ class ProjectileBase extends DynamicEntity {
         this.sound.stop();
         this.sound = new SFX(this, [0,0,0], sfx.rocket_exploding);
         game.scene.remove(this);
+        this.hasExploded = true;
     }
 
     onCollision(other) {
@@ -52,15 +54,15 @@ class ProjectileBase extends DynamicEntity {
             if (other.type == CollisionLayer.Enemy && this.instigator == player) {
                 if (other.parent.takeDamage) {
                     other.parent.takeDamage(this.instigator.stats.dmg, this.instigator, this.collider);
-                    this.explode();
+                    if (this.hasExploded == false) this.explode();
                 } else {
                     console.log("Hopefully flame?");
                 }
             } else if (other.type == CollisionLayer.Player) {
                 other.parent.takeDamage(this.instigator.stats.dmg, this.instigator, this.collider);
-                this.explode();
+                if (this.hasExploded == false) this.explode();
             } else {
-                this.explode();
+                if (this.hasExploded == false) this.explode();
             }
         }
     }
