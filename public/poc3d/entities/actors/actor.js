@@ -77,7 +77,7 @@ class Actor extends Entity {
     }
 
     setRedMaterials(drawables) {
-        console.log("Setting red materials");
+        //console.log("Setting red materials");
         this.original_materials = drawables.map((drawable) => drawable.material);
         drawables.forEach((drawable) => {
             drawable.material = materials.red_led;
@@ -85,7 +85,7 @@ class Actor extends Entity {
     }
     
     restoreMaterials(drawables) {
-        console.log("Restoring materials");
+        //console.log("Restoring materials");
         drawables.forEach((drawable, index) => {
             drawable.material = this.original_materials[index];
         });

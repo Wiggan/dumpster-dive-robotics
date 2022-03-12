@@ -222,6 +222,7 @@ class Game {
         if (player.inventory.includes(items.lamp)) {
             game.scene.lights.push(player.head.lamp);
         }
+        game.scene.onLoad();
         game.scene.colliders.push(...player.getColliders());
         player.local_transform.setPosition(player_position);
         player.update(0, true); 

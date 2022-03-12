@@ -25,6 +25,12 @@ class CrackingBlock extends Entity {
         this.elapsed = 0;
         this.target_position = [0, -0.1, 2];
     }
+    
+    reset(scene) {
+        this.triggered = false;
+        this.collider.type = CollisionLayer.Level;
+        this.elapsed = 0;
+    }
 
     start_triggering() {
         this.triggered = true;

@@ -80,6 +80,10 @@ class Scene extends Entity {
         }
     }
 
+    onLoad() {
+        this.entities.filter((entity) => entity.toJSON().class == 'CrackingBlock').forEach(block => block.reset());
+    }
+
     remove(object) {
 /*         object.getColliders().forEach(collider => {
             this.colliders.splice(game.scene.colliders.lastIndexOf(collider), 1);
