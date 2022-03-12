@@ -81,6 +81,8 @@ class Tool extends Entity {
                     selected_gui.add(selected_entities[0], key);
                 } else if (key == 'range') {
                     selected_gui.add(selected_entities[0], key);
+                } else if (key == 'yaw') {
+                    selected_gui.add(selected_entities[0], key, 0, 270, 90);
                 } else if (key == 'triggees') {
                     var triggees = Object.assign({}, selected_entities[0][key]);
                     var triggeesFolder = selected_gui.addFolder(key);

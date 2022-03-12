@@ -33,12 +33,14 @@ class Drone extends Actor {
         this.lamp.drawable.material = materials.light;
         this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Enemy, 0.6, 0.5);
         this.stats = {
-            movement_speed: 0.004,
+            movement_speed: 0.002,
             acceleration: 0.00008,
             dmg: 1,
             dmg_cooldown: 3000,
-            patrol_tolerance: 0.3
+            patrol_tolerance: 0.3,
+            max_health: 1
         };
+        this.health = this.stats.max_health;
         this.strategy = new PatrolStrategy(this);
         this.blinking_drawables_on_damage = [this.body, this.motors];
         this.attack_done = false;
@@ -59,6 +61,7 @@ class Drone extends Actor {
         super.update(elapsed, dirty);
         
     }
+
     draw(renderer) {
         if(debug && this.path) {
             this.path.forEach(point => {
@@ -66,6 +69,11 @@ class Drone extends Actor {
             });
         }
         super.draw(renderer);
+    }
+
+    onDeath() {
+        this.lamp.inactivate();
+        super.onDeath();
     }
 
 }

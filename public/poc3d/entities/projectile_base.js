@@ -53,6 +53,8 @@ class ProjectileBase extends DynamicEntity {
                 if (other.parent.takeDamage) {
                     other.parent.takeDamage(this.instigator.stats.dmg, this.instigator, this.collider);
                     this.explode();
+                } else {
+                    console.log("Hopefully flame?");
                 }
             } else if (other.type == CollisionLayer.Player) {
                 other.parent.takeDamage(this.instigator.stats.dmg, this.instigator, this.collider);

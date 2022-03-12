@@ -24,7 +24,7 @@ class FlameThrower extends Entity {
         this.local_position = local_position;
         this.background = new Background(this, [0, 0, 0]);
         this.drawable = new Drawable(this, [0, 0, 0], models.ceiling_cannon);
-        this.drawable.local_transform.yaw(90);
+        this.yaw = 0;
         this.range = 6;
         this.stats = {
             dmg: 1,
@@ -32,17 +32,38 @@ class FlameThrower extends Entity {
     }
     
     init(scene) {
-        this.collider = new Collider(this, [this.range/2, 0, 0], CollisionLayer.Sensor, this.range, 0.4);
+        if (this.yaw == 90) {
+            this.collider = new Collider(this, [this.range/2, 0, 0], CollisionLayer.Sensor, this.range, 0.4);
+        } else if (this.yaw == 180) {
+            this.collider = new Collider(this, [0, 0, this.range/2], CollisionLayer.Sensor, 0.4, this.range);
+        } else if (this.yaw == 270) {
+            this.collider = new Collider(this, [-this.range/2, 0, 0], CollisionLayer.Sensor, this.range, 0.4);
+        } else {
+            this.collider = new Collider(this, [0, 0, -this.range/2], CollisionLayer.Sensor, 0.4, this.range);
+        }
+        this.drawable.local_transform.yaw(this.yaw);
         scene.colliders.push(this.collider);
     }
     
     stop_triggering() {
         this.collider.type = CollisionLayer.Sensor;
         this.flame.continuous = false;
+        this.flame.ended_callback = () => {
+            this.removeChild(this.flame);
+            this.flame = undefined;
+        }
     }
     
     start_triggering() {
-        this.flame = new Flame(this, [0, 0, 0], [1, 0, 0], this.range*100);
+        var dir = [0, 0, -1];
+        if (this.yaw == 90) {
+            dir = [1, 0, 0];
+        } else if (this.yaw == 180) {
+            dir = [0, 0, 1];
+        } else if (this.yaw == 270) {
+            dir = [-1, 0, 0];
+        }
+        this.flame = new Flame(this, [0, 0, 0], dir, this.range*100);
         window.setTimeout(() => {
             this.collider.type = CollisionLayer.Enemy;
         }, 100);
@@ -53,7 +74,8 @@ class FlameThrower extends Entity {
             class: 'FlameThrower',
             uuid: this.uuid,
             local_position: this.local_position,
-            range: this.range
+            range: this.range,
+            yaw: this.yaw
         }
     }
 }
