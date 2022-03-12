@@ -50,11 +50,16 @@ class ProjectileBase extends DynamicEntity {
     onCollision(other) {
         if (other.parent != this.instigator && other.type != CollisionLayer.Projectile) {
             if (other.type == CollisionLayer.Enemy && this.instigator == player) {
-                other.parent.takeDamage(this.instigator.stats.dmg, this.instigator, this.collider);
+                if (other.parent.takeDamage) {
+                    other.parent.takeDamage(this.instigator.stats.dmg, this.instigator, this.collider);
+                    this.explode();
+                }
             } else if (other.type == CollisionLayer.Player) {
                 other.parent.takeDamage(this.instigator.stats.dmg, this.instigator, this.collider);
+                this.explode();
+            } else {
+                this.explode();
             }
-            this.explode();
         }
     }
 }

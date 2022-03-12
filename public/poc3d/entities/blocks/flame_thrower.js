@@ -32,7 +32,7 @@ class FlameThrower extends Entity {
     }
     
     init(scene) {
-        this.collider = new Collider(this, [this.range/2, 0, 0.2], CollisionLayer.Sensor, this.range, 0.2);
+        this.collider = new Collider(this, [this.range/2, 0, 0], CollisionLayer.Sensor, this.range, 0.4);
         scene.colliders.push(this.collider);
     }
     
@@ -47,8 +47,6 @@ class FlameThrower extends Entity {
             this.collider.type = CollisionLayer.Enemy;
         }, 100);
     }
-
-    takeDamage() {}
 
     toJSON(key) {
         return {
