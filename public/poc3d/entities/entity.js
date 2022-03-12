@@ -28,8 +28,10 @@ class Entity {
     }
 
     removeChild(child) {
-        this.children.splice(this.children.lastIndexOf(child), 1);
-        child.parent = undefined;
+        if (this.children.includes(child)) {
+            this.children.splice(this.children.lastIndexOf(child), 1);
+            child.parent = undefined;
+        }
     }
 
     removeAllChildren() {

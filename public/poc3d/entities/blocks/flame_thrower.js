@@ -63,10 +63,13 @@ class FlameThrower extends Entity {
         } else if (this.yaw == 270) {
             dir = [-1, 0, 0];
         }
+        if (this.flame) {
+            this.removeChild(this.flame);
+        }
         this.flame = new Flame(this, [0, 0, 0], dir, this.range*100);
-        window.setTimeout(() => {
-            this.collider.type = CollisionLayer.Enemy;
-        }, 100);
+        this.collider.type = CollisionLayer.Enemy;
+/*         window.setTimeout(() => {
+        }, 100); */
     }
 
     toJSON(key) {
