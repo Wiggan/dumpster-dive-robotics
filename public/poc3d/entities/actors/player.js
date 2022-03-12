@@ -54,7 +54,7 @@ const original_stats = {
     movement_speed: 0.001,
     acceleration: 0.00005,
     jump_speed: 0.013683,
-    pickup_range: 1,
+    pickup_range: 2,
     attack_range: 1,
     max_health: 3,
     dmg: 1,

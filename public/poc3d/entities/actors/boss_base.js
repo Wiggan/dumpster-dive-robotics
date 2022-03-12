@@ -6,7 +6,6 @@ class BossBase extends Actor {
         this.local_position = position;
         this.type = PickableType.Enemy;
 
-        this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Enemy, 0.8, 0.8);
         this.stats = {
             movement_speed: 0.003,
             vertical_movement_speed: 0,
