@@ -327,9 +327,9 @@ class Renderer {
         gl.uniform3fv(program.uCameraPos, active_camera.getPosition()); 
         gl.uniformMatrix4fv(program.uProjectionMatrix, false, projection_matrix);
         view_matrix = active_camera.getViewMatrix();
-        if (debug) {
+/*         if (debug) {
             console.log(active_camera.getWorldPosition());
-        }
+        } */
         gl.uniformMatrix4fv(program.uViewMatrix, false, view_matrix);
         var previous_material = undefined;
         this.drawables.forEach((drawable) => {

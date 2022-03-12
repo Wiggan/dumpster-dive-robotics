@@ -23,7 +23,7 @@ class WaterBoss extends Actor {
         this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Enemy, 0.6, 0.6);
         this.stats = {
             jump_speed: 0.02,
-            movement_speed: 0.004,
+            movement_speed: 0.003,
             acceleration: 0.000012,
             dmg: 0,
             dmg_cooldown: 3000,
