@@ -53,10 +53,12 @@ class Collider {
 
     // Getters for the mid point of the rect
     getMidX() {
-        return this.getWorldPosition()[0];
+        //return this.getWorldPosition()[0];
+        return this.world_transform[12];
     }
     getMidY() {
-        return this.getWorldPosition()[1];
+        //return this.getWorldPosition()[1];
+        return this.world_transform[14];
     }
 
     // Getters for the top, left, right, and bottom
@@ -114,12 +116,6 @@ class Collider {
         var collisions = [];
         game.scene.colliders.forEach((other) => {
             if (other && this.isColliding(other)) {
-                if (this.parent == player && other.type == CollisionLayer.Trigger) {
-                    console.log("player and trigger");
-                }
-                if (this.type == CollisionLayer.Enemy && other.type == CollisionLayer.Trigger) {
-                    console.log("Enemy and trigger");
-                }
                 collisions.push(other);
             }
         });

@@ -29,6 +29,7 @@ class LightnintBolt extends ProjectileBase {
         this.stats.patrol_tolerance = 0.2;
         this.stats.life_time = 2000;
         this.lightning = new LightningParticles(this, [0, 0, 0]);
+        this.step_length = 1;
     }
 
     explode() {
