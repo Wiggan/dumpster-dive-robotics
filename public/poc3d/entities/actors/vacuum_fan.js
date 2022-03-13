@@ -5,7 +5,7 @@ class VacuumFan extends VacuumBase {
         super(position);
         this.fan = new Drawable(this, [0.1, 0, 0.45], models.vacuum_fan.fan);
         this.fan.material = materials.metall;
-        this.collider = new Collider(this, [0, 0, 0.25], CollisionLayer.Enemy, 0.3, 0.4);
+        this.collider = new Collider(this, [0, 0, 0.3], CollisionLayer.Enemy, 0.3, 0.3);
         this.blinking_drawables_on_damage.push(this.fan);
         this.update(0, true);
     }

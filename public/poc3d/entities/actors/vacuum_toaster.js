@@ -80,8 +80,7 @@ class VacuumToaster extends VacuumBase {
         this.toaster = new Toaster(this, [0, 0, 0.45], models.vacuum_fan.toaster);
         this.toaster.material = materials.metall;
         this.collider = new Collider(this, [0, 0, 0.05], CollisionLayer.Enemy, 0.3, 0.7);
-        this.blinking_drawables_on_damage.push(this.toaster)
-
+        this.blinking_drawables_on_damage.push(this.toaster.drawable);
     }
     
     toJSON(key) {

@@ -201,9 +201,7 @@ class Player extends Actor {
         if (object && object.type == PickableType.Default && vec3.dist(object.getWorldPosition(), this.getWorldPosition()) < constants.interaction_range) {
             object.interact();
         } else if(this.inventory.includes(items.disk)) {
-            console.log(game.scene.entities.length);
             this.launcher.fire();
-            console.log(game.scene.entities.length);
         }
     }
 
