@@ -467,6 +467,10 @@ class Player extends Actor {
                 }
             }
         ]);
+        if (this.moving_sound) {
+            this.moving_sound.stop();
+            this.moving_sound = undefined;
+        }
         super.onDeath();
     }
 }
