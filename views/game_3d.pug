@@ -51,6 +51,14 @@ block head
       justify-content: center;
     }
 
+    #victory-content {
+      width: 400px;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+    }
+
     #init-content {
       height: 100vh;
       width: 100%;
@@ -71,6 +79,7 @@ block head
       font-size: 2rem;
     }
     #logo {
+      text-align: center;
       color: white;
     }
 
@@ -138,6 +147,21 @@ block content
         h1#logo Dumpster Dive: Robotics
         button.btn.third#continue Continue
         button.btn.third#new_game New Game
+      #victory-content
+        h1#logo Victory! 
+        p
+          | You finished the game with 
+          |
+          span#gold_count 0
+          |
+          | gold nuggets out of 10.
+          br
+          | It took you 
+          |
+          span#time_it_took 0
+          |
+          | minutes, well done!
+        button.btn.third#new_game2 New Game
       #settings-content 
         .slider-container
           | SFX

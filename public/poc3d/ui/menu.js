@@ -6,6 +6,7 @@ const views = {
     init: "init-content",
     start: "start-content",
     menu: "menu-content",
+    victory: "victory-content",
     settings: "settings-content"
 }
 
@@ -29,6 +30,16 @@ function showStartScreen() {
     game.overlay = [0.0, 0.0, 0.0, 1.0];
     game.paused = true;
     showView(views.start);
+}
+
+
+function showVictoryScreen() {
+    document.getElementById("outer-container").style.display = "block";
+    playMusic(music.intro);
+    hideAllViews();
+    document.getElementById("gold_count").textContent = player.stats.score;
+    document.getElementById("time_it_took").textContent = Math.floor(player.time_played / 60) + ":" + player.time_played % 60;
+    showView(views.victory);
 }
 
 function initMenu() {
@@ -65,6 +76,7 @@ function initMenu() {
         game.hideMenu();
         hideAllViews();
     };
+    
     document.getElementById("new_game").onclick = (e) => {
         if (saved_game_exists) {
             mscConfirm('Start new game?', 'All unsaved progress will be lost.', () => { 
@@ -77,6 +89,11 @@ function initMenu() {
             game.hideMenu();
             hideAllViews();
         }
+    };
+    document.getElementById("new_game2").onclick = (e) => {
+        game.startNewGame();
+        game.hideMenu();
+        hideAllViews();
     };
     document.getElementById("continue").disabled = true;
     document.getElementById("load").disabled = true;

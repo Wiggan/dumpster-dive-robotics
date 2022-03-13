@@ -14,6 +14,7 @@ class BlockTool extends Tool {
                        new SaveStation(null, [0,0,0]),
                        new CrackingBlock(null, [0,0,0]),
                        new FlameThrower(null, [0,0,0]),
+                       new Goal(null, [0,0,0]),
                     ];
         this.blocks.forEach(block => block.material = materials.blue);
         this.block_index = 0;

@@ -317,19 +317,19 @@ class Player extends Actor {
         if (this.time_played > 8 && !this.entries.includes(1)) {
             this.addLogEntry(1);
         }
-        if (this.time_played > 10 && !this.hint && player.inventory.includes(items.disk) && !player.inventory.includes(items.lamp) && game.scene.name == 'Downfall') {
+        if (this.time_played > 100 && !this.hint && player.inventory.includes(items.disk) && !player.inventory.includes(items.lamp) && game.scene.name == 'Downfall') {
             this.addLogEntry(4);
             this.hint = game.scene.getAllOfClass('Portal').filter(portal => portal.getDestinationPortal().scene.name == 'LampBossRoom')[0].getWorldPosition();
         }
-        if (this.time_played > 11 && !this.hint && player.inventory.includes(items.lamp) && !player.inventory.includes(items.battery) && game.scene.name == 'Downfall') {
+        if (this.time_played > 300 && !this.hint && player.inventory.includes(items.lamp) && !player.inventory.includes(items.battery) && game.scene.name == 'Downfall') {
             this.addLogEntry(4);
             this.hint = game.scene.getAllOfClass('Portal').filter(portal => portal.getDestinationPortal().scene.name == 'BatteryBossRoom')[0].getWorldPosition();
         }
-        if (this.time_played > 12 && !this.hint && player.inventory.includes(items.battery) && !player.inventory.includes(items.counter_pressurizer) && game.scene.name == 'Downfall') {
+        if (this.time_played > 500 && !this.hint && player.inventory.includes(items.battery) && !player.inventory.includes(items.counter_pressurizer) && game.scene.name == 'Downfall') {
             this.addLogEntry(4);
             this.hint = game.scene.getAllOfClass('Portal').filter(portal => portal.getDestinationPortal().scene.name == 'PressurizerBossRoom')[0].getWorldPosition();
         }
-        if (this.time_played > 13 && !this.hint && player.inventory.includes(items.counter_pressurizer) && !player.inventory.includes(items.suction_device) && game.scene.name == 'Downfall') {
+        if (this.time_played > 700 && !this.hint && player.inventory.includes(items.counter_pressurizer) && !player.inventory.includes(items.suction_device) && game.scene.name == 'Downfall') {
             this.addLogEntry(4);
             this.hint = game.scene.getAllOfClass('Portal').filter(portal => portal.getDestinationPortal().scene.name == 'PoolBossRoom')[0].getWorldPosition();
         }
