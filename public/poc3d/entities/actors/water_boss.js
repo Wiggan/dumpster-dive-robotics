@@ -25,6 +25,8 @@ class WaterBoss extends BossBase {
         this.stats.acceleration = 0.000012;
         this.stats.dmg = 0;
         this.stats.patrol_tolerance = 0.1;
+        this.stats.max_health = 4;
+        this.health = this.stats.max_health;
         this.strategy = new BossStrategy(this, [0.1, 0.3]);
         this.blinking_drawables_on_damage = [this.base, this.propeller, this.launcher.drawable];
     }

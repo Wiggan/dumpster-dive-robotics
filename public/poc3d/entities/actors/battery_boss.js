@@ -87,6 +87,8 @@ class BatteryBoss extends BossBase {
         this.charger.material = materials.metall;
 
         this.stats.patrol_tolerance = 0.1;
+        this.stats.max_health = 4;
+        this.health = this.stats.max_health;
 
         this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Enemy, 0.8, 0.8);
 

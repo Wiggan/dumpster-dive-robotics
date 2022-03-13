@@ -29,6 +29,8 @@ class PoolBoss extends Actor {
             dmg_cooldown: 3000,
             patrol_tolerance: 0.5
         };
+        this.stats.max_health = 4;
+        this.health = this.stats.max_health;
         this.strategy = new BossStrategy(this);
         this.blinking_drawables_on_damage = [this.base, this.wheels, this.cleaner];
         this.attack_done = true;
