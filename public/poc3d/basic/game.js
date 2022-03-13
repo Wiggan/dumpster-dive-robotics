@@ -54,7 +54,6 @@ class Game {
         elapsed *= this.time_scaler;
         if (!this.paused) {
             this.scene.update(elapsed);
-            console.log(this.scene.entities.length + " " + this.scene.colliders.length);
         } else {
             active_camera.update(elapsed);
         }

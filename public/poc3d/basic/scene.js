@@ -121,7 +121,8 @@ class Scene extends Entity {
                 //light.inactivate();
             }
         }); */
-        this.entities.forEach(entity => {
+        this.entities_to_update = this.entities.filter(entity => entity.getSquaredHorizontalDistanceToActiveCamera() < 220);
+        this.entities_to_update.forEach(entity => {
             entity.update(elapsed, false);
         });
     }

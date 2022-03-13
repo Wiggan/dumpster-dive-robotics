@@ -16,7 +16,10 @@ function render() {
         var elapsed = now - then;
         frame_intervals.push(elapsed);
         var throttled_elapsed = Math.min(30, elapsed);
+        var before = Date.now();
         game.update(throttled_elapsed);
+        var after = Date.now();
+        console.log(after - before);
         debug_camera.update(elapsed);
         then = now;
         if (game.scene) {
@@ -27,6 +30,7 @@ function render() {
             frame_intervals.length = 0;
         }
         renderer.render();
+
     } catch (error) {
         console.error(error);
         cancelAnimationFrame(animationRequest);
