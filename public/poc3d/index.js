@@ -38,15 +38,15 @@ function render() {
 }
 
 async function loadAssets() {
-    document.getElementById("init").textContent = "0%";
+    document.getElementById("init").textContent = "Loading: 0%";
     renderer = new Renderer();
     document.getElementById('outer-container').style.height=gl.canvas.height + 'px';
     await initProgram();
-    document.getElementById("init").textContent = "25%";
+    document.getElementById("init").textContent = "Loading: 25%";
     await load_all_models();
-    document.getElementById("init").textContent = "50%";
+    document.getElementById("init").textContent = "Loading: 50%";
     load_all_sounds();
-    document.getElementById("init").textContent = "75%";
+    document.getElementById("init").textContent = "Loading: 75%";
     game = new Game();
     await fetch('models/levels.json').then(response => response.json()).then(levels => game.json_levels = levels);
 

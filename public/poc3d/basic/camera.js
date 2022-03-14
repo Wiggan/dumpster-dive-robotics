@@ -30,7 +30,7 @@ class Camera extends DynamicEntity {
     }
 
     onKeyDown(e) {
-        if (e.key == 'F1') {
+       /*  if (e.key == 'F1') {
             debug = !debug;
             e.preventDefault();
         } else if (e.key == 'F2') {
@@ -42,7 +42,7 @@ class Camera extends DynamicEntity {
         } else if (e.key == 'F4') {
             game.load();
             e.preventDefault();
-        }
+        } */
     }
 
     draw(renderer) {
