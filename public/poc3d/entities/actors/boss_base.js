@@ -64,7 +64,8 @@ class BossBase extends Actor {
             portal.enable();
         });
         playMusic(music.in_game);
-        (new this.powerup(snapToGrid(this.getWorldPosition()))).player_position = vec3.clone(player.getWorldPosition());
+        var powerup = new this.powerup(snapToGrid(this.getWorldPosition()));
+        powerup.player_position = vec3.clone(player.getWorldPosition());
     } 
 
     update(elapsed, dirty) {

@@ -13,9 +13,11 @@ class PowerUp extends Pickable {
         this.label = this.item.name;
         this.elapsed = 0;
         this.move_towards_player = false;
+        this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Collectible, 0.5, 0.5);
     }
 
     interact() {
+        this.collider.type = CollisionLayer.Sensor;
         player.pickUp(this);
         new SFX(this, [0, 0, 0], sfx.pickup);
         game.scene.remove(this);
@@ -82,6 +84,7 @@ class HeadLampPowerUp extends PowerUp {
         super(position, items.lamp, models.powerups.head_lamp, materials.light_inactive);
         this.move_towards_player = true;
         game.scene.entities.push(this);
+        game.scene.colliders.push(this.collider);
     }
 }
 
@@ -90,6 +93,7 @@ class SuctionDevicePowerUp extends PowerUp {
         super(position, items.suction_device, models.powerups.suction_device, materials.player);
         this.move_towards_player = true;
         game.scene.entities.push(this);
+        game.scene.colliders.push(this.collider);
     }
 }
 
@@ -98,6 +102,7 @@ class BatteryPowerUp extends PowerUp {
         super(position, items.battery, models.powerups.battery, materials.player);
         this.move_towards_player = true;
         game.scene.entities.push(this);
+        game.scene.colliders.push(this.collider);
     }
 }
 
@@ -106,6 +111,7 @@ class CounterPressurizerPowerUp extends PowerUp {
         super(position, items.counter_pressurizer, models.powerups.counter_pressurizer, materials.player);
         this.move_towards_player = true;
         game.scene.entities.push(this);
+        game.scene.colliders.push(this.collider);
     }
 }
 
@@ -120,10 +126,13 @@ class GoldNugget extends Pickable {
         this.drawable.id = this.id;
         this.item = items.gold_nugget;
         this.label = this.item.name;
+        this.collider = new Collider(this, [0, 0, 0], CollisionLayer.Collectible, 0.5, 0.5);
     }
 
     interact() {
+        this.collider.type = CollisionLayer.Sensor;
         player.pickUp(this);
+        new SFX(this, [0, 0, 0], sfx.pickup);
         game.scene.remove(this);
     }
 

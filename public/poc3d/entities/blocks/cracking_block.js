@@ -30,6 +30,10 @@ class CrackingBlock extends Entity {
         this.triggered = false;
         this.collider.type = CollisionLayer.Level;
         this.elapsed = 0;
+        this.cells.forEach(cell => {
+            cell.local_transform.setPosition([0, 0, 0]);
+        });
+        this.update(0, true);
     }
 
     start_triggering() {
@@ -47,6 +51,7 @@ class CrackingBlock extends Entity {
 
     update(elapsed, dirty) {
         if (this.triggered) {
+            dirty = true;
             this.elapsed += elapsed;
             this.cells.forEach(cell => {
                 var pos = vec3.create();

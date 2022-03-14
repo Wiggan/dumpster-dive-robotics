@@ -42,8 +42,10 @@ class Actor extends Entity {
                         this.collider.update(0, true);
                     } else if (other.type == CollisionLayer.Enemy) {
                         if (this.collider.type == CollisionLayer.Player) {
-                            this.takeDamage(other.parent.stats.dmg, other.parent, this.collider)
+                            this.takeDamage(other.parent.stats.dmg, other.parent, this.collider);
                         }
+                    } else if (other.type == CollisionLayer.Collectible) {
+                        other.parent.interact();
                     }
                 });
             }

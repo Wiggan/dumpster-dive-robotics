@@ -11,7 +11,8 @@ const CollisionLayer = {
     Projectile: 4,
     Trigger: 8,
     Player: 16,
-    Sensor: 32
+    Sensor: 32,
+    Collectible: 64
 };
 
 const collisionMap = new Map();
@@ -31,6 +32,12 @@ collisionMap.set(CollisionLayer.Sensor + CollisionLayer.Enemy, false);
 collisionMap.set(CollisionLayer.Sensor + CollisionLayer.Projectile, false);
 collisionMap.set(CollisionLayer.Sensor + CollisionLayer.Trigger, false);
 collisionMap.set(CollisionLayer.Sensor + CollisionLayer.Player, false);
+collisionMap.set(CollisionLayer.Collectible + CollisionLayer.Player, true);
+collisionMap.set(CollisionLayer.Collectible + CollisionLayer.Level, false);
+collisionMap.set(CollisionLayer.Collectible + CollisionLayer.Enemy, false);
+collisionMap.set(CollisionLayer.Collectible + CollisionLayer.Projectile, false);
+collisionMap.set(CollisionLayer.Collectible + CollisionLayer.Trigger, false);
+collisionMap.set(CollisionLayer.Collectible + CollisionLayer.Sensor, false);
 
 class Collider {
     constructor(parent, local_position, type, width, height) {

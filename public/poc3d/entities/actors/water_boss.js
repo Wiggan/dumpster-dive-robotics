@@ -23,7 +23,7 @@ class WaterBoss extends BossBase {
         this.stats.movement_speed = 0.003;
         this.stats.vertical_movement_speed = 0.01;
         this.stats.acceleration = 0.000012;
-        this.stats.dmg = 0;
+        this.stats.dmg = 1;
         this.stats.patrol_tolerance = 0.1;
         this.stats.max_health = 4;
         this.health = this.stats.max_health;
