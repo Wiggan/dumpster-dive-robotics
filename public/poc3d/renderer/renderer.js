@@ -184,7 +184,7 @@ class Renderer {
         this.draw_post_process();
 
         // UI
-        this.add_textbox({text: "FPS: " + fps, screen_pos: [200, 100]});
+        //this.add_textbox({text: "FPS: " + fps, screen_pos: [200, 100]});
         this.draw_textboxes();
         if (player) {
             drawLog(player.entries);
