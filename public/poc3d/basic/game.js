@@ -79,7 +79,9 @@ class Game {
                 to: { force: [0.7, 0.0, player.force[2]]},
                 callback: () => { 
                     new Dirt(player, [0.4, 0, 0.45], [-1, 0, 0], 40);
-                    new HeadLampPowerUp(player.getWorldPosition()).player_position = vec3.clone(player.getWorldPosition());
+                    var powerup = new HeadLampPowerUp(player.getWorldPosition());
+                    powerup.collider.type = CollisionLayer.Sensor;
+                    powerup.move_towards_player = false;
                     player.force[0] = -0.7;
                 }
             },
@@ -88,7 +90,9 @@ class Game {
                 to: { force: [-0.7, 0.0, player.force[2]]},
                 callback: () => { 
                     new Dirt(player, [-0.4, 0, 0.45], [1, 0, 0], 40);
-                    new SuctionDevicePowerUp(player.getWorldPosition()).player_position = vec3.clone(player.getWorldPosition());
+                    var powerup = new SuctionDevicePowerUp(player.getWorldPosition());
+                    powerup.collider.type = CollisionLayer.Sensor;
+                    powerup.move_towards_player = false;
                     player.force[0] = 0.7;
                 }
             },
@@ -97,7 +101,9 @@ class Game {
                 to: {force: [0.7, 0.0, player.force[2]]},
                 callback: () => { 
                     new Dirt(player, [0.4, 0, 0.45], [-1, 0, 0], 40);
-                    new CounterPressurizerPowerUp(player.getWorldPosition()).player_position = vec3.clone(player.getWorldPosition());
+                    var powerup = new CounterPressurizerPowerUp(player.getWorldPosition());
+                    powerup.collider.type = CollisionLayer.Sensor;
+                    powerup.move_towards_player = false;
                     player.force[0] = -0.7;
                 }
             },
