@@ -25,6 +25,10 @@ class Goal extends Pickable {
 
     interact() {
         game.paused = true;
+        if (player.moving_sound) {
+            player.moving_sound.stop();
+            player.moving_sound = undefined;
+        }
         game.transition = new Transition(game, [
             {
                 time: 4000,

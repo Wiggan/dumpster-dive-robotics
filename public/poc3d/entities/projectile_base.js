@@ -15,6 +15,7 @@ class ProjectileBase extends DynamicEntity {
         game.scene.entities.push(this);
         this.sound = new SFX(this, [0,0,0], sound);
         this.hasExploded = false;
+        this.step_length = 16;
     }
 
     toJSON(key) {
@@ -22,7 +23,7 @@ class ProjectileBase extends DynamicEntity {
     }
 
     update(elapsed, dirty) {
-        var step_length = 1;
+        var step_length = this.step_length;
         if (this.elapsed > this.stats.life_time) {
             this.explode();
         }
@@ -31,7 +32,7 @@ class ProjectileBase extends DynamicEntity {
         for (var i = 0; i < max; i++) {
             if (i == Math.ceil(elapsed/step_length) - 1) {
                 // Last round, use modulo for last step
-                step_length = elapsed % i;
+                step_length = elapsed % this.step_length;
             }
             if (this.force) {
                 var at = vec3.create();

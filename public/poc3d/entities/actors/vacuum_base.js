@@ -14,7 +14,6 @@ class VacuumBase extends Actor {
         this.base.material = materials.metall;
         this.wheels.material = materials.rubber;
         this.third_wheel.material = materials.rubber;
-        this.collider = new Collider(this, [0, 0, 0.05], CollisionLayer.Enemy, 0.3, 0.7);
         this.stats = {
             movement_speed: 0.0005,
             dmg: 1,

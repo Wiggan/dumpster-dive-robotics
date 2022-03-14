@@ -9,7 +9,7 @@ class Toast extends ProjectileBase {
         this.drawable.local_transform.scale([0.2, 0.05, 0.2]);
         this.force = [0, 0, constants.gravity];
 
-        this.stats.speed = 0.01;
+        this.stats.speed = 0.008;
         this.velocity = forward;
         vec3.normalize(this.velocity, this.velocity);
         vec3.scale(this.velocity, this.velocity, this.stats.speed);
@@ -19,9 +19,10 @@ class Toast extends ProjectileBase {
         var direction = vec3.clone(this.velocity);
         vec3.scale(direction, direction, -1);
         vec3.normalize(direction, direction);
-        new Smoke(null, this.getWorldPosition(), direction, 5);
+        game.scene.entities.push(new Smoke(null, this.getWorldPosition(), direction, 5));
         super.explode();
     }
+    
 }
 
 class Toaster extends DynamicEntity {
@@ -79,8 +80,7 @@ class VacuumToaster extends VacuumBase {
         this.toaster = new Toaster(this, [0, 0, 0.45], models.vacuum_fan.toaster);
         this.toaster.material = materials.metall;
         this.collider = new Collider(this, [0, 0, 0.05], CollisionLayer.Enemy, 0.3, 0.7);
-        this.blinking_drawables_on_damage.push(this.toaster)
-
+        this.blinking_drawables_on_damage.push(this.toaster.drawable);
     }
     
     toJSON(key) {

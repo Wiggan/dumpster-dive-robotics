@@ -328,14 +328,13 @@ class Game {
     }
 
     saveCookie(cookie) {
-        document.cookie = 'cookie=' + JSON.stringify(cookie) +';expires=Tue, 19 Jan 2038 04:14:07 GMT; SameSite=Lax;';
+        //document.cookie = 'cookie=' + JSON.stringify(cookie) +';expires=Tue, 19 Jan 2038 04:14:07 GMT; SameSite=Lax;';
+        localStorage.setItem('cookie', JSON.stringify(cookie));
     }
 
     getCookie() {
-        let splitCookie = document.cookie.split(/[=;\s]/);
-        var index = splitCookie.indexOf('cookie');
-        if (index > -1) {
-            var cookie = JSON.parse(splitCookie[index + 1]);
+        if (localStorage.getItem('cookie')) {
+            var cookie = JSON.parse(localStorage.getItem('cookie'));
             setSavedGameExists(cookie.persistent != undefined);
             return cookie;
         }

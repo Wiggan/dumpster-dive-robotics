@@ -5,7 +5,7 @@ const items = {
         key: 'disk',
         name: 'Persistent Memory', 
         modifiers: {
-            movement_speed: 0.002,
+            movement_speed: 0.001,
         },
         logs: [2, 3]
     },
@@ -51,7 +51,7 @@ const items = {
 }
 
 const original_stats = {
-    movement_speed: 0.001,
+    movement_speed: 0.002,
     acceleration: 0.00005,
     jump_speed: 0.013683,
     pickup_range: 2,
@@ -201,9 +201,7 @@ class Player extends Actor {
         if (object && object.type == PickableType.Default && vec3.dist(object.getWorldPosition(), this.getWorldPosition()) < constants.interaction_range) {
             object.interact();
         } else if(this.inventory.includes(items.disk)) {
-            console.log(game.scene.entities.length);
             this.launcher.fire();
-            console.log(game.scene.entities.length);
         }
     }
 
@@ -469,6 +467,10 @@ class Player extends Actor {
                 }
             }
         ]);
+        if (this.moving_sound) {
+            this.moving_sound.stop();
+            this.moving_sound = undefined;
+        }
         super.onDeath();
     }
 }
