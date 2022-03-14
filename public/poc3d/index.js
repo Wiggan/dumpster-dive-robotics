@@ -16,10 +16,7 @@ function render() {
         var elapsed = now - then;
         frame_intervals.push(elapsed);
         var throttled_elapsed = Math.min(30, elapsed);
-        var before = Date.now();
         game.update(throttled_elapsed);
-        var after = Date.now();
-        console.log(after - before);
         debug_camera.update(elapsed);
         then = now;
         if (game.scene) {
