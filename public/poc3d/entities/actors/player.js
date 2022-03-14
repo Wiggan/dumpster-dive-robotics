@@ -5,7 +5,7 @@ const items = {
         key: 'disk',
         name: 'Persistent Memory', 
         modifiers: {
-            movement_speed: 0.002,
+            movement_speed: 0.001,
         },
         logs: [2, 3]
     },
@@ -51,7 +51,7 @@ const items = {
 }
 
 const original_stats = {
-    movement_speed: 0.001,
+    movement_speed: 0.002,
     acceleration: 0.00005,
     jump_speed: 0.013683,
     pickup_range: 2,

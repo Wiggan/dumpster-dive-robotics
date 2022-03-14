@@ -40,7 +40,7 @@ async function loadAssets() {
     await load_all_models();
     load_all_sounds();
     game = new Game();
-    await fetch('/models/levels.json').then(response => response.json()).then(levels => game.json_levels = levels);
+    await fetch('models/levels.json').then(response => response.json()).then(levels => game.json_levels = levels);
 
     initControls();
     render();
