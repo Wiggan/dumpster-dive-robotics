@@ -321,7 +321,7 @@ class Player extends Actor {
         }
         if (this.time_played > 300 && !this.hint && player.inventory.includes(items.lamp) && !player.inventory.includes(items.battery) && game.scene.name == 'Downfall') {
             this.addLogEntry(4);
-            this.hint = game.scene.getAllOfClass('Portal').filter(portal => portal.getDestinationPortal().scene.name == 'BatteryBossRoom')[0].getWorldPosition();
+            this.hint = game.scene.getAllOfClass('Portal').filter(portal => portal.getDestinationPortal().scene.name == 'NoobBridge')[0].getWorldPosition();
         }
         if (this.time_played > 500 && !this.hint && player.inventory.includes(items.battery) && !player.inventory.includes(items.counter_pressurizer) && game.scene.name == 'Downfall') {
             this.addLogEntry(4);

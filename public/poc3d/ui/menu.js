@@ -44,6 +44,7 @@ function showVictoryScreen() {
 
 function initMenu() {
     document.getElementById("init").onclick = async (e) => {
+        document.getElementById("init").disabled = true;
         await loadAssets();
         showStartScreen();
     };

@@ -99,7 +99,6 @@ class Scene extends Entity {
     }
 
     draw(renderer) {
-        this.entities_to_draw = this.entities.filter(entity => entity.getSquaredHorizontalDistanceToActiveCamera() < 220);
         this.entities_to_draw.forEach(entity => {
             entity.draw(renderer);
         });
@@ -121,8 +120,8 @@ class Scene extends Entity {
                 //light.inactivate();
             }
         }); */
-        this.entities_to_update = this.entities.filter(entity => entity.getSquaredHorizontalDistanceToActiveCamera() < 220);
-        this.entities_to_update.forEach(entity => {
+        this.entities_to_draw = this.entities.filter(entity => entity.getSquaredHorizontalDistanceToActiveCamera() < 220);
+        this.entities_to_draw.forEach(entity => {
             entity.update(elapsed, false);
         });
     }
