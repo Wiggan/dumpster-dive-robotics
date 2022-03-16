@@ -314,22 +314,35 @@ class Game {
         }
     }
 
+    update_materials(cb) {
+        ['dirt', 'metall'].forEach(key => {
+            materials[key].ambient = JSON.parse(JSON.stringify(cb ? materials_cb[key].ambient : materials_orig[key].ambient));
+            materials[key].diffuse = JSON.parse(JSON.stringify(cb ? materials_cb[key].diffuse : materials_orig[key].diffuse));
+            materials[key].specular = JSON.parse(JSON.stringify(cb ? materials_cb[key].specular : materials_orig[key].specular));
+            materials[key].isLight = JSON.parse(JSON.stringify(cb ? materials_cb[key].isLight : materials_orig[key].isLight));
+        })
+
+    }
+
     saveSettings() {
         var cookie = this.getCookie() || {};
         cookie.settings = settings;
         this.saveCookie(cookie);
         setSfxVolume(settings.sfx_volume);
         setMusicVolume(settings.music_volume);
+        this.update_materials(settings.cb);
     }
-
+    
     loadSettings() {
         var cookie = this.getCookie() || {};
         if (cookie.settings) {
             settings = cookie.settings;
             document.getElementById("music_slider").value = settings.music_volume;
             document.getElementById("sfx_slider").value = settings.sfx_volume;
+            document.getElementById("cb_checkbox").checked = settings.cb;
             setSfxVolume(settings.sfx_volume);
             setMusicVolume(settings.music_volume);
+            this.update_materials(settings.cb);
         }
     }
 

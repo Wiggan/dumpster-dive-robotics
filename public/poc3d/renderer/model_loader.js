@@ -1,7 +1,7 @@
 'use strict'
 
 var models = {};
-var materials;
+var materials, materials_orig, materials_cb;
 
 async function load_materials(path) {
     return fetch(path).then(response => response.json()).then(mats => materials = mats);
@@ -54,7 +54,8 @@ async function load_model(path) {
 }
 
 async function load_all_models() {
-    materials = load_materials('models/materials.json');
+    materials_orig = load_materials('models/materials.json');
+    materials_cb = load_materials('models/materials_cb.json');
     models.box = load_model('models/box/part1.json');
     models.background = load_model('models/background/part1.json');
     models.boulders = load_model('models/boulders1/part1.json');
@@ -144,7 +145,9 @@ async function load_all_models() {
         models.cracking_block.push(load_model('models/cracked_block/part' + i +'.json'));
     }
     // lol...
-    materials = await materials;
+    materials_orig = await materials_orig;
+    materials_cb = await materials_cb;
+    materials = JSON.parse(JSON.stringify(materials_orig));
     models.player.base.track_frames = await Promise.all(models.player.base.track_frames);
     models.player.base.base_frames = await Promise.all(models.player.base.base_frames);
     models.cracking_block = await Promise.all(models.cracking_block);

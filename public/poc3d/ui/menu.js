@@ -71,6 +71,9 @@ function initMenu() {
     document.getElementById("sfx_slider").oninput = () => {
         settings.sfx_volume = document.getElementById("sfx_slider").value;
     };
+    document.getElementById("cb_checkbox").oninput = () => {
+        settings.cb = document.getElementById("cb_checkbox").checked;
+    };
     
     document.getElementById("continue").onclick = (e) => {
         game.load();
